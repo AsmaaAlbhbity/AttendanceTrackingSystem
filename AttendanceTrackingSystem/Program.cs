@@ -1,3 +1,8 @@
+using AttendanceTrackingSystem.IRepository;
+using AttendanceTrackingSystem.Models;
+using AttendanceTrackingSystem.Repository;
+using Microsoft.EntityFrameworkCore;
+
 namespace AttendanceTrackingSystem
 {
     public class Program
@@ -8,6 +13,19 @@ namespace AttendanceTrackingSystem
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<AttendanceDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("con")));
+
+            builder.Services.AddScoped<IRepoAttendance,RepoAttendance>();
+            builder.Services.AddScoped<IRepoEmployee, RepoEmployee>();
+            builder.Services.AddScoped<IRepoInstructor, RepoInstructor>();
+            builder.Services.AddScoped<IRepoIntake, RepoIntake>();
+            builder.Services.AddScoped<IRepoItiProgram, RepoItiProgram>();
+            builder.Services.AddScoped<IRepoPermission, RepoPermission>();
+            builder.Services.AddScoped<IRepoSchedule, RepoSchedule>();
+            builder.Services.AddScoped<IRepoStudent, RepoStudent>();
+            builder.Services.AddScoped<IRepoStudentAttendance, RepoStudentAttendance>();
+            builder.Services.AddScoped<IRepoTrack, RepoTrack>();
+            builder.Services.AddScoped<IRepoUser, RepoUser>();
 
             var app = builder.Build();
 
