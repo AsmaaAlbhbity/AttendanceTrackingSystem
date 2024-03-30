@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\MVCProject\\AttendanceTrackingSystemSolution\\AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj": {}
+    "F:\\MVCProject\\v2\\AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj": {}
   },
   "projects": {
-    "F:\\MVCProject\\AttendanceTrackingSystemSolution\\AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj": {
+    "F:\\MVCProject\\v2\\AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\MVCProject\\AttendanceTrackingSystemSolution\\AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj",
+        "projectUniqueName": "F:\\MVCProject\\v2\\AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj",
         "projectName": "AttendanceTrackingSystem",
-        "projectPath": "F:\\MVCProject\\AttendanceTrackingSystemSolution\\AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj",
+        "projectPath": "F:\\MVCProject\\v2\\AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj",
         "packagesPath": "C:\\Users\\lenovo\\.nuget\\packages\\",
-        "outputPath": "F:\\MVCProject\\AttendanceTrackingSystemSolution\\AttendanceTrackingSystem\\obj\\",
+        "outputPath": "F:\\MVCProject\\v2\\AttendanceTrackingSystem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
