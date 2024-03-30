@@ -1,22 +1,133 @@
-html {
-  font-size: 14px;
+/* Variables */
+:root {
+    --main-color: #6c5ddc;
+    --blue-color: #21D1FF;
+    --pink-color: #E94D90;
+    --main-text-color: #3B3B3B;
+    --body-bg: #f4f4f4;
+}
+/* Selection */
+::selection {
+    background-color: var(--main-color);
+    color: white;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* Body */
 body {
-  margin-bottom: 60px;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--body-bg);
+    overflow-y: auto; /* Ensure body scrolls when content overflows */
+}
+
+/* Hover Effect */
+.hvr-bounce-to-right:before {
+    background: var(--body-bg);
+
+}
+.hvr-bounce-to-right:hover, hvr-bounce-to-right:active, .hvr-bounce-to-right:focus {
+    color: var(--main-color);
+    border-radius: 15px;
+}
+.hvr-bounce-to-right:hover:before{
+    border-radius:15px;
+}
+i {
+    margin-right: 10px;
+}
+/* Links */
+a {
+    color: #fff;
+    width: 90%;
+    padding: 10px;
+}
+
+    a:hover {
+        color: var(--main-color);
+        border-radius: 15px;
+    }
+
+    a.active {
+        background-color: var(--body-bg);
+        color: var(--main-color);
+        border-radius:15px;
+        padding: 10px;
+    }
+
+/* Page Container */
+.page-container .dynamic-section {
+    margin: 10px auto;
+    background-color: #fff;
+    border-radius: 25px;
+    padding: 20px 15px;
+}
+
+/* Aside */
+aside {
+    background-color: var(--main-color);
+    border-radius:0px 0px 25px 25px;
+}
+
+
+
+/* Flex Column */
+.flex-column {
+    gap: 10px;
+}
+
+/* Profile Section */
+.profile {
+    padding: 5px 0px;
+    margin: 15px 5px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+ 
+}
+
+    .profile img {
+        border: 2px solid #fff;
+        border-radius: 50%;
+        padding: 3px;
+        width: 60px;
+    }
+
+    .profile h2 {
+        margin: 0;
+        font-size: 24px;
+        color: #fff;
+    }
+
+.searchImg{
+    display:none;
+}
+/* Large Screen Media Query */
+@media (min-width: 992px) {
+    .page-container .col-lg-9 {
+        order: 1;
+        width: calc(100% - 300px);
+    }
+
+    .page-container .col-lg-3 {
+        order: 2;
+        height: 100%;
+        border-radius: 0px 25px 25px 0px;
+        padding: 30px 15px;
+        width: 300px;
+        position: fixed;
+        top: 0px;
+        bottom: 0;
+    }
+
+    .page-container .dynamic-section {
+        margin-left: 320px;
+    }
+
+    .searchImg {
+        display:block;
+        position: fixed;
+        bottom: 20px;
+        left: 75px;
+    }
 }
