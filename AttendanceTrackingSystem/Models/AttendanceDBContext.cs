@@ -18,6 +18,7 @@ namespace AttendanceTrackingSystem.Models
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Track> Tracks { get; set; }
         public DbSet<StudentAttendance> StudentAttendances { get; set; }
+        public DbSet<Msg> Msgs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
