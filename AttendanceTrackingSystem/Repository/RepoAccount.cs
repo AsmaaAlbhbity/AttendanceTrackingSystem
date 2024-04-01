@@ -17,7 +17,7 @@ namespace AttendanceTrackingSystem.Repository
 		}
 		public string GetEmployeeType(int id)
 		{
-			return db.Users.OfType<Employee>().FirstOrDefault(a => a.UserId == id).EmployeeType.ToString();
+			return db.Employees.FirstOrDefault(a => a.UserId == id).EmployeeType.ToString();
 		}
 	}
 }

@@ -3,28 +3,16 @@
   "WorkspaceRootPath": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|e:\\iti\\projects\\mvc\\attendancetrackingsystem\\attendancetrackingsystem\\repository\\repoaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\repository\\repoaccount.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|e:\\iti\\projects\\mvc\\attendancetrackingsystem\\attendancetrackingsystem\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\views\\shared\\_layoutsystem.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\views\\shared\\_layoutsystem.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\configration\\userconfigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\configration\\userconfigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -38,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 21,
+          "SelectedChildIndex": 17,
           "Children": [
             {
               "$type": "Bookmark",
@@ -110,69 +98,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Employee.cs",
-              "DocumentMoniker": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Models\\Employee.cs",
-              "RelativeDocumentMoniker": "AttendanceTrackingSystem\\Models\\Employee.cs",
-              "ToolTip": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Models\\Employee.cs",
-              "RelativeToolTip": "AttendanceTrackingSystem\\Models\\Employee.cs",
-              "ViewState": "AQIAAAIAAAAAAAAAAAAAAAIAAAAPAAAA",
+              "DocumentIndex": 0,
+              "Title": "RepoAccount.cs",
+              "DocumentMoniker": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Repository\\RepoAccount.cs",
+              "RelativeDocumentMoniker": "AttendanceTrackingSystem\\Repository\\RepoAccount.cs",
+              "ToolTip": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Repository\\RepoAccount.cs",
+              "RelativeToolTip": "AttendanceTrackingSystem\\Repository\\RepoAccount.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABMAAABSAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-01T07:25:36.484Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "User.cs",
-              "DocumentMoniker": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Models\\User.cs",
-              "RelativeDocumentMoniker": "AttendanceTrackingSystem\\Models\\User.cs",
-              "ToolTip": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Models\\User.cs",
-              "RelativeToolTip": "AttendanceTrackingSystem\\Models\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-01T07:24:15.855Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserConfigration.cs",
-              "DocumentMoniker": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Configration\\UserConfigration.cs",
-              "RelativeDocumentMoniker": "AttendanceTrackingSystem\\Configration\\UserConfigration.cs",
-              "ToolTip": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Configration\\UserConfigration.cs",
-              "RelativeToolTip": "AttendanceTrackingSystem\\Configration\\UserConfigration.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-01T07:23:35.527Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "_LayoutSystem.cshtml",
-              "DocumentMoniker": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Views\\Shared\\_LayoutSystem.cshtml",
-              "RelativeDocumentMoniker": "AttendanceTrackingSystem\\Views\\Shared\\_LayoutSystem.cshtml",
-              "ToolTip": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Views\\Shared\\_LayoutSystem.cshtml",
-              "RelativeToolTip": "AttendanceTrackingSystem\\Views\\Shared\\_LayoutSystem.cshtml",
-              "ViewState": "AQIAADkAAAAAAAAAAAAAAAEAAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-04-01T02:36:15.67Z",
+              "WhenOpened": "2024-04-01T12:38:12.477Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AccountController.cs",
               "DocumentMoniker": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "AttendanceTrackingSystem\\Controllers\\AccountController.cs",
               "ToolTip": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Controllers\\AccountController.cs",
               "RelativeToolTip": "AttendanceTrackingSystem\\Controllers\\AccountController.cs",
-              "ViewState": "AQIAACoAAAAAAAAAAAAAADQAAAAFAAAA",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAACsAAABAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-01T02:22:54.069Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "Login.cshtml",
               "DocumentMoniker": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Views\\Account\\Login.cshtml",
               "RelativeDocumentMoniker": "AttendanceTrackingSystem\\Views\\Account\\Login.cshtml",
