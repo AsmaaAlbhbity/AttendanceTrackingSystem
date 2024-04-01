@@ -1,12 +1,14 @@
 ﻿namespace AttendanceTrackingSystem.Models
 {
+    public enum AttendaneStatus
+    {
+        Absent,
+        Late,
+        onTime
+    }
     public class Attendance
     {
-        public enum AttendaneStatus
-        {
-            Absent,
-            Late
-        }
+        
         public int AttendanceId { get; set; }
         public DateTime Date { get; set; }
         public TimeOnly CheckIn { get; set; }
