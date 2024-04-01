@@ -13,30 +13,30 @@ namespace AttendanceTrackingSystem.Repository
 
         public void Add(Employee employee)
         {
-            db.Users.Add(employee);
+            db.Employees.Add(employee);
             db.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var obj = db.Users.FirstOrDefault(a => a.UserId == id);
-            db.Users.Remove(obj);
+            var obj = db.Employees.FirstOrDefault(a => a.UserId == id);
+            db.Employees.Remove(obj);
             db.SaveChanges();
         }
 
         public List<Employee> getAll()
         {
-            return db.Users.OfType<Employee>().ToList();
+            return db.Employees.ToList();
         }
 
         public Employee getById(int id)
         {
-            return db.Users.OfType<Employee>().FirstOrDefault(a => a.UserId == id);
+            return db.Employees.FirstOrDefault(a => a.UserId == id);
         }
 
         public void Update(Employee employee)
         {
-            db.Users.Update(employee);
+           db.Employees.Update(employee);
             db.SaveChanges();
         }
     }
