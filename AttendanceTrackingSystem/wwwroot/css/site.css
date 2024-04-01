@@ -184,4 +184,8 @@ nav i{
         outline: 1px dotted;
         outline: 5px auto var(--main-color);
     }
+    .field-validation-error{
+        color:red;
+        font-weight:bold;
+    }
 }
