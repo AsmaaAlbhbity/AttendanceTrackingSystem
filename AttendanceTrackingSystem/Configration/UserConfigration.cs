@@ -26,11 +26,13 @@ namespace AttendanceTrackingSystem.Configration
             .HasAnnotation("RegularExpression", @"^(010|011|015)-\d{8}$");
 
 
-            builder.HasDiscriminator<string>("UserType")
-             .HasValue<User>("User")
-             .HasValue<Student>("Student")
-             .HasValue<Employee>("Employee")
-             .HasValue<Instructor>("Instructor");
+            //builder.HasDiscriminator<string>("UserType")
+            // .HasValue<User>("User")
+            // .HasValue<Student>("Student")
+            // .HasValue<Employee>("Employee")
+            // .HasValue<Instructor>("Instructor");
+
+            builder.UseTptMappingStrategy();
 
 
         }

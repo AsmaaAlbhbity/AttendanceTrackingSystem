@@ -11,6 +11,9 @@ namespace AttendanceTrackingSystem.Models
 
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Instructor> Instructors { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         public DbSet<Attendance> Attendances { get; set; }
         public DbSet<Intake> Intake { get; set; }
         public DbSet<ItiProgram> ItiProgram { get; set; }

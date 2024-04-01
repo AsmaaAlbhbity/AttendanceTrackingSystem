@@ -13,30 +13,30 @@ namespace AttendanceTrackingSystem.Repository
 
         public void Add(Instructor instructor)
         {
-            db.Users.Add(instructor);
+            db.Instructors.Add(instructor);
             db.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var obj = db.Users.FirstOrDefault(a => a.UserId == id);
-            db.Users.Remove(obj);
+            var obj = db.Instructors.FirstOrDefault(a => a.UserId == id);
+            db.Instructors.Remove(obj);
             db.SaveChanges();
         }
 
         public List<Instructor> getAll()
         {
-            return db.Users.OfType<Instructor>().ToList();
+            return db.Instructors.ToList();
         }
 
         public Instructor getById(int id)
         {
-            return db.Users.OfType<Instructor>().FirstOrDefault(a => a.UserId == id);
+            return db.Instructors.FirstOrDefault(a => a.UserId == id);
         }
 
         public void Update(Instructor instructor)
         {
-            db.Users.Update(instructor);
+            db.Instructors.Update(instructor);
             db.SaveChanges();
         }
     }

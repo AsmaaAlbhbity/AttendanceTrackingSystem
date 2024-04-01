@@ -8,8 +8,8 @@ namespace AttendanceTrackingSystem.Configration
     {
         public void Configure(EntityTypeBuilder<StudentAttendance> builder)
         {
-            builder.HasOne(a=>a.StudentSchdule)
-                .WithMany(b=>b.StudentAttendances).HasForeignKey(a=>a.SchduleId)
+            builder.HasOne(a => a.StudentSchdule)
+                .WithMany(b => b.StudentAttendances).HasForeignKey(a => a.SchduleId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

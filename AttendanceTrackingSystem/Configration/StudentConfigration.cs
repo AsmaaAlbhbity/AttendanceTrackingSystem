@@ -10,7 +10,7 @@ namespace AttendanceTrackingSystem.Configration
         {
             //        builder.Property(e => e.GraduationYear)
             //            .HasAnnotation("SqlServer:CheckConstraint", "[GraduationYear] >= DATEADD(year, -5, GETDATE())");
-             builder.HasOne(a=>a.Track).WithMany(a=>a.Students).HasForeignKey(b=>b.TrackId).OnDelete(DeleteBehavior.Restrict); 
+            builder.HasOne(a => a.Track).WithMany(a => a.Students).HasForeignKey(b => b.TrackId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
