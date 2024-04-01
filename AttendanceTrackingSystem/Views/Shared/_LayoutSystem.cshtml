@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model AttendanceTrackingSystem.Models.User
 @{
 	string role = "";
 	if (User.IsInRole("Student"))
@@ -33,18 +33,18 @@
 		<div class="row page-container">
 			<!-- Sidebar -->
 			<aside class="col-lg-3 col-12 text-white border-right py-3" id="sidebarCollapse">
-				<h1 class="text-center py-3 d-lg-block d-none">Page Name</h1>
+				<h1 class="text-center py-3 d-lg-block d-none">@ViewData["Title"]</h1>
 				<div class="profile">
 					<img src="~/images/user.png" />
 					<div>
 						<h4>@User.Identity.Name</h4>
 
-						<p>@role</p>
+						<p>@TempData["role"]</p>
 					</div>
 				</div>
 				<ul class="nav flex-column gap-3">
 					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["ProfileActive"]" href="#">
+						<a class="nav-link hvr-bounce-to-right @ViewData["ProfileActive"]" asp-controller="Account" asp-action="Profile">
 							<i class="fas fa-user-edit"></i> Change Profile
 						</a>
 					</li>
@@ -75,7 +75,7 @@
 			</aside>
 
 			<!-- Main Content -->
-			<div class="dynamic-section col-lg-9 col-12">
+			<div  class="dynamic-section col-lg-9 col-12">
 				@RenderBody()
 			</div>
 		</div>

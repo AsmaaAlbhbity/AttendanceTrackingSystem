@@ -19,5 +19,9 @@ namespace AttendanceTrackingSystem.Repository
 		{
 			return db.Employees.FirstOrDefault(a => a.UserId == id).EmployeeType.ToString();
 		}
+		public User GetUserByid(int id)
+		{
+			return db.Users.FirstOrDefault(a => a.UserId == id);
+		}
 	}
 }
