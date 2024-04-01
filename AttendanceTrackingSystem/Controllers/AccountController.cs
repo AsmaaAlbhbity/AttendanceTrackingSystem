@@ -50,7 +50,8 @@ namespace AttendanceTrackingSystem.Controllers
 					identity.AddClaim(claim3);
 					ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 					await HttpContext.SignInAsync(principal);
-					ViewBag.ActiveUser = user;
+					ViewBag.img = user.ImgUrl ?? "~images/user.png";
+
 					return RedirectToAction("Index", "Home");
 				}
 				else
