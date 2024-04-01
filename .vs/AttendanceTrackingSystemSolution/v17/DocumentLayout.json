@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|e:\\iti\\projects\\mvc\\attendancetrackingsystem\\attendancetrackingsystem\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|e:\\iti\\projects\\mvc\\attendancetrackingsystem\\attendancetrackingsystem\\views\\shared\\_layoutsystem.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\views\\shared\\_layoutsystem.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\views\\shared\\_layoutsystem.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
@@ -15,15 +15,15 @@
       "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|e:\\iti\\projects\\mvc\\attendancetrackingsystem\\attendancetrackingsystem\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\models\\employee.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|e:\\iti\\projects\\mvc\\attendancetrackingsystem\\attendancetrackingsystem\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|e:\\iti\\projects\\mvc\\attendancetrackingsystem\\attendancetrackingsystem\\configration\\userconfigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\attendancetrackingsystem\\configration\\userconfigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{36C85ED0-7776-4691-99A5-FD86096FF3A0}|AttendanceTrackingSystem\\AttendanceTrackingSystem.csproj|solutionrelative:attendancetrackingsystem\\configration\\userconfigration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -118,8 +118,7 @@
               "RelativeToolTip": "AttendanceTrackingSystem\\Models\\Employee.cs",
               "ViewState": "AQIAAAIAAAAAAAAAAAAAAAIAAAAPAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-01T07:25:36.484Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-01T07:25:36.484Z"
             },
             {
               "$type": "Document",
@@ -131,8 +130,7 @@
               "RelativeToolTip": "AttendanceTrackingSystem\\Models\\User.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-01T07:24:15.855Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-01T07:24:15.855Z"
             },
             {
               "$type": "Document",
@@ -144,8 +142,7 @@
               "RelativeToolTip": "AttendanceTrackingSystem\\Configration\\UserConfigration.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-01T07:23:35.527Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-01T07:23:35.527Z"
             },
             {
               "$type": "Document",
@@ -155,7 +152,7 @@
               "RelativeDocumentMoniker": "AttendanceTrackingSystem\\Views\\Shared\\_LayoutSystem.cshtml",
               "ToolTip": "E:\\ITI\\Projects\\MVC\\AttendanceTrackingSystem\\AttendanceTrackingSystem\\Views\\Shared\\_LayoutSystem.cshtml",
               "RelativeToolTip": "AttendanceTrackingSystem\\Views\\Shared\\_LayoutSystem.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAACAAAA",
+              "ViewState": "AQIAADkAAAAAAAAAAAAAAAEAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-04-01T02:36:15.67Z",
               "EditorCaption": ""
@@ -195,8 +192,7 @@
               "RelativeToolTip": "AttendanceTrackingSystem\\Program.cs",
               "ViewState": "AQIAAAYAAAAAAAAAAADgvxAAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-03-30T20:17:46.175Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-03-30T20:17:46.175Z"
             }
           ]
         }
