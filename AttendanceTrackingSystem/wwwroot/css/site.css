@@ -39,23 +39,23 @@ body {
         margin-right: 10px;
     }
 /* Links */
-a {
+#sidebarCollapse a {
     color: #fff;
     width: 90%;
     padding: 10px;
 }
 
-    a:hover {
+    #sidebarCollapse a:hover {
         color: var(--main-color);
         border-radius: 15px;
     }
 
-    a.active {
-        background-color: var(--body-bg);
-        color: var(--main-color);
-        border-radius:15px;
-        padding: 10px;
-    }
+#sidebarCollapse a.active {
+    background-color: var(--body-bg);
+    color: var(--main-color);
+    border-radius: 15px;
+    padding: 10px;
+}
 
 /* Page Container */
 .page-container .dynamic-section {

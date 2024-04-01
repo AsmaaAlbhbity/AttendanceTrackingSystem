@@ -38,8 +38,11 @@ namespace AttendanceTrackingSystem.Repository
         public void Delete(int id)
         {
             var obj = db.Users.FirstOrDefault(a => a.UserId == id);
-            db.Users.Remove(obj);
-            db.SaveChanges();
+            if (obj != null)
+            {
+                db.Users.Remove(obj);
+                db.SaveChanges();
+            }
         }
     }
 }
