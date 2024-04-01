@@ -24,6 +24,11 @@ namespace AttendanceTrackingSystem.Repository
             db.SaveChanges();
         }
 
+        public bool EmailIsUnique(string email)
+        {
+            return db.Users.Any(a => a.Email == email);
+        }
+
         public List<User> getAll()
         {
             return db.Users.ToList();

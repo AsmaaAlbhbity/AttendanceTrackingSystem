@@ -9,5 +9,6 @@ namespace AttendanceTrackingSystem.IRepository
         public void Add(User user);
         public void Update(User user);
         public void Delete(int id);
+        public bool EmailIsUnique (string email);   
     }
 }
