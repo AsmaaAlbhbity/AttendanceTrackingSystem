@@ -1,5 +1,8 @@
-﻿@model EditProfileViewModel
+﻿@using System.Security.Claims
+@model EditProfileViewModel
 @{
+	TempData["role"] = User.FindFirst(ClaimTypes.Role).Value;
+
 	ViewData["Title"] = "Profile";
 	Layout = "~/Views/Shared/_LayoutSystem.cshtml";
 }
@@ -16,7 +19,7 @@
 								 alt="ProfilePhoto" class="img-fluid my-5" style="width: 80px;" />
 
 							<h5>@Model.Name</h5>
-							<p>@ViewBag.role</p>
+							<p>@TempData["role"]</p>
 							@* Edit *@
 							@* <i class="far fa-edit mb-5"></i> *@
 							@* ----------------- Modal -----------------*@
@@ -108,12 +111,20 @@
 
 	<script>
 		var inputButtons = document.querySelectorAll('input[type="button"], input[type="submit"], button');
-		
+
 		inputButtons.forEach(function (button) {
-			button.style.backgroundColor = '#6c5ddc'; // Example style
-			button.style.color = 'white'; // Example style
-			// Add more style properties as needed
+			button.style.backgroundColor = '#6c5ddc';
+			button.style.color = 'white';
 		});
+
+		// document.getElementById('SubmitBtn').addEventListener("click", function (e) {
+		// 	e.preventDefault();
+		// 	console.log(newpass.Value == null);
+		// 	if (newpass.Value.trim() === '') {
+		// 		document.getElementById('oldPass').value = document.getElementById('newPass').value = document.getElementById('ConfirmPassword').value = '@Model.OldPassword';
+		// 	}
+		// 	document.getElementById("MyForm").submit();
+		// })
 
 		function togglePasswordVisibility(inputId) {
 			var input = document.getElementById(inputId);

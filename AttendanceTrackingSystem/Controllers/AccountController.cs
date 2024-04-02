@@ -96,11 +96,6 @@ namespace AttendanceTrackingSystem.Controllers
 			};
 			ViewBag.img = model.ImgUrl ?? "~images/user.png";
 
-			if (model.UserType == "Employee")
-				ViewBag.role = repoAccount.GetEmployeeType(userId).ToString();
-			else
-				ViewBag.role = model.UserType;
-
 			return View(model1);
 		}
 		[HttpPost]
@@ -121,7 +116,6 @@ namespace AttendanceTrackingSystem.Controllers
 				repoAccount.UpdateImage("/images/" + imgPath, userId);
 				TempData["img"] = "/images/" + imgPath;
 			}
-			TempData["role"] = User.FindFirst(ClaimTypes.Role).Value;
 			var cacheBuster = DateTime.UtcNow.Ticks;
 			Response.Headers["Cache-Control"] = "no-cache, max-age=0";
 
@@ -130,13 +124,11 @@ namespace AttendanceTrackingSystem.Controllers
 		[HttpPost]
 		public IActionResult Profile(EditProfileViewModel model)
 		{
-			TempData["role"] = User.FindFirst(ClaimTypes.Role).Value;
 			int c = 0;
 			foreach (var key in ModelState.Keys)
 			{
 				foreach (var error in ModelState[key].Errors)
 				{
-					// Log or debug the error messages
 					Console.WriteLine($"{key}: {error.ErrorMessage}");
 					c++;
 				}
