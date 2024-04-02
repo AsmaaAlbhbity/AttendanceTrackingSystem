@@ -12,6 +12,16 @@
     color: white;
 }
 
+.field-validation-error {
+    color: red;
+    font-weight: bold;
+}
+
+#Val ul {
+    list-style-type: none;
+    color: red;
+    font-weight: bold;
+}
 /* Body */
 body {
     font-family: Arial, sans-serif;
@@ -24,20 +34,20 @@ body {
 /* Hover Effect */
 .hvr-bounce-to-right:before {
     background: var(--body-bg);
-
-   
 }
+
 .hvr-bounce-to-right:hover, hvr-bounce-to-right:active, .hvr-bounce-to-right:focus {
     color: var(--main-color);
     border-radius: 15px;
 }
+
     .hvr-bounce-to-right:hover:before, .hvr-bounce-to-right:focus:before, .hvr-bounce-to-right:before {
         border-radius: 15px;
     }
- 
-    i {
-        margin-right: 10px;
-    }
+
+i {
+    margin-right: 10px;
+}
 /* Links */
 a {
     color: #fff;
@@ -53,7 +63,7 @@ a {
     a.active {
         background-color: var(--body-bg);
         color: var(--main-color);
-        border-radius:15px;
+        border-radius: 15px;
         padding: 10px;
     }
 
@@ -68,7 +78,7 @@ a {
 /* Aside */
 aside {
     background-color: var(--main-color);
-    border-radius:0px 0px 25px 25px;
+    border-radius: 0px 0px 25px 25px;
 }
 
 
@@ -85,7 +95,6 @@ aside {
     display: flex;
     gap: 20px;
     align-items: flex-start;
- 
 }
 
     .profile img {
@@ -101,22 +110,23 @@ aside {
         color: #fff;
     }
 
-.searchImg{
-    display:none;
+.searchImg {
+    display: none;
 }
 
-nav{
-    display:none;
- 
+nav {
+    display: none;
 }
-nav i{
-    color:var(--main-color);
-}
+
+    nav i {
+        color: var(--main-color);
+    }
 /* Large Screen Media Query */
 @media (min-width: 992px) {
-    aside#sidebarCollapse{
-        display:block;
+    aside#sidebarCollapse {
+        display: block;
     }
+
     .page-container .col-lg-9 {
         order: 1;
         width: calc(100% - 300px);
@@ -138,18 +148,18 @@ nav i{
     }
 
     .searchImg {
-        display:block;
+        display: block;
         position: fixed;
         bottom: 20px;
         left: 75px;
     }
-
 }
 
 @media (min-width:575px) and (max-width: 991px) {
     .navbar-toggler {
         display: block;
     }
+
     nav {
         display: flex;
     }
@@ -168,8 +178,9 @@ nav i{
 
 @media (max-width: 574px) {
     .navbar-toggler {
-        display: block; 
+        display: block;
     }
+
     nav {
         display: flex;
     }
@@ -183,9 +194,5 @@ nav i{
     button:focus {
         outline: 1px dotted;
         outline: 5px auto var(--main-color);
-    }
-    .field-validation-error{
-        color:red;
-        font-weight:bold;
     }
 }

@@ -52,9 +52,23 @@ namespace AttendanceTrackingSystem.Controllers
 					ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 					await HttpContext.SignInAsync(principal);
 					TempData["role"] = claim2.Value;
-					ViewBag.img = user.ImgUrl ?? "~images/user.png";
+					//ViewBag.ImgUrl = user.ImgUrl ?? "~images/user.png";
+					TempData["img"] = user.ImgUrl ?? "/images/user.png";
+					EditProfileViewModel model1 = new EditProfileViewModel
+					{
+						Name = user.Name,
+						Email = user.Email,
+						Phone = user.Phone,
+						ImgUrl = user.ImgUrl ?? "/images/user.png",
+						OldPassword = user.Password
+					};
 
-					return RedirectToAction("Index", "Home");
+					if (user.UserType == "Employee")
+						ViewBag.role = repoAccount.GetEmployeeType(user.UserId).ToString();
+					else
+						ViewBag.role = user.UserType;
+
+					return RedirectToAction("Index", "Home", model1);
 				}
 				else
 				{
@@ -72,19 +86,69 @@ namespace AttendanceTrackingSystem.Controllers
 		{
 			int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 			User model = repoAccount.GetUserByid(userId);
-			
-			if (model.ImgUrl == null)
-				ViewBag.img = "/images/user.png";
-			else
-				ViewBag.img = model.ImgUrl;
+			EditProfileViewModel model1 = new EditProfileViewModel
+			{
+				Name = model.Name,
+				Email = model.Email,
+				Phone = model.Phone,
+				ImgUrl = model.ImgUrl ?? "/images/user.png",
+				OldPassword = model.Password
+			};
+			ViewBag.img = model.ImgUrl ?? "~images/user.png";
 
 			if (model.UserType == "Employee")
 				ViewBag.role = repoAccount.GetEmployeeType(userId).ToString();
 			else
 				ViewBag.role = model.UserType;
-			
-			return View(model);
-		}
 
+			return View(model1);
+		}
+		[HttpPost]
+		public IActionResult updateImage(IFormFile ImgUrl)
+		{
+			int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			string imgPath = string.Empty;
+			if (ImgUrl != null)
+			{
+				imgPath = $"{userId}.{ImgUrl.FileName.Split(".").Last()}";
+				using (var fs = new FileStream(("wwwroot/images/" + imgPath), FileMode.Create))
+				{
+					ImgUrl.CopyTo(fs);
+				}
+			}
+			if (imgPath != string.Empty)
+				repoAccount.UpdateImage("/images/" + imgPath, userId);
+
+
+			return RedirectToAction("Profile");
+		}
+		[HttpPost]
+		public IActionResult Profile([Bind("Name,Email,Phone,OldPassword,NewPassword,ConfirmPassword")] EditProfileViewModel model)
+		{
+			int c = 0;
+			foreach (var key in ModelState.Keys)
+			{
+				foreach (var error in ModelState[key].Errors)
+				{
+					// Log or debug the error messages
+					Console.WriteLine($"{key}: {error.ErrorMessage}");
+					c++;
+				}
+			}
+			if (c <= 1)
+			{
+				repoAccount.SaveEdit(model);
+			}
+			return RedirectToAction("Profile");
+			//return RedirectToAction("Error", "Home");
+		}
+		[HttpGet]
+		public IActionResult CheckPassword(string OldPassword)
+		{
+			int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			User user = repoAccount.GetUserByid(userId);
+			return Json(user.Password == OldPassword);
+
+		}
 	}
 }
