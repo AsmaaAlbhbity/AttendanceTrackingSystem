@@ -62,7 +62,7 @@
 												<div class="form-floating d-flex">
 													<input id="ConfirmPassword" asp-for="@Model.ConfirmPassword" class="form-control"></input>
 													<label for="ConfirmPassword" class="col-form-label">Confirm password</label>
-													<button type="button" class="mb-5 float-end btn btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('ConfirmPassword')"><i class="fa-solid fa-eye"></i></button>
+													<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('ConfirmPassword')"><i class="fa-solid fa-eye"></i></button>
 													<span asp-validation-for="@Model.ConfirmPassword"></span>
 												</div>
 												<div id="Val" asp-validation-summary="ModelOnly"></div>
