@@ -1,6 +1,9 @@
-﻿@model EditProfileViewModel
+﻿@using System.Security.Claims
+@model EditProfileViewModel
 @{
 	TempData.Keep("img");
+	TempData["role"] = User.FindFirst(ClaimTypes.Role).Value;
+
 }
 <!DOCTYPE html>
 <html>

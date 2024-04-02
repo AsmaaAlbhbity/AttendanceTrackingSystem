@@ -41,17 +41,19 @@
 													<label asp-for="@Model.ImgUrl">Change Image</label>
 													<input id="MyImg" type="file" name="ImgUrl" />
 												</div>
-												<input style="background-color:#6c5ddc" type="submit" class="btn btn-primary mb-5" value="Update Image"></input>
+												<input type="submit" class="btn btn-primary mb-2" value="Update Image"></input>
 											</form>
-											<form method="post" enctype="multipart/form-data">
+											<div class="col-10 mb-2 mx-auto" style="background-color:#6c5ddc;height:1px"></div>
+
+											<form class="text-dark" method="post" enctype="multipart/form-data">
 												<input asp-for="@Model.Name" hidden />
 												<input asp-for="@Model.Email" hidden />
 												<input asp-for="@Model.Phone" hidden />
-												<div class="form-floating justify-content-between d-flex">
-													<input id="oldPass" asp-for="@Model.OldPassword" class="form-control">
+												<div class="form-floating d-flex">
+													<input id="oldPass" asp-for="OldPassword" type="password" class="form-control" placeholder="New Password">
 													<label for="oldPass"> Old Password</label>
 													<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('oldPass')"><i class="fa-solid fa-eye"></i></button>
-													<span asp-validation-for="@Model.OldPassword"></span>
+													<span asp-validation-for="OldPassword"></span>
 												</div>
 												<div class="form-floating d-flex">
 													<input id="newPass" asp-for="NewPassword" type="password" class="form-control" placeholder="New Password">
@@ -60,13 +62,13 @@
 													<span asp-validation-for="NewPassword"></span>
 												</div>
 												<div class="form-floating d-flex">
-													<input id="ConfirmPassword" asp-for="@Model.ConfirmPassword" class="form-control"></input>
-													<label for="ConfirmPassword" class="col-form-label">Confirm password</label>
+													<input id="ConfirmPassword" asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password"></input>
+													<label for="ConfirmPassword">Confirm password</label>
 													<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('ConfirmPassword')"><i class="fa-solid fa-eye"></i></button>
-													<span asp-validation-for="@Model.ConfirmPassword"></span>
+													<span asp-validation-for="ConfirmPassword"></span>
 												</div>
 												<div id="Val" asp-validation-summary="ModelOnly"></div>
-												<input type="submit" style="background-color:#6c5ddc" class="btn btn-primary" value="Change Password"></input>
+												<input type="submit"  class="btn" value="Change Password"></input>
 											</form>
 										</div>
 										<div class="modal-footer">
@@ -105,6 +107,14 @@
 
 
 	<script>
+		var inputButtons = document.querySelectorAll('input[type="button"], input[type="submit"], button');
+		
+		inputButtons.forEach(function (button) {
+			button.style.backgroundColor = '#6c5ddc'; // Example style
+			button.style.color = 'white'; // Example style
+			// Add more style properties as needed
+		});
+
 		function togglePasswordVisibility(inputId) {
 			var input = document.getElementById(inputId);
 			if (input.type === "password") {

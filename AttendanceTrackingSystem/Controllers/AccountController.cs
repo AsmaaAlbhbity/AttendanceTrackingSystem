@@ -121,12 +121,16 @@ namespace AttendanceTrackingSystem.Controllers
 				repoAccount.UpdateImage("/images/" + imgPath, userId);
 				TempData["img"] = "/images/" + imgPath;
 			}
+			TempData["role"] = User.FindFirst(ClaimTypes.Role).Value;
 			var cacheBuster = DateTime.UtcNow.Ticks;
-			return RedirectToAction("Profile", new { cacheBuster });
+			Response.Headers["Cache-Control"] = "no-cache, max-age=0";
+
+			return RedirectToAction("Profile");
 		}
 		[HttpPost]
 		public IActionResult Profile(EditProfileViewModel model)
 		{
+			TempData["role"] = User.FindFirst(ClaimTypes.Role).Value;
 			int c = 0;
 			foreach (var key in ModelState.Keys)
 			{
