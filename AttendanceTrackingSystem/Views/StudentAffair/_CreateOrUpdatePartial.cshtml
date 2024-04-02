@@ -1,0 +1,179 @@
+﻿@model AttendanceTrackingSystem.Models.Student
+@{
+    SelectList Tracks = new SelectList(ViewBag.Tracks, "TrackId", "Name");
+}
+
+<form id="studentForm" enctype="multipart/form-data">
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" for="fileInput">Image</label>
+        </div>
+        <div class="col-md-8">
+            <input id="fileInput" class="form-control" type="file" name="file">
+
+        </div>
+    </div>
+
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="Name"></label>
+        </div>
+        <div class="col-md-8">
+            <input class="form-control" asp-for="Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="Email"></label>
+        </div>
+        <div class="col-md-8">
+            <input class="form-control" asp-for="Email">
+            <span asp-validation-for="Email"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="Phone"></label>
+        </div>
+        <div class="col-md-8">
+            <input class="form-control" asp-for="Phone">
+            <span asp-validation-for="Phone"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="Password"></label>
+        </div>
+        <div class="col-md-8">
+            <input class="form-control" asp-for="Password">
+            <span asp-validation-for="Password"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="StudentDegree">Degree</label>
+        </div>
+        <div class="col-md-8">
+            <input class="form-control" asp-for="StudentDegree">
+            <span asp-validation-for="StudentDegree" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="StudentUniversity">University</label>
+        </div>
+        <div class="col-md-8">
+            <input class="form-control" asp-for="StudentUniversity">
+            <span asp-validation-for="StudentUniversity" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="StudentFaculity">Faculity</label>
+        </div>
+        <div class="col-md-8">
+            <input class="form-control" asp-for="StudentFaculity">
+            <span asp-validation-for="StudentFaculity" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="StudentGraduationYear">GraduationYear</label>
+        </div>
+        <div class="col-md-8">
+            <input class="form-control" asp-for="StudentGraduationYear">
+            <span asp-validation-for="StudentGraduationYear" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="StudentSpecialization">Specialization</label>
+        </div>
+        <div class="col-md-8">
+            <input class="form-control" asp-for="StudentSpecialization">
+            <span asp-validation-for="StudentSpecialization" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="font-weight-bold" asp-for="Track"></label>
+        </div>
+        <div class="col-md-8">
+            <select class="form-select" asp-for="TrackId" asp-items="@Tracks">
+                <option>Select Track</option>
+            </select>
+            <span asp-validation-for="TrackId" class="text-danger"></span>
+        </div>
+    </div>
+    <div asp-validation-summary="ModelOnly"></div>
+    <!-- Add more input fields as needed -->
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <button id="submitBtn" class="btn btn-success mx-auto w-100">Add Student</button>
+        </div>
+    </div>
+</form>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script> <!--jQuery -->
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#studentForm').validate();
+
+        $('#studentForm input').on('keyup', function () {
+            $(this).valid();
+        });
+
+        $('#submitBtn').click(function (e) {
+            e.preventDefault();
+
+            // Check if the form is valid
+            if ($('#studentForm').valid()) {
+                // Create FormData object to store form data including file
+                var formData = new FormData();
+                formData.append('Name', $('#Name').val());
+                formData.append('Email', $('#Email').val());
+                formData.append('Password', $('#Password').val());
+                formData.append('Phone', $('#Phone').val());
+                formData.append('StudentUniversity', $('#StudentUniversity').val());
+                formData.append('StudentFaculity', $('#StudentFaculity').val());
+                formData.append('StudentDegree', $('#StudentDegree').val());
+                formData.append('StudentGraduationYear', $('#StudentGraduationYear').val());
+                formData.append('StudentSpecialization', $('#StudentSpecialization').val());
+                formData.append('TrackId', $('#TrackId').val());
+                formData.append('file', $('#fileInput')[0].files[0]); // Get the first file from file input
+
+                // Submit form data via AJAX
+                $.ajax({
+                    url: '/StudentAffair/Create',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false, // No need to set content type when using FormData
+                    processData: false, // No need to process data when using FormData
+                    success: function (result) {
+                        // Handle success
+                        $('#studentAddBody').html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle errors
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+        });
+    });
+</script>

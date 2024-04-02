@@ -1,7 +1,9 @@
 ﻿using AttendanceTrackingSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection.Emit;
 
 
 namespace AttendanceTrackingSystem.Configration
@@ -10,6 +12,7 @@ namespace AttendanceTrackingSystem.Configration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+           
 
             builder.Property(a => a.Name).IsRequired();
 
@@ -26,14 +29,16 @@ namespace AttendanceTrackingSystem.Configration
             .HasAnnotation("RegularExpression", @"^(010|011|015)-\d{8}$");
 
 
-            builder.HasDiscriminator<string>("UserType")
-             .HasValue<User>("User")
-             .HasValue<Student>("Student")
-             .HasValue<Employee>("Employee")
-             .HasValue<Instructor>("Instructor");
+            //builder.HasDiscriminator<string>("UserType")
+            // .HasValue<User>("User")
+            // .HasValue<Student>("Student")
+            // .HasValue<Employee>("Employee")
+            // .HasValue<Instructor>("Instructor");
 
+            builder.UseTptMappingStrategy();
 
         }
+
 
     }
 

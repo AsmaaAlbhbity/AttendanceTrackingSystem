@@ -1,5 +1,6 @@
 ﻿using AttendanceTrackingSystem.Configration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 
 namespace AttendanceTrackingSystem.Models
@@ -24,13 +25,16 @@ namespace AttendanceTrackingSystem.Models
         {
             optionsBuilder.UseLazyLoadingProxies();
             base.OnConfiguring(optionsBuilder);
+           
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
 
-            
+
         }
 
     }

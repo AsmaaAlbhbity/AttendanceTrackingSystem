@@ -1,4 +1,6 @@
-﻿namespace AttendanceTrackingSystem.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AttendanceTrackingSystem.Models
 {
     public class Student : User
     {

@@ -1,0 +1,125 @@
+﻿@model IEnumerable<AttendanceTrackingSystem.Models.Student>
+
+@{
+    ViewData["Title"] = "Manage Students";
+
+}
+
+<div class="container mt-5">
+    <h4 class="text-center mb-4">Manage Students</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <button class="btn btn-primary mb-3 add-btn" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa fa-plus"></i> Add Student </button>
+            <input type="file" id="uploadFile" accept=".xlsx, .xls" style="display: none;">
+            <button class="btn btn-success mb-3"><i class="fa fa-upload"></i> Upload Students from Excel</button>
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Track</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.UserId</td>
+                    <td>@student.Name</td>
+                    <td>@student.IsApproved</td>
+                    <td>@student.Track.Name</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary mx-1 details-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#studentDetailsModal"><i class="fa fa-info"></i> Details</a>
+                        <a class="btn btn-sm btn-light mx-1"><i class="fa fa-pen-nib"></i> Update</a>
+                        <a class="btn btn-sm btn-danger mx-1"><i class="fa fa-user-slash"></i> Delete</a>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- Add Student Modal -->
+<div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="addStudentModalLabel">Add Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="studentAddBody">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Student Details Modal -->
+<div class="modal fade" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="studentDetailsModalLabel">Student Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="studentDetailsBody">
+                <!-- Student details will be loaded here via AJAX -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap JS and dependencies -->
+<script src="~/lib/jquery/dist/jquery.min.js"></script> <!--jQuery -->
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+@section Scripts {
+
+    <script>
+        $(document).ready(function () {
+            
+            $('.details-btn').click(function () {
+                var studentId = $(this).data('student-id');
+                $.ajax({
+                    url: '/StudentAffair/Details/' + studentId,
+                    type: 'GET',
+                    success: function (result) {
+                        $('#studentDetailsBody').html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+            $('.add-btn').click(function () {
+                $.ajax({
+                    url: '/StudentAffair/Create',
+                    type: 'GET',
+                    success: function (result) {
+                        $('#studentAddBody').html(result);
+                        console.log('hhhanw0');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+            
+
+        });
+    </script>
+}

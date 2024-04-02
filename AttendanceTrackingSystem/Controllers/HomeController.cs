@@ -1,6 +1,7 @@
 using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Storage;
 using System.Diagnostics;
 
 namespace AttendanceTrackingSystem.Controllers
@@ -15,6 +16,7 @@ namespace AttendanceTrackingSystem.Controllers
         public HomeController(ILogger<HomeController> logger, IRepoStudent _std)
         {
             _logger = logger;
+
             std= _std;
         }
         public IActionResult Index()

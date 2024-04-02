@@ -131,10 +131,11 @@ nav i{
         position: fixed;
         top: 0px;
         bottom: 0;
+        left: 0;
     }
 
     .page-container .dynamic-section {
-        margin-left: 320px;
+        margin-left: 300px;
     }
 
     .searchImg {
