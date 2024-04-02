@@ -68,7 +68,7 @@ namespace AttendanceTrackingSystem.Controllers
 					else
 						ViewBag.role = user.UserType;
 
-					return RedirectToAction("Index", "Home", model1);
+					return RedirectToAction("Index", "Home");
 				}
 				else
 				{
@@ -117,13 +117,15 @@ namespace AttendanceTrackingSystem.Controllers
 				}
 			}
 			if (imgPath != string.Empty)
+			{
 				repoAccount.UpdateImage("/images/" + imgPath, userId);
-
-
-			return RedirectToAction("Profile");
+				TempData["img"] = "/images/" + imgPath;
+			}
+			var cacheBuster = DateTime.UtcNow.Ticks;
+			return RedirectToAction("Profile", new { cacheBuster });
 		}
 		[HttpPost]
-		public IActionResult Profile([Bind("Name,Email,Phone,OldPassword,NewPassword,ConfirmPassword")] EditProfileViewModel model)
+		public IActionResult Profile(EditProfileViewModel model)
 		{
 			int c = 0;
 			foreach (var key in ModelState.Keys)
