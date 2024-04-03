@@ -44,7 +44,7 @@ namespace AttendanceTrackingSystem.Controllers
 					}
 					Claim claim3 = new Claim(ClaimTypes.Email, user.Email);
 					Claim claim4 = new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString());
-					Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl.ToString());
+					Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl?.ToString() ?? ""); 
 					ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 					identity.AddClaim(claim1);
 					identity.AddClaim(claim2);
