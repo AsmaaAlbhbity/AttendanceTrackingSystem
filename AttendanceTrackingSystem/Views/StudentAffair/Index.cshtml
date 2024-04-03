@@ -46,7 +46,6 @@
 </div>
 
 
-
 <!-- Add Student Modal -->
 <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -75,23 +74,22 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
+
+        
         </div>
     </div>
 </div>
 
 
-<!-- Bootstrap JS and dependencies -->
-<script src="~/lib/jquery/dist/jquery.min.js"></script> <!--jQuery -->
-<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-
-<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 @section Scripts {
+           
 
     <script>
+        debugger;
+        // Display toastr messages if TempData contains any
+       
         $(document).ready(function () {
-            
             $('.details-btn').click(function () {
                 var studentId = $(this).data('student-id');
                 $.ajax({
@@ -111,9 +109,10 @@
                     type: 'GET',
                     success: function (result) {
                         $('#studentAddBody').html(result);
-                        console.log('hhhanw0');
+     
                     },
                     error: function (xhr, status, error) {
+                       
                         console.error(xhr.responseText);
                     }
                 });

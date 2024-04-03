@@ -124,17 +124,24 @@
 </form>
 
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script> <!--jQuery -->
-<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-<script>
-    $(document).ready(function () {
 
+<script>
+
+
+    $(document).ready(function () {
+      
+        console.log('Document is ready');
         $('#studentForm').validate();
 
-        $('#studentForm input').on('keyup', function () {
+        $('#studentForm input, #studentForm select').on('blur', function () {
             $(this).valid();
         });
 
@@ -143,7 +150,7 @@
 
             // Check if the form is valid
             if ($('#studentForm').valid()) {
-                // Create FormData object to store form data including file
+             
                 var formData = new FormData();
                 formData.append('Name', $('#Name').val());
                 formData.append('Email', $('#Email').val());
@@ -155,25 +162,32 @@
                 formData.append('StudentGraduationYear', $('#StudentGraduationYear').val());
                 formData.append('StudentSpecialization', $('#StudentSpecialization').val());
                 formData.append('TrackId', $('#TrackId').val());
-                formData.append('file', $('#fileInput')[0].files[0]); // Get the first file from file input
+                formData.append('file', $('#fileInput')[0].files[0]); 
 
                 // Submit form data via AJAX
                 $.ajax({
                     url: '/StudentAffair/Create',
                     type: 'POST',
                     data: formData,
-                    contentType: false, // No need to set content type when using FormData
-                    processData: false, // No need to process data when using FormData
+                    contentType: false,
+                    processData: false, 
                     success: function (result) {
-                        // Handle success
-                        $('#studentAddBody').html(result);
+                        toastr.success(result.message); 
+                        $('#addStudentModal .btn-close').click();
+                       
+                       
                     },
                     error: function (xhr, status, error) {
                         // Handle errors
-                        console.error(xhr.responseText);
+                        toastr.error(xhr.responseText);
+                        
                     }
                 });
+            }
+            else {
+                toastr.error('Wrong input');
             }
         });
     });
 </script>
+

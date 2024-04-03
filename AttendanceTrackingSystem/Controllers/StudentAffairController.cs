@@ -3,12 +3,14 @@ using AttendanceTrackingSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
 using AttendanceTrackingSystem.Models;
 using System.Net.Mime;
+
 namespace AttendanceTrackingSystem.Controllers
 {
     public class StudentAffairController : Controller
     {
         private readonly IRepoStudent repoStudent;
         private readonly IRepoTrack repoTrack;
+
         public StudentAffairController(IRepoStudent _repoStudent, IRepoTrack _repoTrack)
         {
             repoStudent = _repoStudent;
@@ -32,6 +34,7 @@ namespace AttendanceTrackingSystem.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+
             ViewBag.Tracks = repoTrack.getAll();
             return PartialView("_CreateOrUpdatePartial", new Student());
         }
@@ -50,7 +53,7 @@ namespace AttendanceTrackingSystem.Controllers
             {
                 if (file != null && file.Length > 0)
                 {
-                    if (/*file.ContentType == "image/png" ||*/ file.ContentType == "image/jpg" || file.ContentType == "image/jpeg")
+                    if (file.ContentType == "image/png" || file.ContentType == "image/jpg" /*|| file.ContentType == "image/jpeg"*/)
                     {
                         var uniqueFileName = CreateUniqueFileName(file);
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images/Profile", uniqueFileName);
@@ -59,37 +62,30 @@ namespace AttendanceTrackingSystem.Controllers
                             file.CopyTo(stream);
                         }
                         student.ImgUrl = uniqueFileName;
-
                         //repoStudent.Add(student);
-                        //Preivew Toast Sucess
-                        return RedirectToAction("Index");
+                        return Ok(new { message = "Student has been created successfully." });
+
                     }
                     else
                     {
 
-                        ModelState.AddModelError("file", "Only PNG or JPEG or JPG image files are allowed.");
-                        ModelState.AddModelError("", "Only PNG or JPEG or JPG image files are allowed.");
-                        ModelState.AddModelError("fileInput", "Only PNG or JPEG or JPG image files are allowed.");
-                        return PartialView("_CreateOrUpdatePartial", student);
-
+                        return BadRequest("Only PNG or JPEG image files are allowed.");
                     }
 
                 }
                 else
                 {
-                    ModelState.AddModelError("file", "Please Select An Image To Upload");
-                    return PartialView("_CreateOrUpdatePartial", student);
+
+                    return BadRequest("You must include a file.");
                 }
-
-
             }
 
-            return PartialView("_CreateOrUpdatePartial", student);
+            return BadRequest("Incorrect data input!");
         }
 
         private string CreateUniqueFileName(IFormFile file)
         {
-            return String.Concat(file.FileName.Split('.').First(), new Guid(),'.', file.FileName.Split('.').Last());
+            return String.Concat(file.FileName.Split('.').First(), new Guid(), file.FileName.Split('.').Last());
 
         }
 

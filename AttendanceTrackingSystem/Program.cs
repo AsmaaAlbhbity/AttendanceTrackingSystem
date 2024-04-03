@@ -27,6 +27,7 @@ namespace AttendanceTrackingSystem
             builder.Services.AddScoped<IRepoTrack, RepoTrack>();
             builder.Services.AddScoped<IRepoUser, RepoUser>();
 
+           
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
