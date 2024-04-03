@@ -15,12 +15,14 @@ namespace AttendanceTrackingSystem.Controllers
         IRepoTrack repoTrack;
         IRepoUser repoUser;
         IRepoEmployee repoEmployee;
-        public AdminController(IRepoInstructor _repoInstructor, IRepoTrack _repoTrack,IRepoUser _repoUser,IRepoEmployee _repoEmployee)
+        IRepoAttendance repoAttendance;
+        public AdminController(IRepoInstructor _repoInstructor, IRepoTrack _repoTrack,IRepoUser _repoUser,IRepoEmployee _repoEmployee,IRepoAttendance _repoAttendance)
         {
             repoInstructor = _repoInstructor;
             repoTrack = _repoTrack;
             repoUser = _repoUser;
              repoEmployee= _repoEmployee;
+            repoAttendance = _repoAttendance;
         }
         public IActionResult ShowInstructor()
         {
