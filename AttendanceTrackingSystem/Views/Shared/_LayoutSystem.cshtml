@@ -9,9 +9,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" rel="stylesheet" integrity="sha512-glciccPoOqr5mfDGmlJ3bpbvomZmFK+5dRARpt62nZnlKwaYZSfFpFIgUoD8ujqBw4TmPa/F3TX28OctJzoLfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
-   
+ 
     <link href="~/css/site.css" rel="stylesheet" />
-  
 </head>
 <body>
 
@@ -79,7 +78,15 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
-   
+    <script>
+        // Display toastr messages if TempData contains any
+
+        function displayMsg(msg) {
+            toastr.success(msg);
+        }
+        
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

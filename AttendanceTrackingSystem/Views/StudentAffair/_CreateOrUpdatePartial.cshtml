@@ -22,11 +22,14 @@
                 </div>
 
                 <input  class="form-control" asp-for="Image" style="display: none;">
+                <span asp-validation-for="Image" class="text-danger"></span>
+                
+
 
             </div>
         </div>
 
-
+        <input asp-for="UserId" hidden />
         <div class="row mb-3">
             <div class="col-md-4">
                 <label class="font-weight-bold" asp-for="Name"></label>
@@ -120,7 +123,7 @@
             </div>
             <div class="col-md-8">
                 <select class="form-select" asp-for="TrackId" asp-items="@Tracks">
-                    <option>Select Track</option>
+                    <option value="">Select Track</option>
                 </select>
                 <span asp-validation-for="TrackId" class="text-danger"></span>
             </div>
@@ -148,7 +151,19 @@
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 <script>
-    
+    function handleImageChange(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imageViewer').html('<img src="' + e.target.result + '" alt="Uploaded Image" class="img-fluid rounded-circle border" style="max-width: 100px;">' +
+                    '<a type="button" class="fa fa-trash mx-2" style="color: red;" id="removeImageBtn"></a>');
+                $('#imageViewer').removeAttr('style');
+            }
+            reader.readAsDataURL(input.files[0]);
+            $('#imageViewer').show();
+            $('#Image').hide();
+        }
+    }
 
     $(document).ready(function () {
 
@@ -158,8 +173,10 @@
         $('#studentForm input, #studentForm select').on('blur', function () {
             $(this).valid();
         });
+        debugger;
 
-        // Hide the image viewer initially if ImgUrl is empty
+        let mk = $('#Image').val();
+        
         if ('@Model.ImgUrl' === '') {
             $('#imageViewer').hide();
             $('#Image').show();
@@ -169,28 +186,15 @@
             $('#Image').hide();
         }
 
-   
         $('#Image').change(function () {
-            let input = this;
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-           
-                    $('#imageViewer').html('<img src="' + e.target.result + '" alt="Uploaded Image" class="img-fluid rounded-circle border" style="max-width: 100px;">' +
-                        '<a type="button" class="fa fa-trash mx-2" style="color: red;" id="removeImageBtn"></a>');
-                    $('#imageViewer').removeAttr('style'); 
-                }
-                reader.readAsDataURL(input.files[0]);
-                $('#imageViewer').show(); 
-                $('#Image').hide(); 
-            }
+            handleImageChange(this);
         });
 
-      
         $(document).on('click', '#removeImageBtn', function () {
-            $('#imageViewer').hide(); 
+            $('#imageViewer').hide();
             $('#Image').show();
         });
+
 
      
     
@@ -201,6 +205,7 @@
             if ($('#studentForm').valid()) {
 
                 var formData = new FormData();
+                formData.append('UserId', $('#UserId').val());
                 formData.append('Name', $('#Name').val());
                 formData.append('Email', $('#Email').val());
                 formData.append('Password', $('#Password').val());
@@ -221,10 +226,13 @@
                     contentType: false,
                     processData: false,
                     success: function (result) {
-                        toastr.success(result.message);
+                        // toastr.success(result.message);
+                      
+                        displayMsg(result.message);
                         $('#addStudentModal .btn-close').click();
-
-
+                        setTimeout(function () {
+                            window.location.href = '/StudentAffair/Index';
+                        }, 2000);
                     },
                     error: function (xhr, status, error) {
                         // Handle errors

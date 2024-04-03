@@ -3,6 +3,8 @@ using AttendanceTrackingSystem.Repository;
 using Microsoft.AspNetCore.Mvc;
 using AttendanceTrackingSystem.Models;
 using System.Net.Mime;
+using System.IO;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace AttendanceTrackingSystem.Controllers
 {
@@ -10,16 +12,23 @@ namespace AttendanceTrackingSystem.Controllers
     {
         private readonly IRepoStudent repoStudent;
         private readonly IRepoTrack repoTrack;
-
-        public StudentAffairController(IRepoStudent _repoStudent, IRepoTrack _repoTrack)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public StudentAffairController(IRepoStudent _repoStudent, IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment)
         {
             repoStudent = _repoStudent;
             repoTrack = _repoTrack;
+            _hostingEnvironment = hostingEnvironment;
 
         }
-        public IActionResult Index()
+        public IActionResult Index(string? message)
         {
             var students = repoStudent.getAll();
+            if (message != null)
+            {
+                TempData["SuccessMessage"] = message;
+             
+                return View(students);
+            }
             return View(students);
         }
         public IActionResult Details(int? id)
@@ -32,7 +41,7 @@ namespace AttendanceTrackingSystem.Controllers
             return PartialView("_Details", student);
         }
         [HttpGet]
-        public IActionResult Create(int? id)
+        public async Task<IActionResult> Create(int? id)
         {
            
             if (id == null)
@@ -46,23 +55,29 @@ namespace AttendanceTrackingSystem.Controllers
                 ViewBag.Header = "Update Student";
                 ViewBag.Tracks = repoTrack.getAll();
                 var student = repoStudent.getById(id.Value);
+
+               
+        
+                // Call GetFileFromPath asynchronously to get the IFormFile object representing the image file
+           
                 return PartialView("_CreateOrUpdatePartial", student);
             }
 
         }
-
+       
 
         [HttpPost]
-        public IActionResult Create([Bind("Name, Email, Password, Phone, StudentDegree, StudentUniversity, StudentFaculity, StudentGraduationYear, StudentSpecialization, TrackId,Image")] Student student)
+        public IActionResult Create([Bind("UserId,Name, Email, Password, Phone, StudentDegree, StudentUniversity, StudentFaculity, StudentGraduationYear, StudentSpecialization, TrackId,Image")] Student student)
         {
             ModelState.Remove("Msgs");
             ModelState.Remove("UserType");
             ModelState.Remove("Track");
-            student.UserType = "Student";
+            student.UserType = "1";
             student.IsApproved = Approve.Accepted;
 
             if (ModelState.IsValid)
             {
+                // you can search for the image in the wwrroot folders
                 if (student.Image != null && student.Image.Length > 0)
                 {
                     if (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg")
@@ -74,8 +89,20 @@ namespace AttendanceTrackingSystem.Controllers
                             student.Image.CopyTo(stream);
                         }
                         student.ImgUrl = uniqueFileName;
-                        repoStudent.Add(student);
-                        return Ok(new { message = "Student has been created successfully." });
+                        if (student.UserId!=0)
+                        {
+                            repoStudent.Update(student);
+                          
+                            return Ok(new { message = "Student has been updated successfully." });
+                        }
+                        else
+                        {
+                            repoStudent.Add(student);
+                            //return RedirectToAction("Index", new { message = "Student has been created successfully." });
+                            return Ok(new { message = "Student has been created successfully." });
+                        }
+                     
+                        //return Ok(new { message = "Student has been created successfully." });
 
                     }
                     else
@@ -95,6 +122,19 @@ namespace AttendanceTrackingSystem.Controllers
             return BadRequest("Incorrect data input!");
         }
 
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (id !=null)
+            {
+                repoStudent.Delete(id);
+                return Ok(new { message = "Student has been deleted successfully." });
+
+            }
+            return BadRequest("No Student Found!");
+
+        }
+
         private string CreateUniqueFileName(IFormFile file)
         {
             var uniquePart = Guid.NewGuid().ToString().Substring(0, 8); // Get the first 8 characters of the GUID
@@ -102,6 +142,21 @@ namespace AttendanceTrackingSystem.Controllers
             var extension = Path.GetExtension(file.FileName);
             return $"{fileNameWithoutExtension}_{uniquePart}{extension}";
         }
+        private async Task<IFormFile> GetFileFromPath(string path, string name)
+        {
+            string fullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "Images", "Profile", name);
+            if (System.IO.File.Exists(path))
+            {
+                byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(path);
+
+                using (var memoryStream = new MemoryStream(fileBytes))
+                {
+                    return new FormFile(memoryStream, 0, fileBytes.Length, name, Path.GetFileName(path));
+                }
+            }
+            return null;
+        }
+
 
 
     }

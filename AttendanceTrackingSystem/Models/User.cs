@@ -22,7 +22,7 @@ namespace AttendanceTrackingSystem.Models
         public string UserType { get; set; }
         public string? ImgUrl { get; set; }
         [NotMapped]
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
         public virtual List<Msg> Msgs { get; set; }
     }
 }

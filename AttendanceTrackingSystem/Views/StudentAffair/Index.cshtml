@@ -36,7 +36,8 @@
                     <td>
                         <a class="btn btn-sm btn-outline-primary mx-1 details-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#studentDetailsModal"><i class="fa fa-info"></i> Details</a>
                         <a class="btn btn-sm btn-light mx-1 update-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa fa-pen-nib"></i> Update</a>
-                        <a class="btn btn-sm btn-danger mx-1"><i class="fa fa-user-slash"></i> Delete</a>
+                        <a class="btn btn-sm btn-danger mx-1 delete-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#deleteStudentModal"><i class="fa fa-user-slash"></i> Delete</a>
+
                     </td>
                 </tr>
             }
@@ -74,17 +75,32 @@
         </div>
     </div>
 </div>
-
-
+<div class="modal fade" id="deleteStudentModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            Are you sure you want to delete this Student?
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" id="submitDelete" data-bs-dismiss="modal" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
+</div>
+</div>
 
 @section Scripts {
-           
+    
 
     <script>
-        debugger;
-        // Display toastr messages if TempData contains any
-       
+
         $(document).ready(function () {
+            displayToastMessages();
+
             $('.details-btn').click(function () {
                 var studentId = $(this).data('student-id');
                 $.ajax({
@@ -126,7 +142,45 @@
                 });
             });
             
+            $('.delete-btn').click(function () {
+                var studentId = $(this).data('student-id');
+                $('#submitDelete').data('student-id', studentId);
+                displayToastMessages();
+            });
+            $("#submitDelete").click(function () {
+                debugger;
+                var studentId = $(this).data('student-id');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete")",
+                    datatype: "json",
+                    data: { id: studentId },
+                    success: function (result) {
+                      
 
+                        displayMsg(result.message);
+                        $('#deleteStudentModal .btn-close').click();
+                        setTimeout(function () {
+                            window.location.href = '/StudentAffair/Index';
+                        }, 2000);
+
+                     
+                    },
+                    error: function (xhr, status, error) {
+
+                      toastr.error(xhr.responseText);
+                    }
+                });
+            });
+
+            function displayToastMessages() {
+
+                if ('@TempData["SuccessMessage"]' != '') {
+                    toastr.success('@TempData["SuccessMessage"]');
+                    $('#addStudentModal .btn-close').click();
+                }
+                    
+            }
         });
     </script>
 }
