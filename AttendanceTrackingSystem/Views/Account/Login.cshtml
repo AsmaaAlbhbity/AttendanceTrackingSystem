@@ -14,7 +14,7 @@
 	<link rel="stylesheet" href="~/AttendanceTrackingSystem.styles.css" asp-append-version="true" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
 	<style>
-		#Val ul{
+		#Val ul {
 			list-style-type: none;
 			color: red;
 			font-weight: bold;
@@ -29,14 +29,13 @@
 					<div class="card" style="border-radius: 1rem;">
 						<div class="row g-0">
 							<div class="col-md-6 col-lg-5 d-none d-md-block m-auto">
-								<img src="~/Images/logo.png"
-									 alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
+								<img src="~/Images/Confirmed attendance-pana.svg"
+									 alt="login form" class="img-fluid p-2" style="border-radius: 1rem 0 0 1rem;" />
 							</div>
 							<div class="col-md-6 col-lg-7 d-flex align-items-center">
 								<div class="card-body p-4 p-lg-5 text-black">
-
 									<form method="post">
-										
+
 										<div class="d-flex align-items-center mb-3 pb-1">
 											<i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
 											<span class="h1 fw-bold mb-0">Attendance System</span>
@@ -50,22 +49,21 @@
 											<span asp-validation-for="Email"></span>
 										</div>
 
-										<div class="form-floating mb-4">
+										<div class="form-floating mb-4 d-flex">
 											<input id="Pass" asp-for="Password" type="password" class="form-control" placeholder="Password">
-											<button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('Pass')"><i class="fa-solid fa-eye"></i></button>
+											<button type="button" style="background-color:#6c5ddc" class="text-white btn float-end" onclick="togglePasswordVisibility('Pass')"><i class="fa-solid fa-eye"></i></button>
 											<label for="Pass">Password</label>
 											<span asp-validation-for="Password"></span>
 										</div>
 										<div id="Val" asp-validation-summary="ModelOnly"></div>
 
-										<div class="pt-1 mb-4">
-											<button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
+										<div class="py-1 row">
+											<button class="btn btn-lg col-6 mx-auto text-white" style="background-color:#6c5ddc" type="submit">Login</button>
 										</div>
-
-										<a class="small text-muted" href="#!">Forgot password?</a>
-
 									</form>
-
+									@* <div class="row">
+										<a class="small col-12 text-center text-muted" href="#!">Forgot password?</a>
+									</div> *@
 								</div>
 							</div>
 						</div>
