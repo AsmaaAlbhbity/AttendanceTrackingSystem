@@ -1,0 +1,49 @@
+﻿@model Instructor
+
+
+<div class="form-row">
+    <div class="form-group">
+        <input class="inputForm" asp-for="Name" value="@Model?.Name" required placeholder=" ">
+        <label class="labelForm" asp-for="Name"></label>
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input class="inputForm" asp-for="Email" value="@Model?.Email" required placeholder=" ">
+        <label class="labelForm" asp-for="Email"></label>
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+</div>
+<input class="inputForm" asp-for="UserType" value="Instructor" hidden>
+<div class="form-row">
+    <div class="form-group">
+        <input class="inputForm" asp-for="Password" value="@Model?.Password" required placeholder=" ">
+        <label class="labelForm" asp-for="Password"></label>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input class="inputForm" asp-for="Phone" value="@Model?.Phone" required placeholder=" " required onchange="displayFileName(this)">
+        <label class="labelForm" asp-for="Phone"></label>
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+</div>
+
+<div class="form-row">
+    
+    <div class="form-group">
+        <input class="inputForm" asp-for="InstructorSalary" value="@Model?.InstructorSalary" required placeholder=" " required onchange="displayFileName(this)">
+        <label class="labelForm" asp-for="InstructorSalary"></label>
+        <span asp-validation-for="InstructorSalary" class="text-danger"></span>
+    </div>
+    <div class="file-input">
+        <input type="file" name="ImgUrl" required>
+        <label for="file">Choose Image</label>
+        <span asp-validation-for="ImgUrl" class="text-danger"></span>
+    </div>
+</div>
+
+
+
+<input type="submit" value="Submit" class="btnForm" />
+<a class="btnForm" asp-action="ShowInstructor" asp-controller="Admin">Cancel</a>

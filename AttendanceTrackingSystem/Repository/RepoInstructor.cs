@@ -1,6 +1,7 @@
 ﻿using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using NuGet.DependencyResolver;
 
 namespace AttendanceTrackingSystem.Repository
 {
@@ -40,7 +41,27 @@ namespace AttendanceTrackingSystem.Repository
             db.Instructors.Update(instructor);
             db.SaveChanges();
         }
+        public void AddTrack(int TrackId, int InstructorId)
+        {
+            var track = db.Tracks.FirstOrDefault(a => a.TrackId == TrackId);
+            var instructor = db.Instructors.FirstOrDefault(b => b.UserId == InstructorId);
 
-  
+            track.Instructors.Add(instructor);
+            db.SaveChanges();
+        }
+
+        public void RemoveTrack(int TrackId, int InstructorId)
+        {
+            var track = db.Tracks.FirstOrDefault(a => a.TrackId == TrackId);
+            var instructor = db.Instructors.FirstOrDefault(b => b.UserId == InstructorId);
+
+            if (track != null && instructor != null)
+            {
+                track.Instructors.Remove(instructor); 
+                db.SaveChanges();
+            }
+        }
+
+
     }
 }

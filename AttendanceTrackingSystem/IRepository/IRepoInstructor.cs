@@ -9,7 +9,7 @@ namespace AttendanceTrackingSystem.IRepository
         public void Add(Instructor instructor);
         public void Update(Instructor instructor);
         public void Delete(int id);
-    
-
+        public void AddTrack(int TrackId, int InstructorId);
+        public void RemoveTrack(int TrackId, int InstructorId); 
     }
 }
