@@ -44,11 +44,13 @@ namespace AttendanceTrackingSystem.Controllers
 					}
 					Claim claim3 = new Claim(ClaimTypes.Email, user.Email);
 					Claim claim4 = new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString());
+					Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl.ToString());
 					ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 					identity.AddClaim(claim1);
 					identity.AddClaim(claim2);
 					identity.AddClaim(claim3);
 					identity.AddClaim(claim4);
+					identity.AddClaim(claim5);
 					ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 					await HttpContext.SignInAsync(principal);
 					TempData["role"] = claim2.Value;
@@ -75,6 +77,7 @@ namespace AttendanceTrackingSystem.Controllers
 					ModelState.AddModelError("", "Invalid Email Or password");
 				}
 			}
+
 			return View();
 		}
 		public async Task<IActionResult> Logout()
@@ -94,8 +97,7 @@ namespace AttendanceTrackingSystem.Controllers
 				ImgUrl = model.ImgUrl ?? "/images/user.png",
 				OldPassword = model.Password
 			};
-			ViewBag.img = model.ImgUrl ?? "~images/user.png";
-
+			ViewBag.img = model1.ImgUrl;
 			return View(model1);
 		}
 		[HttpPost]
@@ -114,11 +116,12 @@ namespace AttendanceTrackingSystem.Controllers
 			if (imgPath != string.Empty)
 			{
 				repoAccount.UpdateImage("/images/" + imgPath, userId);
+				TempData.Peek("img");
 				TempData["img"] = "/images/" + imgPath;
 			}
-			var cacheBuster = DateTime.UtcNow.Ticks;
-			Response.Headers["Cache-Control"] = "no-cache, max-age=0";
-
+			//var cacheBuster = DateTime.UtcNow.Ticks;
+			//Response.Headers["Cache-Control"] = "no-cache, max-age=0";
+			//TempData["CacheBuster"] = cacheBuster;
 			return RedirectToAction("Profile");
 		}
 		[HttpPost]
