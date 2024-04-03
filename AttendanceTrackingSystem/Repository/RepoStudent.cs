@@ -25,12 +25,15 @@ namespace AttendanceTrackingSystem.Repository
 
         public void Add(Student student)
         {
+            // check if email is already in use
+            student.Email = student.Email.ToLower().Trim();
             db.Users.Add(student);
             db.SaveChanges();
         }
 
         public void Update(Student student)
         {
+            student.Email = student.Email.ToLower().Trim();
             db.Users.Update(student);
             db.SaveChanges();
         }

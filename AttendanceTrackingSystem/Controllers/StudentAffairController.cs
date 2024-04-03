@@ -21,20 +21,24 @@ namespace AttendanceTrackingSystem.Controllers
             _hostingEnvironment = hostingEnvironment;
 
         }
-        public IActionResult Index(string? message, int? page)
+        public IActionResult Index(string? message, int? page, string? searchTerm)
         {
-
-         
             if (message != null)
             {
                 TempData["SuccessMessage"] = message;
             }
 
-            var allStudents = repoStudent.getAll(); // Assuming getAll() returns all students
+            var allStudents = repoStudent.getAll(); 
+
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                allStudents = allStudents.Where(s => s.Email.Contains(searchTerm.ToLower().Trim())).ToList();
+            }
 
             if (!page.HasValue || page < 1)
             {
-                page = 1; // Default to first page if no page is provided or page is invalid
+                page = 1; 
             }
 
             int totalStudents = allStudents.Count();
@@ -42,15 +46,18 @@ namespace AttendanceTrackingSystem.Controllers
 
             if (page > totalPages)
             {
-                page = totalPages; // Adjust page number if it exceeds total pages
+                page = totalPages; 
             }
 
-            var students = repoStudent.GetPaginatedStudents(page.Value,pageSize);
+            var students = allStudents.Skip((page.Value - 1) * pageSize).Take(pageSize).ToList();
 
             ViewBag.TotalPages = totalPages;
             ViewBag.Page = page;
+            ViewBag.SearchTerm = searchTerm; 
+
             return View(students);
         }
+
         public IActionResult Details(int? id)
         {
             if (id == null)

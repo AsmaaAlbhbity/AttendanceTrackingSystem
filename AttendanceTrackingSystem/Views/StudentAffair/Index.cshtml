@@ -7,21 +7,37 @@
 
 <div class="container mt-5">
     <h4 class="text-center mb-4">Manage Students</h4>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form method="get">
+                <div class="input-group mb-4 border rounded-pill p-1">
+                    <div class="input-group-prepend border-0">
+                        <button id="button-addon4" type="submit" class="btn btn-link text-info"><i class="fa fa-search"></i></button>
+                    </div>
+                    <input type="search" name="searchTerm" placeholder="Search by email" aria-describedby="button-addon4" class="form-control bg-none border-0" value="@ViewBag.SearchTerm">
+                </div>
+            </form>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-6">
             <button class="btn btn-primary mb-3 add-btn" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa fa-plus"></i> Add Student </button>
             <input type="file" id="uploadFile" accept=".xlsx, .xls" style="display: none;">
             <button class="btn btn-success mb-3"><i class="fa fa-upload"></i> Upload Students from Excel</button>
+
         </div>
     </div>
+ 
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
                 <th>Status</th>
                 <th>Track</th>
-                <th>Action</th>
+                <th class="text-center">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -31,6 +47,8 @@
                 <tr>
                     <td>@student.UserId</td>
                     <td>@student.Name</td>
+                    <td>@student.Email</td>
+                    <td>@student.Phone</td>
                     <td>@student.IsApproved</td>
                     <td>@student.Track.Name</td>
                     <td>
