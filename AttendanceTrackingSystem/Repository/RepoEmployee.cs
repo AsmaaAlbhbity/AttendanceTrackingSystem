@@ -20,9 +20,18 @@ namespace AttendanceTrackingSystem.Repository
         public void Delete(int id)
         {
             var obj = db.Employees.FirstOrDefault(a => a.UserId == id);
-            db.Employees.Remove(obj);
-            db.SaveChanges();
+            Console.WriteLine($"the id is {id} the ob is {obj}");
+            if (obj != null)
+            {
+                db.Employees.Remove(obj);
+                db.SaveChanges();
+            }
+            else
+            {
+                Console.WriteLine("the obj is null ");
+            }
         }
+
 
         public List<Employee> getAll()
         {

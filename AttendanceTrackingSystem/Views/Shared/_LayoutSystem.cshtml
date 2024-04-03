@@ -1,89 +1,98 @@
-﻿@model User
+﻿
 @{
-	string role = "";
-	if (User.IsInRole("Student"))
-		role = "Student";
-	else if (User.IsInRole("Instructor"))
-		role = "Instructor";
-	else if (User.IsInRole("Admin"))
-		role = "Admin";
-	else if (User.IsInRole("Security"))
-		role = "Security";
-	else
-		role = "Student Affair";
+    string role = "";
+    if (User.IsInRole("Student"))
+        role = "Student";
+    else if (User.IsInRole("Instructor"))
+        role = "Instructor";
+    else if (User.IsInRole("Admin"))
+        role = "Admin";
+    else if (User.IsInRole("Security"))
+        role = "Security";
+    else
+        role = "Student Affair";
 }
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>@ViewData["Title"]</title>
-	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" rel="stylesheet" integrity="sha512-glciccPoOqr5mfDGmlJ3bpbvomZmFK+5dRARpt62nZnlKwaYZSfFpFIgUoD8ujqBw4TmPa/F3TX28OctJzoLfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-	<link href="~/css/site.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"]</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" rel="stylesheet" integrity="sha512-glciccPoOqr5mfDGmlJ3bpbvomZmFK+5dRARpt62nZnlKwaYZSfFpFIgUoD8ujqBw4TmPa/F3TX28OctJzoLfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="~/css/employee-card.css" rel="stylesheet" />
+    <link href="~/css/employyelist.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
 </head>
 <body>
 
-	<div class="container-fluid">
-		<nav class="navbar navbar-expand-lg  ">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-				<i class="fas fa-bars"></i>
-			</button>
-		</nav>
-		<div class="row page-container">
-			<!-- Sidebar -->
-			<aside class="col-lg-3 col-12 text-white border-right py-3" id="sidebarCollapse">
-				<h1 class="text-center py-3 d-lg-block d-none">Page Name</h1>
-				<div class="profile">
-					<img src="~/images/user.png" />
-					<div>
-						<h4>@User.Identity.Name</h4>
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg  ">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+        <div class="row page-container">
+            <!-- Sidebar -->
+            <aside class="col-lg-3 col-12 text-white border-right py-3" id="sidebarCollapse">
+                <h1 class="text-center py-3 d-lg-block d-none">Page Name</h1>
+                <div class="profile">
+                    <img src="~/images/user.png" />
+                    <div>
+                        <h4>@User.Identity.Name</h4>
 
-						<p>@role</p>
-					</div>
-				</div>
-				<ul class="nav flex-column gap-3">
-					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["ProfileActive"]" href="#">
-							<i class="fas fa-user-edit"></i> Change Profile
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" href="#">
-							<i class="fas fa-home"></i> Home
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" href="#">
-							<i class="fas fa-graduation-cap"></i> Students
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["InstructorsActive"]" href="#">
-							<i class="fas fa-chalkboard-teacher"></i> Instructors
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["LogOutActive"]" href="#">
-							<i class="fas fa-sign-out-alt"></i> LogOut
-						</a>
-					</li>
+                        <p>@role</p>
+                    </div>
+                </div>
+                <ul class="nav flex-column gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link hvr-bounce-to-right @ViewData["ProfileActive"]" href="#">
+                            <i class="fas fa-user-edit"></i> Change Profile
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" href="#">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" href="#">
+                            <i class="fas fa-graduation-cap"></i> Students
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link hvr-bounce-to-right @ViewData["InstructorsActive"]" href="#">
+                            <i class="fas fa-chalkboard-teacher"></i> Instructors
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link hvr-bounce-to-right @ViewData["EmployeeActive"]" asp-controller="Admin" asp-action="Employee">
+                            <i class="fas fa-user"></i> Employee
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link hvr-bounce-to-right @ViewData["LogOutActive"]" href="#">
+                            <i class="fas fa-sign-out-alt"></i> LogOut
+                        </a>
+                    </li>
+                    
 
 
-				</ul>
-				<img src="~/images/search-svg.svg" class="searchImg" width="200" />
-			</aside>
+                </ul>
+                <img src="~/images/search-svg.svg" class="searchImg" width="200" />
+            </aside>
 
-			<!-- Main Content -->
-			<div class="dynamic-section col-lg-9 col-12">
-				@RenderBody()
-			</div>
-		</div>
-	</div>
+            <!-- Main Content -->
+            <div class="dynamic-section col-lg-9 col-12">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
 
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-	@RenderSection("scripts", required: false)
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    @RenderSection("scripts", required: false)
 
 </body>
 </html>

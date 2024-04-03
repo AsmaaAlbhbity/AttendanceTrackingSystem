@@ -1,0 +1,64 @@
+﻿@using AttendanceTrackingSystem.Pagination
+@model PaginatedList<Employee>
+
+<h2>Employees</h2>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Employee Salary</th>
+        <th>Employee Type</th>
+        <th>image</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="table-row">
+            <td>@item.Name</td>
+            <td>@item.Email</td>
+            <td>@item.EmployeeSalary</td>
+            <td>@item.EmployeeType</td>
+            <td><img src="@item.ImgUrl" width="100" height="100" /></td>
+            <td>
+                <div class="action-buttons">
+                    <a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-primary btn-sm">
+                        <i class="fa fa-edit"></i> Edit
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.UserId" class="btn btn-info btn-sm">
+                        <i class="fa fa-info-circle"></i> Details
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-danger btn-sm">
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
+
+
+    <ul class="pagination">
+        @if (Model.HasPreviousPage)
+        {
+            <li class="page-item custom-pagination-button">
+                <a class="page-link" href="@Url.Action("Employee", "Admin", new { pageNumber = Model.PageIndex - 1 })">Previous</a>
+            </li>
+        }
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item custom-pagination-button @(i == Model.PageIndex ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Employee", "Admin", new { pageNumber = i })">@i</a>
+            </li>
+        }
+        @if (Model.HasNextPage)
+        {
+            <li class="page-item custom-pagination-button">
+                <a class="page-link" href="@Url.Action("Employee", "Admin", new { pageNumber = Model.PageIndex + 1 })">Next</a>
+            </li>
+        }
+    </ul>
+
+
+<a asp-action="Create" class="btn Create">Create New Employee</a>
