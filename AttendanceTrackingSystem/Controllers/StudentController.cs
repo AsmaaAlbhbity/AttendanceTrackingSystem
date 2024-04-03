@@ -69,9 +69,11 @@ namespace AttendanceTrackingSystem.Controllers
                 };
 
                 var studentSchedule = repoStudent.GetFutureStudentSchedule(id);
-
-
                 attendanceSummaryViewModel.StudentSchedule = studentSchedule;
+
+                ViewBag.TrackName = repoStudent.GetTrackNameByUserId(id);
+
+                ViewBag.SupervisorName = repoStudent.GetSupervisorNameByUserId(id);
 
 
                 return View(attendanceSummaryViewModel);

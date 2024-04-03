@@ -217,3 +217,19 @@ td p {
         border: 1px solid #82bb82;
         background-color: #64f26070;
     }
+
+.schedule-online {
+    background-color: #93bfd7;
+}
+
+.schedule-offline {
+    background-color: lightblue;
+}
+
+.schedule-holiday {
+    background-color: #89d289;
+}
+
+.schedule-funday {
+    background-color: lightyellow;
+}

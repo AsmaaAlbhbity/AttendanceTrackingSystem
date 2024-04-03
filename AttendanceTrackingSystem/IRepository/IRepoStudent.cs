@@ -10,6 +10,8 @@ namespace AttendanceTrackingSystem.IRepository
         public void Update(Student student);
         public void Delete(int id);
 
+        public string GetTrackNameByUserId(int userId);
+        public string GetSupervisorNameByUserId(int userId);
         public List<Schedule> GetFutureStudentSchedule(int studentId);
     }
 }

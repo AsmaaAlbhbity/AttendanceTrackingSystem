@@ -286,10 +286,10 @@ nav {
         position: absolute;
         right: 80px;
         bottom: 100px;
-        animation: bounce infinite ease-in-out 1s;
+        animation: bounce2 infinite ease-in-out 1s;
     }
 
-    @keyframes bounce {
+    @keyframes bounce2 {
         50% {
             transform: scale(1.1);
         }
