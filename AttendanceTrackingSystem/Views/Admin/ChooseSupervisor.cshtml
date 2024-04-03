@@ -1,0 +1,53 @@
+﻿@model ChooseSupervisorViewModel
+@{
+    string role = "";
+    if (User.IsInRole("Student"))
+        role = "Student";
+    else if (User.IsInRole("Instructor"))
+        role = "Instructor";
+    else if (User.IsInRole("Admin"))
+        role = "Admin";
+    else if (User.IsInRole("Security"))
+        role = "Security";
+    else
+        role = "Student Affair";
+
+    ViewData["Title"] = "Choose Supervisor";
+
+    SelectList Instructors = new SelectList(Model.Instructors, "UserId", "Name");
+}
+
+   
+
+    <div id="InstructorStyles">
+        <div id="title-container">
+        <h1 class="main-title">Choose Supervisor</h1>
+            
+        </div>
+     </div>
+
+    <div id="track-data">
+    <p><strong>Track : @Model.Track.Name - Capacity : @Model.Track.Capacity - Intake : @Model.Track.Intake.Name </strong></p>
+    </div>
+
+
+<form id="AddInsForm" class="AddSuperForm" asp-action="ChooseSupervisor" asp-controller="Admin">
+            <div class="form-row">
+                <div class="form-group">
+            <input asp-for="@Model.UserId" value="@Model.UserId" hidden />
+            <input asp-for="@Model.Track.TrackId" value="@Model.Track.TrackId" hidden />
+
+            <select  asp-for="@Model.Track.SupervisorId" asp-items="Instructors" class="selectStyle m-4">
+                    <option>select new Instructor</option>
+                    
+                </select>
+            <label class="labelForm m-2" asp-for="@Model.Track.SupervisorId">Supervisor Name</label>
+                <input type="submit" value="Add" class="btnForm" />
+            <input type="submit" value="Cancel" class="btnForm" asp-action="ShowInstructor" asp-controller="Admin" />
+            
+                </div>
+           
+            <img src="~/images/select.gif" width="300vw" height="210vh" />
+          
+</div>
+</form>

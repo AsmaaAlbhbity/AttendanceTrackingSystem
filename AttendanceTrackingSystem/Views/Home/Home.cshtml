@@ -1,0 +1,15 @@
+﻿@model AttendanceSummaryViewModel
+
+ 
+                @Html.Partial("~/Views/Shared/_AttendanceChartPartialSharedPartialView.cshtml", Model)
+
+
+                    @if (Model.UserPermissions.Count > 0)
+                    {
+                        <div class="Permissions">
+                            <h2 class="custome-title">Permissions History</h2>
+                            @Html.Partial("~/Views/Shared/_UsersPermissionsStatePartialView.cshtml", Model)
+                        </div>
+                    }
+         
+

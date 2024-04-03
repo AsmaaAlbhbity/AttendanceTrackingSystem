@@ -39,5 +39,15 @@ namespace AttendanceTrackingSystem.Repository
            db.Employees.Update(employee);
             db.SaveChanges();
         }
+
+
+        // asmaa
+        public int getEmpCount(EmployeeType employeeType)
+        {
+            int employeeCount = db.Users.OfType<Employee>()
+                                      .Count(e => e.EmployeeType == employeeType);
+            return employeeCount;
+
+        }
     }
 }

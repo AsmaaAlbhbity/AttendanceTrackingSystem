@@ -1,0 +1,29 @@
+﻿ @model AttendanceSummaryViewModel
+
+
+    <!-- Display attendance summary -->
+    @Html.Partial("_UserNotificationsPartialView", Model)
+    <div class="trackAttendance">
+    <h2 class="custome-title">Track Your Attendance</h2>
+        <div>
+            <p id="lateCount">Late Count: <span>@Model.LateCount</span> </p>
+            <p id="onTimeCount">On Time Count: <span>@Model.OnTimeCount</span> </p>
+            <p id="absentCount">Absent Count: <span>@Model.AbsentCount</span> </p>
+            <p id="absentCount">Your Degree: <span>@ViewBag.stdDegree</span> </p>
+        </div>
+    </div>
+
+    @Html.Partial("StudentChartPartialView.cshtml", Model)
+
+    <div class="Schedule">
+        <h2 class="custome-title">Show Your Schedule</h2>
+        @Html.Partial("StudentScudlePartialView.cshtml", Model)
+    </div>
+
+    <div class="Permissions">
+        <h2 class="custome-title">Permissions History</h2>
+        @Html.Partial("~/Views/Shared/_UsersPermissionsStatePartialView.cshtml", Model)
+    </div>
+
+    <a asp-action="MakePermission" asp-controller="Student" asp-route-Id="@Model.UserId" class="custome-btn d-block " >make a permission</a>
+

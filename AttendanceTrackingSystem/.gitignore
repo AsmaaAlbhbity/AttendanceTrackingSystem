@@ -2,3 +2,4 @@ out/.vs/
 obj/
 bin/
 Migrations/
+.vs/

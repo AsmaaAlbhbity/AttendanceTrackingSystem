@@ -1,4 +1,9 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
+﻿$(document).ready(function () {
+    // Toggle sidebar when the button is clicked
+    $('.navbar--toggler').click(function () {
+        console.log("click")
+        $('#sidebarColl').toggleClass('show-nav');
+        // Animate the sidebar's display
+        $('#sidebarColl').slideToggle();
+    });
+});

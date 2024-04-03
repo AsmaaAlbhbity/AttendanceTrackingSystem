@@ -7,25 +7,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 	<title>@ViewData["Title"]</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" />
 	<link rel="stylesheet" href="~/AttendanceTrackingSystem.styles.css" asp-append-version="true" />
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" rel="stylesheet" integrity="sha512-glciccPoOqr5mfDGmlJ3bpbvomZmFK+5dRARpt62nZnlKwaYZSfFpFIgUoD8ujqBw4TmPa/F3TX28OctJzoLfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<link href="~/css/ChartsAndHomeViewsForUsers.css" rel="stylesheet"/>
+	<link href="~/css/notifications.css" rel="stylesheet" />
+	<link href="~/css/PermissionForm.css" rel="stylesheet" />
 	<link href="~/css/site.css" rel="stylesheet" />
+
+    <link href="~/css/instructor.css" rel="stylesheet" /> 
 </head>
 <body>
 
 	<div class="container-fluid">
-		<nav class="navbar navbar-expand-lg  ">
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidebarCollapse" aria-controls="sidebarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+		<nav class="navbar   ">
+			<button class="navbar--toggler" type="button" >
 				<i class="fas fa-bars"></i>
 			</button>
 		</nav>
-		<div class="row page-container">
+		<div class=" page-container">
 			<!-- Sidebar -->
 			<aside class="col-lg-3 col-12 text-white border-right py-3" id="sidebarCollapse">
 				<h1 class="text-center py-3 d-lg-block d-none">@ViewData["Title"]</h1>
@@ -33,6 +45,7 @@
 					<img src="@TempData.Peek("img")?_=@DateTime.UtcNow.Ticks" />
 					<div>
 						<h4>@User.Identity.Name</h4>
+					
 
 						<p>@TempData["role"]</p>
 					</div>
@@ -58,6 +71,14 @@
 							<i class="fas fa-chalkboard-teacher"></i> Instructors
 						</a>
 					</li>
+					@if (User.IsInRole("Admin"))
+                        {
+					<li class="nav-item">
+						<a class="nav-link hvr-bounce-to-right @ViewData["InstructorManagementActive"]" asp-action="ShowInstructor" asp-controller="Admin">
+							<i class="fas fa-sign-out-alt"></i> Instructor Management
+						</a>
+					</li>
+						}
 					<li class="nav-item">
 						<a class="nav-link hvr-bounce-to-right @ViewData["LogOutActive"]" asp-controller="Account" asp-action="Logout">
 							<i class="fas fa-sign-out-alt"></i> LogOut
@@ -70,7 +91,8 @@
 			</aside>
 
 			<!-- Main Content -->
-			<div class="dynamic-section col-lg-9 col-12">
+			<div class="dynamic-section ">
+				
 				@RenderBody()
 			</div>
 		</div>
@@ -81,6 +103,7 @@
 	<script src="~/lib/jquery/dist/jquery.js"></script>
 	<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+	<script src="~/js/site.js"></script>
 	@RenderSection("scripts", required: false)
 
 </body>
