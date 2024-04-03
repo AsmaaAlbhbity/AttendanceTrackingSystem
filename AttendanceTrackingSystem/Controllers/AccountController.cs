@@ -33,7 +33,6 @@ namespace AttendanceTrackingSystem.Controllers
 				if (user != null)
 				{
 					Claim claim1 = new Claim(ClaimTypes.Name, user.Name);
-					Claim claim3 = new Claim(ClaimTypes.Email, user.Email);
 					Claim claim2;
 					if (user.UserType != "Employee")
 					{
@@ -43,13 +42,18 @@ namespace AttendanceTrackingSystem.Controllers
 					{
 						claim2 = new Claim(ClaimTypes.Role, repoAccount.GetEmployeeType(user.UserId));
 					}
-					//Claim claim3 = new Claim(ClaimTypes., user.Email);
+					Claim claim3 = new Claim(ClaimTypes.Email, user.Email);
+					Claim claim4 = new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString());
+					Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl.ToString());
 					ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 					identity.AddClaim(claim1);
 					identity.AddClaim(claim2);
 					identity.AddClaim(claim3);
+					identity.AddClaim(claim4);
+					identity.AddClaim(claim5);
 					ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 					await HttpContext.SignInAsync(principal);
+<<<<<<< HEAD
 					ViewBag.ActiveUser = user;
 
 					switch (user.UserType)
@@ -64,12 +68,33 @@ namespace AttendanceTrackingSystem.Controllers
 							return RedirectToAction("Home", "Home");
 					}
 				
+=======
+					TempData["role"] = claim2.Value;
+					//ViewBag.ImgUrl = user.ImgUrl ?? "~images/user.png";
+					TempData["img"] = user.ImgUrl ?? "/images/user.png";
+					EditProfileViewModel model1 = new EditProfileViewModel
+					{
+						Name = user.Name,
+						Email = user.Email,
+						Phone = user.Phone,
+						ImgUrl = user.ImgUrl ?? "/images/user.png",
+						OldPassword = user.Password
+					};
+
+					if (user.UserType == "Employee")
+						ViewBag.role = repoAccount.GetEmployeeType(user.UserId).ToString();
+					else
+						ViewBag.role = user.UserType;
+
+					return RedirectToAction("Index", "Home");
+>>>>>>> main
 				}
 				else
 				{
 					ModelState.AddModelError("", "Invalid Email Or password");
 				}
 			}
+
 			return View();
 		}
 		public async Task<IActionResult> Logout()
@@ -77,6 +102,71 @@ namespace AttendanceTrackingSystem.Controllers
 			await HttpContext.SignOutAsync();
 			return RedirectToAction("Login");
 		}
+		public IActionResult Profile()
+		{
+			int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			User model = repoAccount.GetUserByid(userId);
+			EditProfileViewModel model1 = new EditProfileViewModel
+			{
+				Name = model.Name,
+				Email = model.Email,
+				Phone = model.Phone,
+				ImgUrl = model.ImgUrl ?? "/images/user.png",
+				OldPassword = model.Password
+			};
+			ViewBag.img = model1.ImgUrl;
+			return View(model1);
+		}
+		[HttpPost]
+		public IActionResult updateImage(IFormFile ImgUrl)
+		{
+			int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			string imgPath = string.Empty;
+			if (ImgUrl != null)
+			{
+				imgPath = $"{userId}.{ImgUrl.FileName.Split(".").Last()}";
+				using (var fs = new FileStream(("wwwroot/images/" + imgPath), FileMode.Create))
+				{
+					ImgUrl.CopyTo(fs);
+				}
+			}
+			if (imgPath != string.Empty)
+			{
+				repoAccount.UpdateImage("/images/" + imgPath, userId);
+				TempData.Peek("img");
+				TempData["img"] = "/images/" + imgPath;
+			}
+			//var cacheBuster = DateTime.UtcNow.Ticks;
+			//Response.Headers["Cache-Control"] = "no-cache, max-age=0";
+			//TempData["CacheBuster"] = cacheBuster;
+			return RedirectToAction("Profile");
+		}
+		[HttpPost]
+		public IActionResult Profile(EditProfileViewModel model)
+		{
+			int c = 0;
+			foreach (var key in ModelState.Keys)
+			{
+				foreach (var error in ModelState[key].Errors)
+				{
+					Console.WriteLine($"{key}: {error.ErrorMessage}");
+					c++;
+				}
+			}
+			if (c <= 1)
+			{
+				repoAccount.SaveEdit(model);
+			}
+			return RedirectToAction("Profile");
+			//return RedirectToAction("Error", "Home");
+		}
+		[HttpGet]
+		public IActionResult CheckPassword(string OldPassword)
+		{
+			int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			User user = repoAccount.GetUserByid(userId);
+			return Json(user.Password == OldPassword);
 
+		}
 	}
 }

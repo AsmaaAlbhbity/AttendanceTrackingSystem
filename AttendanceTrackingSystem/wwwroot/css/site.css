@@ -13,11 +13,24 @@
     color: white;
 }
 
+<<<<<<< HEAD
 .container-fluid {
     padding-left: 0px;
     padding-right: 0px;
 }
 
+=======
+.field-validation-error {
+    color: red;
+    font-weight: bold;
+}
+
+#Val ul {
+    list-style-type: none;
+    color: red;
+    font-weight: bold;
+}
+>>>>>>> main
 /* Body */
 body {
     font-family: Arial, sans-serif;
@@ -33,23 +46,34 @@ body {
     background: var(--body-bg);
 }
 
+<<<<<<< HEAD
 .hvr-bounce-to-right:hover,
 .hvr-bounce-to-right:active,
 .hvr-bounce-to-right:focus {
+=======
+.hvr-bounce-to-right:hover, hvr-bounce-to-right:active, .hvr-bounce-to-right:focus {
+>>>>>>> main
     color: var(--main-color);
     border-radius: 15px;
 }
 
+<<<<<<< HEAD
     .hvr-bounce-to-right:hover:before,
     .hvr-bounce-to-right:focus:before,
     .hvr-bounce-to-right:before {
+=======
+    .hvr-bounce-to-right:hover:before, .hvr-bounce-to-right:focus:before, .hvr-bounce-to-right:before {
+>>>>>>> main
         border-radius: 15px;
     }
 
 i {
     margin-right: 10px;
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 /* Links */
 .nav-link,
 #sidebarCollapse a {
@@ -122,11 +146,23 @@ nav {
     nav i {
         color: var(--main-color);
     }
+<<<<<<< HEAD
 
 /* Large Screen Media Query */
 @media (min-width: 998px) {
     .navbar {
         display: none;
+=======
+/* Large Screen Media Query */
+@media (min-width: 992px) {
+    aside#sidebarCollapse {
+        display: block;
+    }
+
+    .page-container .col-lg-9 {
+        order: 1;
+        width: calc(100% - 300px);
+>>>>>>> main
     }
 
     .page-container {
@@ -165,9 +201,25 @@ nav {
     }
 }
 
+<<<<<<< HEAD
 @media (min-width: 575px) and (max-width: 991px) {
     .navbar--toggler {
         z-index: 55;
+=======
+@media (min-width:575px) and (max-width: 991px) {
+    .navbar-toggler {
+        display: block;
+    }
+
+    nav {
+        display: flex;
+    }
+
+    aside#sidebarCollapse {
+        position: absolute;
+        z-index: 1000;
+        width: 100%;
+>>>>>>> main
     }
 
     button:focus {
@@ -177,10 +229,28 @@ nav {
 }
 
 @media (max-width: 574px) {
+<<<<<<< HEAD
+=======
+    .navbar-toggler {
+        display: block;
+    }
+
+    nav {
+        display: flex;
+    }
+
+    aside#sidebarCollapse {
+        position: absolute;
+        z-index: 1000;
+        width: 60%;
+    }
+
+>>>>>>> main
     button:focus {
         outline: 1px dotted;
         outline: 5px auto var(--main-color);
     }
+<<<<<<< HEAD
 
     .field-validation-error {
         color: red;
@@ -222,4 +292,6 @@ nav {
         border: none;
         font-size: 27px;
     }
+=======
+>>>>>>> main
 }
