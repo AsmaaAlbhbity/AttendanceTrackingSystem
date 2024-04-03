@@ -5,6 +5,7 @@ using AttendanceTrackingSystem.Models;
 using System.Net.Mime;
 using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
+using OfficeOpenXml;
 
 namespace AttendanceTrackingSystem.Controllers
 {
@@ -164,17 +165,80 @@ namespace AttendanceTrackingSystem.Controllers
         [HttpPost]
         public IActionResult UploadStudents(IFormFile excelFile)
         {
-            if (excelFile == null || excelFile.Length == 0)
+            int studentAdded = 0;
+            try
             {
-                // Handle error: No file uploaded
-                return RedirectToAction("Index", new { message = "No file uploaded." });
+                if (excelFile == null || excelFile.Length == 0)
+                {
+                    return BadRequest("No file uploaded.");
+                }
+                else if (excelFile.ContentType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                {
+                    return BadRequest("Only Excel files are allowed.");
+                }
+
+                ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+                using (var stream = new MemoryStream())
+                {
+                    excelFile.CopyTo(stream);
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                        int rowCount = worksheet.Dimension.Rows;
+                     
+                        for (int row = 2; row <= rowCount; row++)
+                        {
+                            if (String.IsNullOrEmpty( worksheet.Cells[row, 1].Value?.ToString()))
+                            {
+                                break;
+                            }
+                           
+                            string name = worksheet.Cells[row, 1].Value?.ToString();
+                            string email = worksheet.Cells[row, 2].Value?.ToString();
+                            string phone = worksheet.Cells[row, 3].Value?.ToString();
+                            string password = worksheet.Cells[row, 4].Value?.ToString();
+                            int isApproved = int.Parse(worksheet.Cells[row, 5].Value?.ToString());
+                            int userType = int.Parse(worksheet.Cells[row, 6].Value?.ToString());
+                            string imgUrl = worksheet.Cells[row, 7].Value?.ToString();
+                            int studentDegree = int.Parse(worksheet.Cells[row, 8].Value?.ToString());
+                            string studentUniversity = worksheet.Cells[row, 9].Value?.ToString();
+                            string studentFaculity = worksheet.Cells[row, 10].Value?.ToString();
+                            int _studentGraduationYear = int.Parse(worksheet.Cells[row, 11].Value?.ToString());
+                            DateTime studentGraduationYear = new DateTime(_studentGraduationYear, 1, 1);
+                            //DateTime studentGraduationYear = Convert.ToDateTime( worksheet.Cells[row, 11].Value?.ToString());
+                            string studentSpecialization = worksheet.Cells[row, 12].Value?.ToString();
+                            int trackId = int.Parse(worksheet.Cells[row, 13].Value?.ToString());
+
+                            Student s = new Student
+                            {
+                                Name = name,
+                                Email = email,
+                                Phone = phone,
+                                Password = password,
+                                IsApproved = (Approve)isApproved,
+                                UserType = userType == 1 ? "1" : "2",
+                                ImgUrl = imgUrl,
+                                StudentDegree = studentDegree,
+                                StudentUniversity = studentUniversity,
+                                StudentFaculity = studentFaculity,
+                                StudentGraduationYear = studentGraduationYear,
+                                StudentSpecialization = studentSpecialization,
+                                TrackId = trackId
+                            };
+
+                            repoStudent.Add(s);
+                            studentAdded++;
+                        }
+                    }
+                }
+
+                return Ok($"Students uploaded successfully.\n number of Students Added: {studentAdded}");
             }
+            catch (Exception ex)
+            {
 
-            // Process the Excel file to extract student data and add them to the database
-            // Example: You can use libraries like EPPlus or ClosedXML to read Excel files
-
-            // After processing, you can redirect back to the index page
-            return RedirectToAction("Index", new { message = "Students uploaded successfully." });
+                return BadRequest($"An error occurred while processing the file. Please try again later. \n number of Students Added: {studentAdded}");
+            }
         }
         private string CreateUniqueFileName(IFormFile file)
         {

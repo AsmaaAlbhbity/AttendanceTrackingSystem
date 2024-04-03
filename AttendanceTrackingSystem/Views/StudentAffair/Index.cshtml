@@ -145,8 +145,10 @@
                 <div class="alert alert-light" role="alert">
                     please select an excel file to upload!
                 </div>
-
-                <input type="file" name="excelFile" class="form-control" id="uploadFile" accept=".xlsx, .xls">
+                <form  method="post">
+                    <input type="file" name="excelFile" class="form-control" id="uploadFile" accept=".xlsx, .xls">
+                </form>
+              
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -164,9 +166,40 @@
         $(document).ready(function () {
             displayToastMessages();
 
+            $("#submitUploadExcel").click(function () {
+           
+                var fileInput = document.getElementById('uploadFile');
+                var file = fileInput.files[0];
 
-            $('.file').click(function () {
-                $('#fileInput').click();
+                if (!file) {
+                    toastr.error('Please select a file to upload.');
+                    return;
+                }
+                var formData = new FormData();
+                formData.append('excelFile', file);
+               
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("UploadStudents")",
+                    data: formData,
+                    processData: false, 
+                    contentType: false, 
+                    success: function (result) {
+
+
+                        displayMsg(result.message);
+                        $('#uploadExcelModal .btn-close').click();
+                        setTimeout(function () {
+                            window.location.href = '/StudentAffair/Index';
+                        }, 2000);
+
+
+                    },
+                    error: function (xhr, status, error) {
+
+                        toastr.error(xhr.responseText);
+                    }
+                });
             });
             $('.details-btn').click(function () {
                 var studentId = $(this).data('student-id');
