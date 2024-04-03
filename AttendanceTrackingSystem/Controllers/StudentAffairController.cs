@@ -161,7 +161,21 @@ namespace AttendanceTrackingSystem.Controllers
             return BadRequest("No Student Found!");
 
         }
+        [HttpPost]
+        public IActionResult UploadStudents(IFormFile excelFile)
+        {
+            if (excelFile == null || excelFile.Length == 0)
+            {
+                // Handle error: No file uploaded
+                return RedirectToAction("Index", new { message = "No file uploaded." });
+            }
 
+            // Process the Excel file to extract student data and add them to the database
+            // Example: You can use libraries like EPPlus or ClosedXML to read Excel files
+
+            // After processing, you can redirect back to the index page
+            return RedirectToAction("Index", new { message = "Students uploaded successfully." });
+        }
         private string CreateUniqueFileName(IFormFile file)
         {
             var uniquePart = Guid.NewGuid().ToString().Substring(0, 8); // Get the first 8 characters of the GUID

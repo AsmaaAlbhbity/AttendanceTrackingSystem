@@ -22,9 +22,9 @@
     <div class="row">
         <div class="col-md-6">
             <button class="btn btn-primary mb-3 add-btn" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa fa-plus"></i> Add Student </button>
-            <input type="file" id="uploadFile" accept=".xlsx, .xls" style="display: none;">
-            <button class="btn btn-success mb-3"><i class="fa fa-upload"></i> Upload Students from Excel</button>
-
+            <button class="btn btn-success mb-3 add-btn" data-bs-toggle="modal" data-bs-target="#uploadExcelModal"><i class="fa fa-upload"></i> Upload Students from Excel </button>
+        
+            
         </div>
     </div>
  
@@ -114,6 +114,7 @@
         </div>
     </div>
 </div>
+<!-- Delete Student  Modal -->
 <div class="modal fade" id="deleteStudentModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -131,6 +132,29 @@
         </div>
     </div>
 </div>
+<!-- Add Students From Excel  Modal -->
+<div class="modal fade" id="uploadExcelModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Upload Students From Excel</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              
+                <div class="alert alert-light" role="alert">
+                    please select an excel file to upload!
+                </div>
+
+                <input type="file" name="excelFile" class="form-control" id="uploadFile" accept=".xlsx, .xls">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="submitUploadExcel" data-bs-dismiss="modal" class="btn btn-success"><i class="fa fa-file-export"></i>Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
 
@@ -140,6 +164,10 @@
         $(document).ready(function () {
             displayToastMessages();
 
+
+            $('.file').click(function () {
+                $('#fileInput').click();
+            });
             $('.details-btn').click(function () {
                 var studentId = $(this).data('student-id');
                 $.ajax({
