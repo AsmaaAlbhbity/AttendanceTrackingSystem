@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AttendanceTrackingSystem.Models
 {
@@ -21,6 +22,7 @@ namespace AttendanceTrackingSystem.Models
         public Approve IsApproved { get; set; }
         public string UserType { get; set; }
         public string? ImgUrl { get; set; }
+        [JsonIgnore]
         public virtual List<Msg> Msgs { get; set; }
     }
 }

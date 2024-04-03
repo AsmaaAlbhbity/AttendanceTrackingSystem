@@ -53,6 +53,22 @@ namespace AttendanceTrackingSystem.Controllers
 					identity.AddClaim(claim5);
 					ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 					await HttpContext.SignInAsync(principal);
+<<<<<<< HEAD
+					ViewBag.ActiveUser = user;
+
+					switch (user.UserType)
+					{
+						case "Admin":
+							return RedirectToAction("Home", "Admin");
+						case "Student":
+							return RedirectToAction("Home", "Student");
+					
+						case "Instructor":
+						case "Employee":
+							return RedirectToAction("Home", "Home");
+					}
+				
+=======
 					TempData["role"] = claim2.Value;
 					//ViewBag.ImgUrl = user.ImgUrl ?? "~images/user.png";
 					TempData["img"] = user.ImgUrl ?? "/images/user.png";
@@ -71,6 +87,7 @@ namespace AttendanceTrackingSystem.Controllers
 						ViewBag.role = user.UserType;
 
 					return RedirectToAction("Index", "Home");
+>>>>>>> main
 				}
 				else
 				{

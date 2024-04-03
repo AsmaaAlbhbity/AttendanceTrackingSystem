@@ -10,6 +10,18 @@ namespace AttendanceTrackingSystem.Repository
         { 
             db = _db;
         }
+        public void MarkMessageAsRead(int userId)
+        {
+            var messages = db.Msgs.Where(msg => msg.UserId == userId && !msg.IsRead).ToList();
+            foreach (var message in messages)
+            {
+                message.IsRead = true;
+            }
+            db.SaveChanges();
+        }
+
+
+
         public void Add(Msg msg)
         {
             db.Msgs.Add(msg);
@@ -37,6 +49,15 @@ namespace AttendanceTrackingSystem.Repository
         {
             db.Msgs.Update(msg);
             db.SaveChanges();
+        }
+
+        public List<Msg> getAll(int userId)
+        {
+            //db.ChangeTracker.LazyLoadingEnabled = false;
+        
+            var msgs= db.Msgs.Where(m => m.UserId == userId).ToList();
+          
+            return msgs;
         }
     }
 }

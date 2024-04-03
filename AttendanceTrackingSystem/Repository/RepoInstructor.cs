@@ -1,5 +1,6 @@
 ﻿using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AttendanceTrackingSystem.Repository
 {
@@ -39,5 +40,7 @@ namespace AttendanceTrackingSystem.Repository
             db.Instructors.Update(instructor);
             db.SaveChanges();
         }
+
+  
     }
 }

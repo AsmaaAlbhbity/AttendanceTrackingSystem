@@ -7,9 +7,13 @@ namespace AttendanceTrackingSystem.IRepository
 	{
 		public User GetUser(string email, string password);
 		public string GetEmployeeType(int id);
+<<<<<<< HEAD
+		public User GetUserByEmail(string email);
+=======
 		public User GetUserByid(int id);
 		public void SaveEdit(EditProfileViewModel model);
 		public void UpdateImage(string img, int id);
 
+>>>>>>> main
 	}
 }

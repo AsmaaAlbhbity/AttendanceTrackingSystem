@@ -1,0 +1,50 @@
+﻿@model Permission
+@{
+  
+    Layout = "~/Views/Shared/_LayoutSystem.cshtml";
+
+    var userId = Context.Request.RouteValues["Id"];
+
+}
+
+@{
+    ViewData["Title"] = "Student | Make Permission";
+    ViewData["ProfileActive"] = "";
+    ViewData["HomeActive"] = "active";
+    ViewData["StudentsActive"] = "";
+    ViewData["InstructorsActive"] = "";
+    ViewData["LogOutActive"] = "";
+}
+
+
+
+
+
+<img src="~/Images/permission.svg" class="imgform" alt ="user"/>
+<form asp-action="MakePermission" asp-controller="Student">
+    <h1 class="main-title">Make A Permission</h1>
+    <div class="form-group">
+        <label asp-for="Text">Permission Reason:</label>
+        <input  asp-for="Text" class="form-control" placeholder="Enter Your Permission Reason" required />
+        <span class="text-danger"></span>
+    </div>
+    <div class="form-group my-3">
+        <label asp-for="Date">Date:</label>
+        <input asp-for="Date" class="form-control" placeholder="Enter The Date" required />
+        <span class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="State" value="@PermissionState.Pending" />
+    <input type="hidden" asp-for="UserId" value="@userId" />
+
+
+    <div class="form-group my-3">
+        <label asp-for="Type">Permission Type:</label>
+        <select asp-for="Type" asp-items="Html.GetEnumSelectList<PermissionType>()"></select>
+        <span class="text-danger"></span>
+    </div>
+
+    <div asp-validation-summary="All" class="text-danger alert-danger"></div>
+    <button type="submit" class="btn btn-custom">Send</button>
+</form>
+
+

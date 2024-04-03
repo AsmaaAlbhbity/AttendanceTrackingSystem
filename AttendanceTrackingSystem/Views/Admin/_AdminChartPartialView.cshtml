@@ -1,0 +1,76 @@
+﻿
+@model AdminHomeViewModel
+  
+
+        <div style="max-width: 400px; margin: auto;">
+
+            <canvas id="userTypeChart" width="400" height="400"></canvas>
+        </div>
+
+        <div style="max-width: 400px; margin: auto;">
+
+            <canvas id="attendanceChart" width="400" height="400"></canvas>
+        </div>
+  
+    <script>
+
+        var userTypeLabels = @Html.Raw(Json.Serialize(Model.UserTypeCounts));
+        var userTypeData = Object.values(userTypeLabels);
+        userTypeLabels = Object.keys(userTypeLabels);
+
+
+
+        var userTypeCtx = document.getElementById('userTypeChart').getContext('2d');
+        var userTypeChart = new Chart(userTypeCtx, {
+            type: 'pie',
+            data: {
+                labels: userTypeLabels,
+                datasets: [{
+                    data: userTypeData,
+                    backgroundColor: [
+                        'RGBA(255, 206, 86, 0.6) ',
+                        'rgba(54, 162, 235, 0.6)',
+                        ' RGBA(255, 159, 64, 0.6)'
+                    ],
+                    borderColor: [
+                        'RGBA(255, 206, 86, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'RGBA(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+
+        var attendanceLabels = @Html.Raw(Json.Serialize(Model.AttendanceLabels));
+        var attendanceData = @Html.Raw(Json.Serialize(Model.AttendanceData));
+
+        var attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+        var attendanceChart = new Chart(attendanceCtx, {
+            type: 'bar',
+            data: {
+                labels: attendanceLabels,
+                datasets: [{
+                    label: 'Attendance Count per User',
+                    data: attendanceData,
+                    backgroundColor: 'rgba(108, 93, 220, 0.2)',
+                    borderColor: 'rgba(108, 93, 220, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>

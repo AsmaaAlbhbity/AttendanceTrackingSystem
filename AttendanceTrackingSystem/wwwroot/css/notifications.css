@@ -1,0 +1,104 @@
+﻿:root {
+    --main-color: #6c5ddc;
+    --blue-color: #21D1FF;
+    --pink-color: #E94D90;
+    --main-text-color: #3B3B3B;
+    --body-bg: #f4f4f4;
+}
+
+#notificationIcon{
+    position:absolute;
+    right:50px;
+    top:85px;
+}
+
+div#notificationContainer {
+    position: absolute;
+    right: 60px;
+    top: 125px;
+    box-shadow: 3px 3px 15px #ddd;
+    background-color: white;
+    border-radius: 4px;
+    z-index: 2000;
+    height: 30vh;
+    width: 250px;
+    overflow: auto;
+}
+
+.msg-item {
+    background-color: transparent;
+  
+    padding: 10px 15px;
+
+ 
+}
+    .msg-item:hover {
+        background-color: #ebebf5;
+    }
+    .msg-item p {
+        margin-bottom: 4px;
+    }
+    .msg-item .msg-title {
+        color: #050505;
+        font-size: 20px;
+    }
+
+
+    .msg-item .msg-des {
+        color: #050505;
+        font-size: 17px;
+        margin-bottom: 18px;
+    }
+
+    .msg-item .date {
+        font-weight: bold;
+        color: #407de0f0;
+        font-size: 14px;
+    }
+
+#notificationContainer::-webkit-scrollbar {
+    width: 8px; 
+ 
+}
+#notificationContainer::-webkit-scrollbar-track {
+    background: white; 
+}
+
+#notificationContainer::-webkit-scrollbar-thumb {
+    background: #BCC0C4;
+}
+
+
+#notificationContainer scrollbar {
+    width: 8px;
+}
+
+#notificationContainer scrollbar-track {
+    background: white;
+}
+
+#notificationContainer scrollbar-thumb {
+    background: #BCC0C4;
+}
+
+.bell-filled, #notificationIcon:hover {
+    color: var(--main-color);
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-10px);
+    }
+
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+#notificationIcon.bell-filled {
+    animation: bounce 1.5s infinite; 
+}
