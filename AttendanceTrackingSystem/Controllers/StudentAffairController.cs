@@ -10,6 +10,7 @@ namespace AttendanceTrackingSystem.Controllers
 {
     public class StudentAffairController : Controller
     {
+        int pageSize = 5;
         private readonly IRepoStudent repoStudent;
         private readonly IRepoTrack repoTrack;
         private readonly IWebHostEnvironment _hostingEnvironment;
@@ -20,15 +21,34 @@ namespace AttendanceTrackingSystem.Controllers
             _hostingEnvironment = hostingEnvironment;
 
         }
-        public IActionResult Index(string? message)
+        public IActionResult Index(string? message, int? page)
         {
-            var students = repoStudent.getAll();
+
+         
             if (message != null)
             {
                 TempData["SuccessMessage"] = message;
-             
-                return View(students);
             }
+
+            var allStudents = repoStudent.getAll(); // Assuming getAll() returns all students
+
+            if (!page.HasValue || page < 1)
+            {
+                page = 1; // Default to first page if no page is provided or page is invalid
+            }
+
+            int totalStudents = allStudents.Count();
+            int totalPages = (int)Math.Ceiling((double)totalStudents / pageSize);
+
+            if (page > totalPages)
+            {
+                page = totalPages; // Adjust page number if it exceeds total pages
+            }
+
+            var students = repoStudent.GetPaginatedStudents(page.Value,pageSize);
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.Page = page;
             return View(students);
         }
         public IActionResult Details(int? id)
@@ -43,7 +63,7 @@ namespace AttendanceTrackingSystem.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(int? id)
         {
-           
+
             if (id == null)
             {
                 ViewBag.Header = "Add Student";
@@ -56,15 +76,15 @@ namespace AttendanceTrackingSystem.Controllers
                 ViewBag.Tracks = repoTrack.getAll();
                 var student = repoStudent.getById(id.Value);
 
-               
-        
+
+
                 // Call GetFileFromPath asynchronously to get the IFormFile object representing the image file
-           
+
                 return PartialView("_CreateOrUpdatePartial", student);
             }
 
         }
-       
+
 
         [HttpPost]
         public IActionResult Create([Bind("UserId,Name, Email, Password, Phone, StudentDegree, StudentUniversity, StudentFaculity, StudentGraduationYear, StudentSpecialization, TrackId,Image")] Student student)
@@ -89,10 +109,10 @@ namespace AttendanceTrackingSystem.Controllers
                             student.Image.CopyTo(stream);
                         }
                         student.ImgUrl = uniqueFileName;
-                        if (student.UserId!=0)
+                        if (student.UserId != 0)
                         {
                             repoStudent.Update(student);
-                          
+
                             return Ok(new { message = "Student has been updated successfully." });
                         }
                         else
@@ -101,7 +121,7 @@ namespace AttendanceTrackingSystem.Controllers
                             //return RedirectToAction("Index", new { message = "Student has been created successfully." });
                             return Ok(new { message = "Student has been created successfully." });
                         }
-                     
+
                         //return Ok(new { message = "Student has been created successfully." });
 
                     }
@@ -125,7 +145,7 @@ namespace AttendanceTrackingSystem.Controllers
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            if (id !=null)
+            if (id != null)
             {
                 repoStudent.Delete(id);
                 return Ok(new { message = "Student has been deleted successfully." });

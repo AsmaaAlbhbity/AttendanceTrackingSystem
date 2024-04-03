@@ -9,5 +9,7 @@ namespace AttendanceTrackingSystem.IRepository
         public void Add(Student student);
         public void Update(Student student);
         public void Delete(int id);
+        public List<Student> GetPaginatedStudents(int page, int pageSize);
+
     }
 }

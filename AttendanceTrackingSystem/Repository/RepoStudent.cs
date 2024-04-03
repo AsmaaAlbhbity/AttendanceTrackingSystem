@@ -44,5 +44,9 @@ namespace AttendanceTrackingSystem.Repository
                 db.SaveChanges();
             }
         }
+        public List<Student> GetPaginatedStudents(int page, int pageSize)
+        {
+            return db.Users.OfType<Student>().Skip((page - 1) * pageSize).Take(pageSize).ToList();
+        }
     }
 }
