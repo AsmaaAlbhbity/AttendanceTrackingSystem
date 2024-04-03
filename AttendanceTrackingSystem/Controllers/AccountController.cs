@@ -44,8 +44,8 @@ namespace AttendanceTrackingSystem.Controllers
 					}
 					Claim claim3 = new Claim(ClaimTypes.Email, user.Email);
 					Claim claim4 = new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString());
-					Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl.ToString());
-					ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                    Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl?.ToString() ?? "");
+                    ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 					identity.AddClaim(claim1);
 					identity.AddClaim(claim2);
 					identity.AddClaim(claim3);
@@ -70,8 +70,31 @@ namespace AttendanceTrackingSystem.Controllers
 					else
 						ViewBag.role = user.UserType;
 
-					return RedirectToAction("Index", "Home");
-				}
+                    switch (user.UserType)
+                    {
+                        case "Student":
+                            return RedirectToAction("Home", "Student");
+                        case "Instructor":
+                            return RedirectToAction("Home", "Home");
+                        case "Employee":
+                            switch (repoAccount.GetEmployeeType(user.UserId))
+                            {
+                                case "Admin":
+                                    return RedirectToAction("Home", "Admin");
+                                case "Security":
+                                case "StudentAffairs":
+
+                                    return RedirectToAction("Home", "Home");
+                      
+             
+                                default:
+                                    return RedirectToAction("Index", "Home"); // Default fallback
+                            }
+                        // Add more cases for other user types as needed...
+                        default:
+                            return RedirectToAction("Index", "Home");
+                    }
+                }
 				else
 				{
 					ModelState.AddModelError("", "Invalid Email Or password");
