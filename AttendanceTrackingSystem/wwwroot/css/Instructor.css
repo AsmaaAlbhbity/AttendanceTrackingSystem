@@ -173,11 +173,13 @@
     cursor: pointer;
     transition: background-color 0.3s;
     border-radius: 5px;
+    text-decoration:none;
 }
 
 
- .btnForm:hover {
+    .btnForm:hover {
         background-color: #007bff;
+        text-decoration: none;
     }
 
 .file-input {
@@ -213,6 +215,7 @@
     border-radius: 5px;
     outline: none;
     font-size: 1em;
+    margin-left: 0.6vw !important;
 }
 
     .selectStyle:focus {
