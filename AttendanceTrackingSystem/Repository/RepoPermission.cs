@@ -29,6 +29,10 @@ namespace AttendanceTrackingSystem.Repository
             return db.Permissions.ToList();
         }
 
+        public List<Permission> getAllById(int userId)
+        {
+            return db.Permissions.Where(p=>p.UserId==userId).ToList();
+        }
         public Permission getById(int id)
         {
             return db.Permissions.FirstOrDefault(a => a.PermissionId == id);

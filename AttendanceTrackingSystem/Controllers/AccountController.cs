@@ -51,7 +51,19 @@ namespace AttendanceTrackingSystem.Controllers
 					ClaimsPrincipal principal = new ClaimsPrincipal(identity);
 					await HttpContext.SignInAsync(principal);
 					ViewBag.ActiveUser = user;
-					return RedirectToAction("Index", "Home");
+
+					switch (user.UserType)
+					{
+						case "Admin":
+							return RedirectToAction("Home", "Admin");
+						case "Student":
+							return RedirectToAction("Home", "Student");
+					
+						case "Instructor":
+						case "Employee":
+							return RedirectToAction("Home", "Home");
+					}
+				
 				}
 				else
 				{

@@ -44,5 +44,14 @@ namespace AttendanceTrackingSystem.Repository
             db.Users.Update(user);
             db.SaveChanges();
         }
+
+        // asmaa
+        public Dictionary<string, int> GetUserTypeCounts()
+        {
+            var userTypeCounts = db.Users.GroupBy(u => u.UserType)
+                                         .Select(g => new { UserType = g.Key, Count = g.Count() })
+                                         .ToDictionary(x => x.UserType, x => x.Count);
+            return userTypeCounts;
+        }
     }
 }

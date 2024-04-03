@@ -6,5 +6,6 @@ namespace AttendanceTrackingSystem.IRepository
 	{
 		public User GetUser(string email, string password);
 		public string GetEmployeeType(int id);
+		public User GetUserByEmail(string email);
 	}
 }

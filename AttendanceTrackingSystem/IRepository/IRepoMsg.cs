@@ -9,5 +9,7 @@ namespace AttendanceTrackingSystem.IRepository
         public void Add(Msg msg);
         public void Update(Msg msg);
         public void Delete(int id);
+        public void MarkMessageAsRead(int userId);
+        public List<Msg> getAll(int userId);
     }
 }

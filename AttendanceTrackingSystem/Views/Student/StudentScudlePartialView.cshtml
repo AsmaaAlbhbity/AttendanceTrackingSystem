@@ -1,0 +1,29 @@
+﻿ @model AttendanceSummaryViewModel
+
+
+@if (Model.StudentSchedule != null && Model.StudentSchedule.Count > 0)
+{
+    <table class="table table-striped ">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var schedule in Model.StudentSchedule)
+            {
+                <tr>
+                    <td>@schedule.Date.ToShortDateString()</td>
+                    <td>@schedule.StartPeriod</td>
+                    <td>@schedule.EndPeriod</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="alert alert-info text-center w-50">No schedule assigned.</p>
+}

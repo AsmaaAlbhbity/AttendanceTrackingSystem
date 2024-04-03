@@ -41,5 +41,16 @@ namespace AttendanceTrackingSystem.Repository
             db.Students.Remove(obj);
             db.SaveChanges();
         }
+
+        public List<Schedule> GetFutureStudentSchedule(int studentId)
+        {
+            var today = DateTime.Today;
+          
+            var futureSchedules = db.Schedules
+                .Where(s => s.Track.Students.Any(st => st.UserId == studentId) && s.Date >= today)
+                .ToList();
+
+            return futureSchedules;
+        }
     }
 }

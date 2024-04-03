@@ -3,6 +3,7 @@ using AttendanceTrackingSystem.Models;
 using AttendanceTrackingSystem.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 namespace AttendanceTrackingSystem
 {
@@ -27,7 +28,11 @@ namespace AttendanceTrackingSystem
 			builder.Services.AddScoped<IRepoStudentAttendance, RepoStudentAttendance>();
 			builder.Services.AddScoped<IRepoTrack, RepoTrack>();
 			builder.Services.AddScoped<IRepoUser, RepoUser>();
-			builder.Services.AddScoped<IRepoAccount, RepoAccount>();
+            builder.Services.AddScoped<IRepoMsg, RepoMsg>();
+            builder.Services.AddScoped<IRepoAccount, RepoAccount>();
+
+		
+
 
 
 			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -57,7 +62,7 @@ namespace AttendanceTrackingSystem
 
 			app.MapControllerRoute(
 				name: "default",
-				pattern: "{controller=Account}/{action=Login}/{id?}");
+				pattern: "{controller=Account}/{action=login}/{id?}");
 
 			app.Run();
 		}

@@ -1,5 +1,6 @@
 ﻿using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AttendanceTrackingSystem.Repository
 {
@@ -38,6 +39,38 @@ namespace AttendanceTrackingSystem.Repository
         {
             db.Attendances.Update(attendance);
             db.SaveChanges();
+        }
+
+
+        ////////////asmaa 
+
+        public List<Attendance> GetUserAttendance(int userId, DateTime startDate, DateTime endDate)
+        {
+            // Fetch attendance data for the user within the specified date range
+            return db.Attendances
+                .Where(a => a.UserId == userId && a.Date >= startDate && a.Date <= endDate)
+                .ToList();
+        }
+     
+
+        public List<AttendanceCountPerUserType> GetAttendanceCountsPerUserType()
+        {
+            var attendanceCountsPerUserType = db.Attendances
+                .GroupJoin(db.Users,
+                           a => a.UserId,
+                           u => u.UserId,
+                           (a, u) => new { Attendance = a, User = u.FirstOrDefault() })
+                .Where(x => x.User != null) // Exclude entries with no corresponding user
+                .GroupBy(x => x.User.UserType)
+                .Select(g => new AttendanceCountPerUserType
+                {
+                    UserType = g.Key,
+                    AttendanceCount = g.Count(),
+                    AttendancePercentage = (double)g.Count() / db.Attendances.Count()
+                })
+                .ToList();
+
+            return attendanceCountsPerUserType;
         }
     }
 }

@@ -19,5 +19,10 @@ namespace AttendanceTrackingSystem.Repository
 		{
 			return db.Users.OfType<Employee>().FirstOrDefault(a => a.UserId == id).EmployeeType.ToString();
 		}
+
+		public User GetUserByEmail(string email)
+		{
+			return db.Users.FirstOrDefault(u => u.Email == email);
+		}
 	}
 }
