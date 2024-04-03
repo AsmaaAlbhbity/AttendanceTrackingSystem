@@ -20,13 +20,11 @@ namespace AttendanceTrackingSystem.Repository
 		{
 			return db.Employees.FirstOrDefault(a => a.UserId == id).EmployeeType.ToString();
 		}
-<<<<<<< HEAD
 
 		public User GetUserByEmail(string email)
 		{
 			return db.Users.FirstOrDefault(u => u.Email == email);
 		}
-=======
 		public User GetUserByid(int id)
 		{
 			return db.Users.FirstOrDefault(a => a.UserId == id);
@@ -50,6 +48,5 @@ namespace AttendanceTrackingSystem.Repository
 		}
 
 
->>>>>>> main
 	}
 }
