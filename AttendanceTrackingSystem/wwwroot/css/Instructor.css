@@ -1,0 +1,367 @@
+﻿/*===============================================================*/
+/*show Instructor*/
+/*===============================================================*/
+#InstructorStyles {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: #333;
+    padding: 1vw; 
+   
+}
+/*===============================================================*/
+/* Title Styles */
+/*===============================================================*/
+#title-container {
+    text-align: left;
+    padding-right: 5vw;
+}
+
+    #title-container .imgTitle {
+        width: 12vw;
+        height: 20vh;
+        margin-left: 18vw;
+    }
+
+    #title-container .InsTitle {
+        display: inline-block;
+        font-size: 2vw; /* Adjust font size */
+        vertical-align: middle;
+        margin-left: 5vw;
+    }
+
+
+/*===============================================================*/
+/* Table Styles */
+/*===============================================================*/
+#InstructorStyles #instructorTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2vw;
+    background-color: #fff;
+    border-radius: 0.5vw;
+    overflow: hidden;
+    box-shadow: 0 0 2vw rgba(0, 0, 0, 0.1);
+}
+
+    #InstructorStyles #instructorTable th, td {
+        padding: 0.5vw;
+        border-bottom: 0.1vw solid #ddd;
+        font-size: 1.1vw;
+        text-align: center;
+    }
+
+#instructorTable th {
+    background-color: var(--main-color);
+    color: #fff;
+    
+}
+#instructorTable td {
+    color: var(--main-color);
+}
+    #InstructorStyles #searchInput[type="text"] {
+    padding: 1vw 2vw;
+    width: 20vw;
+    border: 0.1vw solid #ccc;
+    border-radius: 1vw;
+    font-size: 1.1vw;
+    background-image: url('images\search.png');
+    background-repeat: no-repeat;
+    background-position: 2vw center;
+    float: right;
+}
+#searchInput[type="text"]:active {
+    border: solid var(--main-color) 1px;
+}
+#InstructorStyles .AddBtn {
+    padding: 1vw 2vw;
+    background-color: var(--main-color);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 1vw;
+    float: left;
+    margin-right: 2vw;
+    width: 14vw;
+}
+
+    #InstructorStyles .AddBtn:hover {
+        background-color: #5a2d9c;
+    }
+
+
+
+#InstructorStyles .close {
+    color: #aaa;
+    float: right;
+    font-size: 2.8vw;
+    font-weight: bold;
+}
+
+    #InstructorStyles .close:hover,
+    #InstructorStyles .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+/*===============================================================*/
+/* icon Styles */
+/*===============================================================*/
+.Action .Actionimg {
+    transition: transform 0.3s;
+    width: 3vw;
+    height: 3vw;
+}
+
+.Action:hover Actionimg {
+    transform: rotateY(180deg);
+}
+
+
+/*===============================================================*/
+/*form -- add+another supervisor*/
+/*===============================================================*/
+#AddInsForm .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5em;
+}
+
+#AddInsForm .form-group {
+    position: relative;
+    width: 48%;
+}
+
+#AddInsForm .inputForm {
+    width: 100%;
+    padding: 0.5em 0;
+    border: none;
+    border-bottom: 2px solid var(--main-color);
+    outline: none;
+}
+
+#AddInsForm .labelForm {
+    position: absolute;
+    top: 0.5em;
+    left: 0;
+    transition: transform 0.3s, font-size 0.3s;
+    pointer-events: none;
+    margin-left: 2vw;
+    color: var(--main-color);
+    transform-origin: left top;
+}
+
+#AddInsForm .inputForm:focus,
+#AddInsForm .inputForm:not(:placeholder-shown) {
+    border-color: var(--main-color);
+}
+
+    #AddInsForm .inputForm:focus + label,
+    #AddInsForm .inputForm:not(:placeholder-shown) + label {
+        transform: translateY(-120%) scale(0.8);
+    }
+
+#AddInsForm ::placeholder {
+    color: transparent;
+}
+
+ .btnForm {
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    border: none;
+    background-color: var(--main-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+}
+
+
+ .btnForm:hover {
+        background-color: #007bff;
+    }
+
+.file-input {
+    position: relative;
+    overflow: hidden;
+}
+
+    .file-input input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        width: 50%;
+        height: 50%;
+    }
+
+    .file-input label {
+        display: inline-block;
+        padding: 0.5em 1em;
+        background-color: var(--main-color);
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right:15vw;
+    }
+/*===============================================================*/
+/*select -- another supervisor*/
+/*===============================================================*/
+.selectStyle {
+    width: 100%;
+    padding: 0.5em;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+    outline: none;
+    font-size: 1em;
+}
+
+    .selectStyle:focus {
+        border-color: var(--main-color);
+    }
+
+.labelForm {
+    position: absolute;
+    top: 1.5em;
+    left: 0.5em;
+    color: var(--main-color);
+    transition: transform 0.3s, font-size 0.3s;
+    pointer-events: none;
+}
+
+.selectStyle:focus + .labelForm,
+.selectStyle:not(:placeholder-shown) + .labelForm {
+    transform: translateY(-150%) scale(0.8);
+}
+
+#track-data {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    color: var(--main-color);
+    margin-bottom:6vh;
+    width:70%;
+}
+
+    #track-data h2 {
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    #track-data p {
+        margin: 0;
+        color: #666;
+    }
+.AddSuperForm{
+    padding-bottom:5vw;
+}
+/*===============================================================*/
+/*Manage  Track*/
+/*===============================================================*/
+.ManageForm {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    color: #333;
+
+}
+
+.Managelabel {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: var(--main-color);
+}
+
+.ManageSelect {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+    color: var(--main-color);
+}
+
+/*===============================================================*/
+/*pagination */
+/*===============================================================*/
+.pagination{
+    margin-left:22vw;
+}
+
+.pagination .page-item {
+    border: none;
+    margin-top: 2px;
+    text-align: center; 
+}
+
+    .pagination .page-link {
+        background-color: transparent;
+        border: none; 
+        color: var(--main-color);
+    }
+
+    .pagination .page-link:hover {
+        background-color: transparent; 
+        color: #0056b3; 
+        text-decoration: none; 
+    }
+/*===============================================================*/
+/*Model */
+/*===============================================================*/
+#instructorDetailsModal .modal-content {
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 10px;
+    color: var(--main-color);
+    
+}
+
+
+#instructorDetailsModal .modal-header {
+    background-color: var(--main-color);
+    color: #fff;
+    border-top-left-radius: 10px; 
+    border-top-right-radius: 10px; 
+}
+
+
+#instructorDetailsModal .modal-header .close {
+    color: #fff; 
+    opacity: 1; 
+    font-size: 24px; 
+}
+
+
+#instructorDetailsModal .modal-body {
+    padding: 20px;
+}
+
+
+#instructorDetailsModal #instructorImage {
+    width: 150px; 
+    height: 150px; 
+    border-radius: 50%; 
+    margin-right: 20px; 
+}
+
+#instructorDetailsModal .modal-body p {
+    margin-bottom: 5px;
+    padding: 2px;
+}
+
+#instructorDetailsModal .modal-body strong {
+    font-weight: bold;
+}
+#instructorDetailsModal #trackName {
+    margin-top: 10px; 
+}
+
+
+
+

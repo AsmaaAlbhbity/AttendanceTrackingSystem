@@ -168,8 +168,9 @@ nav i{
 
 @media (max-width: 574px) {
     .navbar-toggler {
-        display: block; 
+        display: block;
     }
+
     nav {
         display: flex;
     }
@@ -184,8 +185,63 @@ nav i{
         outline: 1px dotted;
         outline: 5px auto var(--main-color);
     }
-    .field-validation-error{
-        color:red;
-        font-weight:bold;
+
+    .field-validation-error {
+        color: red;
+        font-weight: bold;
     }
 }
+/*====================================================================*/
+/*====================================================================*/
+    /* Title */
+    .main-title {
+        margin: 0 auto 60px;
+        border-left: 5px solid var(--main-color);
+        color: var(--main-color);
+        padding: 10px 20px;
+        font-size: 30px;
+        width: fit-content;
+        position: relative;
+        z-index: 1;
+        transition: .3s;
+        display:inline-block;
+        margin-left:5vw;
+    }
+
+        .main-title::before
+        {
+            content: "";
+            width: 12px;
+            height: 12px;
+            background-color: var(--main-color);
+            position: absolute;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .main-title::before {
+            left: -30px;
+        }
+
+       
+    /*Star*/
+    .star-shape {
+        position: absolute;
+        right: 80px;
+        bottom: 100px;
+        animation: bounce infinite ease-in-out 1s;
+    }
+
+    @keyframes bounce {
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+/*====================================================================*/
+/*====================================================================*/

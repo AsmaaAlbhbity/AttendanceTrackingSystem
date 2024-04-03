@@ -43,8 +43,8 @@ namespace AttendanceTrackingSystem.Controllers
 					{
 						claim2 = new Claim(ClaimTypes.Role, repoAccount.GetEmployeeType(user.UserId));
 					}
-					//Claim claim3 = new Claim(ClaimTypes., user.Email);
-					ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                    //Claim claim3 = new Claim(ClaimTypes., user.Email);
+                    ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 					identity.AddClaim(claim1);
 					identity.AddClaim(claim2);
 					identity.AddClaim(claim3);

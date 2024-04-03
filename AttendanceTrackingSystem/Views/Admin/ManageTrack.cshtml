@@ -1,0 +1,41 @@
+﻿@model ManageTrackViewModel
+@{
+    string role = "";
+    if (User.IsInRole("Student"))
+        role = "Student";
+    else if (User.IsInRole("Instructor"))
+        role = "Instructor";
+    else if (User.IsInRole("Admin"))
+        role = "Admin";
+    else if (User.IsInRole("Security"))
+        role = "Security";
+    else
+        role = "Student Affair";
+
+    ViewData["Title"] = "Add Instructor";
+
+    SelectList InstructorsTrack = new SelectList(Model.InstructorTrack, "TrackId", "Name");
+    SelectList AnotherTrack = new SelectList(Model.AnotherTrack, "TrackId", "Name");
+}
+
+<div id="title-container">
+        <h1 class="main-title">Manage Tracks</h1>
+        <img src="~/images/Toggle.gif" class="imgTitle" />
+    </div>
+
+
+
+
+    <form class="ManageForm" asp-action="ManageTrack" asp-controller="Admin" method="post">
+        <div class="form-group">
+            <label for="TrackToRemove" class="Managelabel">Track Assigned</label>
+        <select multiple class="form-control ManageSelect" id="TrackToRemove" name="TrackToRemove" asp-items="InstructorsTrack"></select>
+        </div>
+        <div class="form-group">
+        <label for="TrackToAdd" class="Managelabel">Track Available</label>
+        <select multiple class="form-control ManageSelect" id="TrackToAdd" name="TrackToAdd" asp-items="AnotherTrack"></select>
+        </div>
+        <input type="submit" value="Add" class="btnForm" />
+    <input type="submit" value="Cancel" class="btnForm" asp-action="ShowInstructor" asp-controller="Admin" />
+</form>
+

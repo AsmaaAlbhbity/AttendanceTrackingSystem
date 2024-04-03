@@ -1,0 +1,101 @@
+﻿@model ShowInstructorViewModel
+@{
+
+    ViewData["Title"] = "Instructor ManagementActive";
+}
+
+<div id="InstructorStyles">
+    <div id="title-container">
+        <h1 class="main-title">Instructor Management</h1>
+        <img src="~/images/Buffer.gif" class="imgTitle" />
+    </div>
+
+    <div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="AddBtn" asp-action="AddInstructor" asp-controller="Admin"><i class="fas fa-plus"></i> Add Instructor</a>
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for instructors..." style="margin-left: auto;">
+        </div>
+    </div>
+
+    <table id="instructorTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Image</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var instructor in Model.Instroctors)
+            {
+                <tr>
+                    <td>@instructor.UserId</td>
+                    <td><img height="50px" width="50px" src="~/Images/@instructor.ImgUrl" class="rounded-circle" /></td>
+                    <td>@instructor.Email</td>
+                    <td>
+                        <a class="Action" asp-action="EditInstructor" asp-controller="Admin" asp-route-id="@instructor.UserId">
+                            <img src="~/images/drawingedit.png" class="Actionimg" />
+                        </a>
+                        <a class="Action" asp-action="ManageTrack" asp-controller="Admin" asp-route-id="@instructor.UserId">
+                            <img src="~/images/ManageTrack.png" class="Actionimg" />
+                        </a>
+                        <a class="Action" data-toggle="modal" data-target="#instructorDetailsModal" onclick="populateModal('@instructor.UserId', '@instructor.Name', '@instructor.ImgUrl', '@instructor.Email', '@instructor.InstructorSalary', '@Model.Tracks.FirstOrDefault(a => a.SupervisorId == instructor.UserId)?.Name')">
+                            <img src="~/images/information.png" class="Actionimg" />
+                        </a>
+                        <a class="Action">
+                            <img src="~/images/delete.png" class="Actionimg" onclick="deleteInstructor('@instructor.UserId', '@instructor.Name')" />
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Pagination links -->
+    <div id="paginationButtons">
+        <ul class="pagination">
+            <!-- Previous button -->
+            <li class="page-item" id="prevPageBtn">
+                <a class="page-link" href="#" onclick="previousPage()">Previous</a>
+            </li>
+            <!-- Next button -->
+            <li class="page-item" id="nextPageBtn">
+                <a class="page-link" href="#" onclick="nextPage()">Next</a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="instructorDetailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel">Instructor Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="padding-left:5vw; padding-top:3vw ">
+                        <div class="col-md-4">
+                            <img src="~/Images/AddIns.png" alt="Instructor Image" id="instructorImage" class="img-fluid rounded-circle">
+                        </div>
+                        <div class="col-md-8">
+                            <p><strong>ID:</strong> <span id="modalUserId"></span></p>
+                            <p><strong>Name:</strong> <span id="modalUserName"></span></p>
+                            <p><strong>Email:</strong> <span id="modalUserEmail"></span></p>
+                            <p><strong>Salary:</strong> <span id="modalUserSalary"></span></p>
+                            <p id="trackName"><strong>Supervisor For Track:</strong> <span id="modalSupervisorTrack"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section scripts {
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="~/js/instrouctor.js"></script>
+    }
+</div>

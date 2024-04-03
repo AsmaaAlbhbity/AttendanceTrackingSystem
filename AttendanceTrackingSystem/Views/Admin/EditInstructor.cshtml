@@ -1,0 +1,19 @@
+﻿@model Instructor
+@{
+    ViewData["Title"] = "Edit Instructor";
+}
+
+<div id="InstructorStyles">
+    <div id="title-container">
+        <h1 class="main-title">Edit Instructor</h1>
+        <img src="~/images/Update.gif" class="imgTitle" />
+    </div>
+    <form id="AddInsForm" asp-action="EditInstructor" asp-controller="Admin" method="post" enctype="multipart/form-data">
+        @Html.Partial("InstructorForm")
+    </form>
+</div>
+</div>
+@section scripts {
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
