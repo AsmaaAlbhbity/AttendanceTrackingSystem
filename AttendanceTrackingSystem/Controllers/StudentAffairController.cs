@@ -32,16 +32,28 @@ namespace AttendanceTrackingSystem.Controllers
             return PartialView("_Details", student);
         }
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
+           
+            if (id == null)
+            {
+                ViewBag.Header = "Add Student";
+                ViewBag.Tracks = repoTrack.getAll();
+                return PartialView("_CreateOrUpdatePartial", new Student());
+            }
+            else
+            {
+                ViewBag.Header = "Update Student";
+                ViewBag.Tracks = repoTrack.getAll();
+                var student = repoStudent.getById(id.Value);
+                return PartialView("_CreateOrUpdatePartial", student);
+            }
 
-            ViewBag.Tracks = repoTrack.getAll();
-            return PartialView("_CreateOrUpdatePartial", new Student());
         }
 
 
         [HttpPost]
-        public IActionResult Create([Bind("Name, Email, Password, Phone, StudentDegree, StudentUniversity, StudentFaculity, StudentGraduationYear, StudentSpecialization, TrackId")] Student student, IFormFile file)
+        public IActionResult Create([Bind("Name, Email, Password, Phone, StudentDegree, StudentUniversity, StudentFaculity, StudentGraduationYear, StudentSpecialization, TrackId,Image")] Student student)
         {
             ModelState.Remove("Msgs");
             ModelState.Remove("UserType");
@@ -51,18 +63,18 @@ namespace AttendanceTrackingSystem.Controllers
 
             if (ModelState.IsValid)
             {
-                if (file != null && file.Length > 0)
+                if (student.Image != null && student.Image.Length > 0)
                 {
-                    if (file.ContentType == "image/png" || file.ContentType == "image/jpg" /*|| file.ContentType == "image/jpeg"*/)
+                    if (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg")
                     {
-                        var uniqueFileName = CreateUniqueFileName(file);
+                        var uniqueFileName = CreateUniqueFileName(student.Image);
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images/Profile", uniqueFileName);
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
-                            file.CopyTo(stream);
+                            student.Image.CopyTo(stream);
                         }
                         student.ImgUrl = uniqueFileName;
-                        //repoStudent.Add(student);
+                        repoStudent.Add(student);
                         return Ok(new { message = "Student has been created successfully." });
 
                     }
@@ -85,8 +97,10 @@ namespace AttendanceTrackingSystem.Controllers
 
         private string CreateUniqueFileName(IFormFile file)
         {
-            return String.Concat(file.FileName.Split('.').First(), new Guid(), file.FileName.Split('.').Last());
-
+            var uniquePart = Guid.NewGuid().ToString().Substring(0, 8); // Get the first 8 characters of the GUID
+            var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(file.FileName);
+            var extension = Path.GetExtension(file.FileName);
+            return $"{fileNameWithoutExtension}_{uniquePart}{extension}";
         }
 
 

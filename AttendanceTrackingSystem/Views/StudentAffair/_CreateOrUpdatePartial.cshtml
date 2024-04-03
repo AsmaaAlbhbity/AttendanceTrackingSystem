@@ -3,125 +3,139 @@
     SelectList Tracks = new SelectList(ViewBag.Tracks, "TrackId", "Name");
 }
 
-<form id="studentForm" enctype="multipart/form-data">
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" for="fileInput">Image</label>
-        </div>
-        <div class="col-md-8">
-            <input id="fileInput" class="form-control" type="file" name="file">
+<div class="modal-header bg-primary text-white">
+    <h5 class="modal-title" id="addStudentModalLabel">@ViewBag.Header</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">
+    <form id="studentForm" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" for="fileInput">Image</label>
+            </div>
+            <div class="col-md-8 std-img">
+            
+                <div id="imageViewer">
+              
+                    <img src="@Url.Content("~/Images/Profile/" + Model.ImgUrl)" alt="Student Image" class="img-fluid rounded-circle border" style="max-width: 100px;" />
+                    <a type="button" class="fa fa-trash mx-2" style="color: red;" id="removeImageBtn"></a>
+                </div>
 
+                <input  class="form-control" asp-for="Image" style="display: none;">
+
+            </div>
         </div>
-    </div>
 
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="Name"></label>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="Name"></label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" asp-for="Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-md-8">
-            <input class="form-control" asp-for="Name">
-            <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="Email"></label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" asp-for="Email">
+                <span asp-validation-for="Email"></span>
+            </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="Email"></label>
-        </div>
-        <div class="col-md-8">
-            <input class="form-control" asp-for="Email">
-            <span asp-validation-for="Email"></span>
-        </div>
-    </div>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="Phone"></label>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="Phone"></label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" asp-for="Phone">
+                <span asp-validation-for="Phone"></span>
+            </div>
         </div>
-        <div class="col-md-8">
-            <input class="form-control" asp-for="Phone">
-            <span asp-validation-for="Phone"></span>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="Password"></label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" asp-for="Password">
+                <span asp-validation-for="Password"></span>
+            </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="Password"></label>
-        </div>
-        <div class="col-md-8">
-            <input class="form-control" asp-for="Password">
-            <span asp-validation-for="Password"></span>
-        </div>
-    </div>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="StudentDegree">Degree</label>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="StudentDegree">Degree</label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" asp-for="StudentDegree">
+                <span asp-validation-for="StudentDegree" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-md-8">
-            <input class="form-control" asp-for="StudentDegree">
-            <span asp-validation-for="StudentDegree" class="text-danger"></span>
-        </div>
-    </div>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="StudentUniversity">University</label>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="StudentUniversity">University</label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" asp-for="StudentUniversity">
+                <span asp-validation-for="StudentUniversity" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-md-8">
-            <input class="form-control" asp-for="StudentUniversity">
-            <span asp-validation-for="StudentUniversity" class="text-danger"></span>
-        </div>
-    </div>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="StudentFaculity">Faculity</label>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="StudentFaculity">Faculity</label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" asp-for="StudentFaculity">
+                <span asp-validation-for="StudentFaculity" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-md-8">
-            <input class="form-control" asp-for="StudentFaculity">
-            <span asp-validation-for="StudentFaculity" class="text-danger"></span>
-        </div>
-    </div>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="StudentGraduationYear">GraduationYear</label>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="StudentGraduationYear">GraduationYear</label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" asp-for="StudentGraduationYear">
+                <span asp-validation-for="StudentGraduationYear" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-md-8">
-            <input class="form-control" asp-for="StudentGraduationYear">
-            <span asp-validation-for="StudentGraduationYear" class="text-danger"></span>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="StudentSpecialization">Specialization</label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" asp-for="StudentSpecialization">
+                <span asp-validation-for="StudentSpecialization" class="text-danger"></span>
+            </div>
         </div>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="StudentSpecialization">Specialization</label>
-        </div>
-        <div class="col-md-8">
-            <input class="form-control" asp-for="StudentSpecialization">
-            <span asp-validation-for="StudentSpecialization" class="text-danger"></span>
-        </div>
-    </div>
 
-    <div class="row mb-3">
-        <div class="col-md-4">
-            <label class="font-weight-bold" asp-for="Track"></label>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="font-weight-bold" asp-for="Track"></label>
+            </div>
+            <div class="col-md-8">
+                <select class="form-select" asp-for="TrackId" asp-items="@Tracks">
+                    <option>Select Track</option>
+                </select>
+                <span asp-validation-for="TrackId" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-md-8">
-            <select class="form-select" asp-for="TrackId" asp-items="@Tracks">
-                <option>Select Track</option>
-            </select>
-            <span asp-validation-for="TrackId" class="text-danger"></span>
+        <div asp-validation-summary="ModelOnly"></div>
+        <!-- Add more input fields as needed -->
+        <hr />
+        <div class="row">
+            <div class="col-md-12">
+                <button id="submitBtn" class="btn btn-success mx-auto w-100">@ViewBag.Header</button>
+            </div>
         </div>
-    </div>
-    <div asp-validation-summary="ModelOnly"></div>
-    <!-- Add more input fields as needed -->
-    <hr />
-    <div class="row">
-        <div class="col-md-12">
-            <button id="submitBtn" class="btn btn-success mx-auto w-100">Add Student</button>
-        </div>
-    </div>
-</form>
+    </form>
+</div>
+
 
 
 
@@ -134,23 +148,58 @@
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 <script>
-
+    
 
     $(document).ready(function () {
-      
-        console.log('Document is ready');
+
+
         $('#studentForm').validate();
 
         $('#studentForm input, #studentForm select').on('blur', function () {
             $(this).valid();
         });
 
+        // Hide the image viewer initially if ImgUrl is empty
+        if ('@Model.ImgUrl' === '') {
+            $('#imageViewer').hide();
+            $('#Image').show();
+        } else {
+            console.log('Image exists');
+            $('#imageViewer').show();
+            $('#Image').hide();
+        }
+
+   
+        $('#Image').change(function () {
+            let input = this;
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+           
+                    $('#imageViewer').html('<img src="' + e.target.result + '" alt="Uploaded Image" class="img-fluid rounded-circle border" style="max-width: 100px;">' +
+                        '<a type="button" class="fa fa-trash mx-2" style="color: red;" id="removeImageBtn"></a>');
+                    $('#imageViewer').removeAttr('style'); 
+                }
+                reader.readAsDataURL(input.files[0]);
+                $('#imageViewer').show(); 
+                $('#Image').hide(); 
+            }
+        });
+
+      
+        $(document).on('click', '#removeImageBtn', function () {
+            $('#imageViewer').hide(); 
+            $('#Image').show();
+        });
+
+     
+    
         $('#submitBtn').click(function (e) {
             e.preventDefault();
 
             // Check if the form is valid
             if ($('#studentForm').valid()) {
-             
+
                 var formData = new FormData();
                 formData.append('Name', $('#Name').val());
                 formData.append('Email', $('#Email').val());
@@ -162,7 +211,7 @@
                 formData.append('StudentGraduationYear', $('#StudentGraduationYear').val());
                 formData.append('StudentSpecialization', $('#StudentSpecialization').val());
                 formData.append('TrackId', $('#TrackId').val());
-                formData.append('file', $('#fileInput')[0].files[0]); 
+                formData.append('Image', $('#Image')[0].files[0]);
 
                 // Submit form data via AJAX
                 $.ajax({
@@ -170,17 +219,17 @@
                     type: 'POST',
                     data: formData,
                     contentType: false,
-                    processData: false, 
+                    processData: false,
                     success: function (result) {
-                        toastr.success(result.message); 
+                        toastr.success(result.message);
                         $('#addStudentModal .btn-close').click();
-                       
-                       
+
+
                     },
                     error: function (xhr, status, error) {
                         // Handle errors
                         toastr.error(xhr.responseText);
-                        
+
                     }
                 });
             }

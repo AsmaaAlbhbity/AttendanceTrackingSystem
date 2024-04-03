@@ -35,7 +35,7 @@
                     <td>@student.Track.Name</td>
                     <td>
                         <a class="btn btn-sm btn-outline-primary mx-1 details-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#studentDetailsModal"><i class="fa fa-info"></i> Details</a>
-                        <a class="btn btn-sm btn-light mx-1"><i class="fa fa-pen-nib"></i> Update</a>
+                        <a class="btn btn-sm btn-light mx-1 update-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa fa-pen-nib"></i> Update</a>
                         <a class="btn btn-sm btn-danger mx-1"><i class="fa fa-user-slash"></i> Delete</a>
                     </td>
                 </tr>
@@ -49,20 +49,15 @@
 <!-- Add Student Modal -->
 <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="addStudentModalLabel">Add Student</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="studentAddBody">
-            </div>
+        <div class="modal-content" id="studentAddBody">
+            
         </div>
     </div>
 </div>
 
 <!-- Student Details Modal -->
 <div class="modal fade" id="studentDetailsModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="studentDetailsModalLabel">Student Details</h5>
@@ -97,6 +92,19 @@
                     type: 'GET',
                     success: function (result) {
                         $('#studentDetailsBody').html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+            $('.update-btn').click(function () {
+                var studentId = $(this).data('student-id');
+                $.ajax({
+                    url: '/StudentAffair/Create/' + studentId,
+                    type: 'GET',
+                    success: function (result) {
+                        $('#studentAddBody').html(result);
                     },
                     error: function (xhr, status, error) {
                         console.error(xhr.responseText);

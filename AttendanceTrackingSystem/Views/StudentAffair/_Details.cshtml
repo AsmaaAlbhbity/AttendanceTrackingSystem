@@ -1,109 +1,120 @@
 ﻿@model AttendanceTrackingSystem.Models.Student
 
-<div class="row mb-3">
+
+<div class="row" style="padding-left:5vw; padding-top:3vw ">
     <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.ImgUrl">Image</label>
+     
+        @if (!string.IsNullOrEmpty(Model.ImgUrl))
+        {
+            <img src="@Url.Content("~/Images/Profile/" + Model.ImgUrl)" alt="Student Image" class="img-fluid rounded-circle me-3" />
+        }
+        else
+        {
+            <p>No image available</p>
+        }
     </div>
     <div class="col-md-8">
-        @Model.ImgUrl    @*soon will be added*@
+   
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.UserId"></label>
+            </div>
+            <div class="col-md-8">
+                @Model.UserId
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.Name"></label>
+            </div>
+            <div class="col-md-8">
+                @Model.Name
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.Email"></label>
+            </div>
+            <div class="col-md-8">
+                @Model.Email
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.Phone"></label>
+            </div>
+            <div class="col-md-8">
+                @Model.Phone
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.StudentDegree">Degree</label>
+            </div>
+            <div class="col-md-8">
+                @Model.StudentDegree
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.StudentUniversity">University</label>
+            </div>
+            <div class="col-md-8">
+                @Model.StudentUniversity
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.StudentFaculity">Faculity</label>
+            </div>
+            <div class="col-md-8">
+                @Model.StudentFaculity
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.StudentGraduationYear">GraduationYear</label>
+            </div>
+            <div class="col-md-8">
+                @Model.StudentGraduationYear
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.StudentSpecialization">Specialization</label>
+            </div>
+            <div class="col-md-8">
+                @Model.StudentSpecialization
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.Track"></label>
+            </div>
+            <div class="col-md-8">
+                @Model.Track.Name
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="fw-bold" asp-for="@Model.IsApproved">Status</label>
+            </div>
+            <div class="col-md-8">
+                @Model.IsApproved
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.UserId"></label>
-    </div>
-    <div class="col-md-8">
-        @Model.UserId
-    </div>
-</div>
 
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.Name"></label>
-    </div>
-    <div class="col-md-8">
-        @Model.Name
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.Email"></label>
-    </div>
-    <div class="col-md-8">
-        @Model.Email
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.Phone"></label>
-    </div>
-    <div class="col-md-8">
-        @Model.Phone
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.StudentDegree">Degree</label>
-    </div>
-    <div class="col-md-8">
-        @Model.StudentDegree
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.StudentUniversity">University</label>
-    </div>
-    <div class="col-md-8">
-        @Model.StudentUniversity
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.StudentFaculity">Faculity</label>
-    </div>
-    <div class="col-md-8">
-        @Model.StudentFaculity
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.StudentGraduationYear">GraduationYear</label>
-    </div>
-    <div class="col-md-8">
-        @Model.StudentGraduationYear
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.StudentSpecialization">Specialization</label>
-    </div>
-    <div class="col-md-8">
-        @Model.StudentSpecialization
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.Track"></label>
-    </div>
-    <div class="col-md-8">
-        @Model.Track.Name
-    </div>
-</div>
-
-<div class="row mb-3">
-    <div class="col-md-4">
-        <label class="font-weight-bold" asp-for="@Model.IsApproved">Status</label>
-    </div>
-    <div class="col-md-8">
-        @Model.IsApproved
-    </div>
-</div>
