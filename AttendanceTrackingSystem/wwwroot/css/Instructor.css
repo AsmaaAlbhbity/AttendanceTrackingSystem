@@ -165,7 +165,6 @@
 }
 
  .btnForm {
-    margin-top: 1em;
     padding: 0.5em 1em;
     border: none;
     background-color: var(--main-color);
@@ -293,27 +292,7 @@
 /*===============================================================*/
 /*pagination */
 /*===============================================================*/
-.pagination{
-    margin-left:22vw;
-}
 
-.pagination .page-item {
-    border: none;
-    margin-top: 2px;
-    text-align: center; 
-}
-
-    .pagination .page-link {
-        background-color: transparent;
-        border: none; 
-        color: var(--main-color);
-    }
-
-    .pagination .page-link:hover {
-        background-color: transparent; 
-        color: #0056b3; 
-        text-decoration: none; 
-    }
 /*===============================================================*/
 /*Model */
 /*===============================================================*/
@@ -367,4 +346,19 @@
 
 
 
+.custom-pagination-button .page-link {
+    color: #fff;
+    background-color: var(--main-color);
+    border-color: #007bff;
+    font-size: 15px;
 
+}
+
+.pagination {
+    padding-left: 24vw !important;
+    padding-top: 2vh !important;
+    border-color: var(--main-color);
+}
+    .pagination:active {
+        background-color: white;
+    }

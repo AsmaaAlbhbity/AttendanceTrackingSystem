@@ -1,5 +1,6 @@
 ﻿using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -52,5 +53,34 @@ namespace AttendanceTrackingSystem.Repository
 
             return futureSchedules;
         }
+
+        public string GetTrackNameByUserId(int userId)
+        {
+            var student = db.Students.FirstOrDefault(s => s.UserId == userId);
+            if (student != null)
+            {
+                var track = db.Tracks.FirstOrDefault(t => t.TrackId == student.TrackId);
+                if (track != null)
+                {
+                    return track.Name;
+                }
+            }
+            return null;
+        }
+
+        public string GetSupervisorNameByUserId(int userId)
+        {
+            var student = db.Students.FirstOrDefault(s => s.UserId == userId);
+            if (student != null)
+            {
+                var track = db.Tracks.FirstOrDefault(t => t.TrackId == student.TrackId);
+                if (track != null)
+                {
+                    return db.Instructors.FirstOrDefault(i=>i.UserId==track.SupervisorId).Name;
+                }
+            }
+            return null;
+        }
     }
 }
+

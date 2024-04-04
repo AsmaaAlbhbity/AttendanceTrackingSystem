@@ -17,6 +17,47 @@
 @section scripts {
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            // Check if image exists
+            if ('@Model?.ImgUrl' === '') {
+                $('#imageViewer').hide();
+                $('#ImgUrl').show();
+            } else {
+                $('#imageViewer').show();
+                $('#ImgUrl').hide();
+            }
+
+            // Event handler for image file change
+            $('#ImgUrl').change(function () {
+                handleImageChange(this);
+            });
+
+            // Event handler for delete button click
+            $(document).on('click', '#removeImageBtn', function () {
+                $('#imageViewer').hide();
+                $('#ImgUrl').val(''); // Clear input file
+                $('#ImgUrl').show();
+            });
+        });
+
+        function handleImageChange(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imageViewer').html('<img src="' + e.target.result + '" alt="Uploaded Image" class="img-fluid rounded-circle border" style="max-width: 100px;">' +
+                        '<a type="button" class="fa fa-trash mx-2" style="color: red;" id="removeImageBtn"></a>');
+                    $('#imageViewer').removeAttr('style');
+                };
+                reader.readAsDataURL(input.files[0]);
+                $('#imageViewer').show();
+                $('#ImgUrl').hide();
+            }
+        }
+
+    </script>
         }
 
 
