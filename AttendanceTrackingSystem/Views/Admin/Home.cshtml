@@ -1,36 +1,36 @@
 ﻿@model AdminHomeViewModel
 
-  
+<h2 class="custome-title">Admin Dashboard</h2>
     <div class="admin-control ">
         <div class="item-control" >
-        <div  class="d-flex flex-column flex-xl-row justify-content-between align-items-center">
-                <div class="d-flex flex-column">
-                <h4>Total Track Count</h4>
-                <h2 >@ViewBag.trackCount</h2>
+            <div  class="d-flex">
+                    <div class="d-flex flex-column">
+                    <h4>Total Track Count</h4>
+                    <h2 >@ViewBag.trackCount</h2>
+                </div>
+                <img src="~/Images/tracks.svg"  alt="Student Icon">
             </div>
-            <img src="~/Images/tracks.svg"  alt="Student Icon">
         </div>
-    </div>
 
-    <div class="item-control">
-            <div class="d-flex flex-column flex-xl-row justify-content-between align-items-center">
-            <div  class="d-flex flex-column">
-                <h4>Total Students Affairs</h4>
-                <h2 >@ViewBag.stdAffCount</h2>
+        <div class="item-control">
+             <div  class="d-flex">
+                <div  class="d-flex flex-column">
+                    <h4>Total Students Affairs</h4>
+                    <h2 >@ViewBag.stdAffCount</h2>
+                </div>
+                <img src="~/Images/studentAffairs.svg" alt="Student Icon">
             </div>
-            <img src="~/Images/studentAffairs.svg" alt="Student Icon">
         </div>
-    </div>
 
-    <div class="item-control">
-            <div class="d-flex flex-column flex-xl-row justify-content-between align-items-center">
-                <div class="d-flex flex-column">
-                <h4>Total Securaty</h4>
-                <h2 >@ViewBag.secCount</h2>
+        <div class="item-control">
+        <div class="d-flex">
+                    <div class="d-flex flex-column">
+                    <h4>Total Securaty</h4>
+                    <h2 >@ViewBag.secCount</h2>
+                </div>
+                <img src="~/Images/security.svg"  alt="Student Icon">
             </div>
-            <img src="~/Images/security.svg"  alt="Student Icon">
         </div>
-    </div>
 
     </div>
     <h2 class="custome-title">Charts</h2>

@@ -39,5 +39,10 @@ namespace AttendanceTrackingSystem.Repository
             db.Tracks.Update(track);
             db.SaveChanges();
         }
+
+        public List<Track> GetActiveTracks()
+        {
+            return db.Tracks.Where(track => track.IsActive==true).ToList();
+        }
     }
 }
