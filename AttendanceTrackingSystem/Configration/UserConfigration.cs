@@ -1,7 +1,9 @@
 ﻿using AttendanceTrackingSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection.Emit;
 
 
 namespace AttendanceTrackingSystem.Configration
@@ -10,6 +12,7 @@ namespace AttendanceTrackingSystem.Configration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+           
 
             builder.Property(a => a.Name).IsRequired();
 
@@ -34,8 +37,10 @@ namespace AttendanceTrackingSystem.Configration
 
             builder.UseTptMappingStrategy();
 
+            
 
         }
+
 
     }
 

@@ -26,21 +26,31 @@ namespace AttendanceTrackingSystem.Repository
 
         public void Add(Student student)
         {
-            db.Students.Add(student);
+            // check if email is already in use
+            student.Email = student.Email.ToLower().Trim();
+            db.Users.Add(student);
             db.SaveChanges();
         }
 
         public void Update(Student student)
         {
-            db.Students.Update(student);
+            student.Email = student.Email.ToLower().Trim();
+            db.Users.Update(student);
             db.SaveChanges();
         }
 
         public void Delete(int id)
         {
-            var obj = db.Students.FirstOrDefault(a => a.UserId == id);
-            db.Students.Remove(obj);
-            db.SaveChanges();
+            var obj = db.Users.FirstOrDefault(a => a.UserId == id);
+            if (obj != null)
+            {
+                db.Users.Remove(obj);
+                db.SaveChanges();
+            }
+        }
+        public List<Student> GetPaginatedStudents(int page, int pageSize)
+        {
+            return db.Users.OfType<Student>().Skip((page - 1) * pageSize).Take(pageSize).ToList();
         }
 
         public List<Schedule> GetFutureStudentSchedule(int studentId)
