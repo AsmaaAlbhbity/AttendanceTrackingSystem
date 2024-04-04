@@ -61,7 +61,21 @@ namespace AttendanceTrackingSystem.Repository
                 db.SaveChanges();
             }
         }
-
+        public List<Track> GetInstructorTracks(int InstructorId)
+        {
+			var instructor = db.Instructors.FirstOrDefault(a => a.UserId == InstructorId);
+			if (instructor != null)
+            {
+				return instructor.Tracks.ToList();
+			}
+			return null;
+		}
+        public bool IsSuperisor(int id)
+        {
+            var Tracks = db.Tracks.Where(a => a.SupervisorId == id).ToList();
+            return Tracks.Count > 0;
+            
+        }
 
     }
 }

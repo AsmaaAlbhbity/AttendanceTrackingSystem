@@ -10,6 +10,7 @@ using System.Security.Claims;
 namespace AttendanceTrackingSystem.Controllers
 {
     [Authorize]
+    [Authorize(Roles = "Security,StudentAffairs,Instructor,Admin")]
     public class HomeController : Controller
     {
      
