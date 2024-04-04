@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AttendanceTrackingSystem.Controllers
 {
+
     public class AdminController : Controller
     {
         IRepoInstructor repoInstructor;

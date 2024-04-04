@@ -66,19 +66,14 @@
 							<i class="fas fa-graduation-cap"></i> Students
 						</a>
 					</li>
+					
 					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["InstructorsActive"]" href="#">
+						<a class="nav-link hvr-bounce-to-right @ViewData["InstructorsActive"]" asp-controller="Admin" asp-action="ShowInstrutor">
 							<i class="fas fa-chalkboard-teacher"></i> Instructors
 						</a>
 					</li>
-					@if (User.IsInRole("Admin"))
-                        {
-					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["InstructorManagementActive"]" asp-action="ShowInstructor" asp-controller="Admin">
-							<i class="fas fa-sign-out-alt"></i> Instructor Management
-						</a>
-					</li>
-						}
+						
+					
 					<li class="nav-item">
 						<a class="nav-link hvr-bounce-to-right @ViewData["LogOutActive"]" asp-controller="Account" asp-action="Logout">
 							<i class="fas fa-sign-out-alt"></i> LogOut
