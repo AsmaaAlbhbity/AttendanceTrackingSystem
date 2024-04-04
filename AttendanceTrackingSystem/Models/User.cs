@@ -32,6 +32,7 @@ namespace AttendanceTrackingSystem.Models
         public Approve IsApproved { get; set; }
         public string UserType { get; set; } 
         public string? ImgUrl { get; set; }
+        
         [JsonIgnore]
         public virtual List<Msg>? Msgs { get; set; }
     }
