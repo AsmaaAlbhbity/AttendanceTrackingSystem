@@ -1,7 +1,7 @@
 ﻿@using System.Security.Claims
 @{
 	TempData.Keep("img");
-	TempData["role"] = User.FindFirst(ClaimTypes.Role).Value;
+	TempData["role"] = User?.FindFirst(ClaimTypes.Role)?.Value;
 
 }
 <!DOCTYPE html>
@@ -49,7 +49,7 @@
 				<div class="profile">
 					<img src="@TempData.Peek("img")?_=@DateTime.UtcNow.Ticks" />
 					<div>
-						<h4>@User.Identity.Name</h4>
+						<h4>@User?.Identity?.Name</h4>
 					
 
 						<p>@TempData["role"]</p>
