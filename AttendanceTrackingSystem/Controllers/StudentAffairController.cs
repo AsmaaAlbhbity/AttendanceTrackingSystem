@@ -83,7 +83,7 @@ namespace AttendanceTrackingSystem.Controllers
                 ViewBag.Header = "Update Student";
                 ViewBag.Tracks = repoTrack.getAll();
                 var student = repoStudent.getById(id.Value);
-
+                student.Image = await GetFileFromPath(student.ImgUrl);
 
 
                 // Call GetFileFromPath asynchronously to get the IFormFile object representing the image file
@@ -108,6 +108,7 @@ namespace AttendanceTrackingSystem.Controllers
                 // you can search for the image in the wwrroot folders
                 if (student.Image != null && student.Image.Length > 0)
                 {
+
                     if (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg")
                     {
                         var uniqueFileName = CreateUniqueFileName(student.Image);
@@ -247,16 +248,16 @@ namespace AttendanceTrackingSystem.Controllers
             var extension = Path.GetExtension(file.FileName);
             return $"{fileNameWithoutExtension}_{uniquePart}{extension}";
         }
-        private async Task<IFormFile> GetFileFromPath(string path, string name)
+        private async Task<IFormFile> GetFileFromPath(string name)
         {
             string fullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "Images", "Profile", name);
-            if (System.IO.File.Exists(path))
+            if (System.IO.File.Exists(fullPath))
             {
-                byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(path);
+                byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
 
                 using (var memoryStream = new MemoryStream(fileBytes))
                 {
-                    return new FormFile(memoryStream, 0, fileBytes.Length, name, Path.GetFileName(path));
+                    return new FormFile(memoryStream, 0, fileBytes.Length, name, Path.GetFileName(fullPath));
                 }
             }
             return null;
