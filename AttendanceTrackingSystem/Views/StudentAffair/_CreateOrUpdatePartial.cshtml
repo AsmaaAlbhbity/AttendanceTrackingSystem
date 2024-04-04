@@ -7,6 +7,8 @@
     <h5 class="modal-title" id="addStudentModalLabel">@ViewBag.Header</h5>
     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 </div>
+
+
 <div class="modal-body">
     <form id="studentForm" enctype="multipart/form-data">
         <div class="row mb-3">
@@ -16,15 +18,12 @@
             <div class="col-md-8 std-img">
             
                 <div id="imageViewer">
-              
                     <img src="@Url.Content("~/Images/Profile/" + Model.ImgUrl)" alt="Student Image" class="img-fluid rounded-circle border" style="max-width: 100px;" />
                     <a type="button" class="fa fa-trash mx-2" style="color: red;" id="removeImageBtn"></a>
                 </div>
 
                 <input  class="form-control" asp-for="Image" style="display: none;">
                 <span asp-validation-for="Image" class="text-danger"></span>
-                
-
 
             </div>
         </div>
@@ -178,10 +177,9 @@
         $('#studentForm input, #studentForm select').on('blur', function () {
             $(this).valid();
         });
-        debugger;
-
-        let mk = $('#Image').val();
-        
+    
+       
+        // Image Functionalities
         if ('@Model.ImgUrl' === '') {
             $('#imageViewer').hide();
             $('#Image').show();
@@ -198,6 +196,7 @@
         $(document).on('click', '#removeImageBtn', function () {
             $('#imageViewer').hide();
             $('#Image').show();
+            //input.files[0]= null;
         });
 
 
