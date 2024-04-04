@@ -31,7 +31,8 @@ namespace AttendanceTrackingSystem
             builder.Services.AddScoped<IRepoMsg, RepoMsg>();
             builder.Services.AddScoped<IRepoAccount, RepoAccount>();
 
-		
+           
+            var app = builder.Build();
 
 
 

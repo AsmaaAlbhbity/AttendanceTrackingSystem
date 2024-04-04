@@ -13,5 +13,7 @@ namespace AttendanceTrackingSystem.IRepository
         public string GetTrackNameByUserId(int userId);
         public string GetSupervisorNameByUserId(int userId);
         public List<Schedule> GetFutureStudentSchedule(int studentId);
+        public List<Student> GetPaginatedStudents(int page, int pageSize);
+
     }
 }
