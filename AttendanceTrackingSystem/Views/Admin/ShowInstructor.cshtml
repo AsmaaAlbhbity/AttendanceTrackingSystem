@@ -12,7 +12,7 @@
 
     <div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <a class="AddBtn" asp-action="AddInstructor" asp-controller="Admin"><i class="fas fa-plus"></i> Add Instructor</a>
+            <a class="AddBtn" asp-action="AddInstructor" asp-controller="Admin" style="text-decoration:none;}"><i class="fas fa-plus"></i> Add Instructor</a>
             <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for instructors..." style="margin-left: auto;">
         </div>
     </div>
@@ -55,14 +55,24 @@
     <!-- Pagination links -->
     <div id="paginationButtons">
         <ul class="pagination">
-            <!-- Previous button -->
-            <li class="page-item" id="prevPageBtn">
-                <a class="page-link" href="#" onclick="previousPage()">Previous</a>
-            </li>
-            <!-- Next button -->
-            <li class="page-item" id="nextPageBtn">
-                <a class="page-link" href="#" onclick="nextPage()">Next</a>
-            </li>
+            @if (Model.InstructorsPaination.HasPreviousPage)
+            {
+                <li class="page-item custom-pagination-button">
+                    <a class="page-link" href="@Url.Action("ShowInstructor", "Admin", new { pageNumber = Model.InstructorsPaination.PageIndex - 1 })">Previous</a>
+                </li>
+            }
+            @for (var i = 1; i <= Model.InstructorsPaination.TotalPages; i++)
+            {
+                <li class="page-item custom-pagination-button @(i == Model.InstructorsPaination.PageIndex ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("ShowInstructor", "Admin", new { pageNumber = i })">@i</a>
+                </li>
+            }
+            @if (Model.InstructorsPaination.HasNextPage)
+            {
+                <li class="page-item custom-pagination-button">
+                    <a class="page-link" href="@Url.Action("ShowInstructor", "Admin", new { pageNumber = Model.InstructorsPaination.PageIndex + 1 })">Next</a>
+                </li>
+            }
         </ul>
     </div>
 

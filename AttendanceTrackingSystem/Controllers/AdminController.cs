@@ -1,5 +1,7 @@
 ﻿using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
+using AttendanceTrackingSystem.Pagination;
+using AttendanceTrackingSystem.Repository;
 using AttendanceTrackingSystem.ViewModel;
 using Castle.Components.DictionaryAdapter.Xml;
 using Microsoft.AspNetCore.Identity;
@@ -24,17 +26,39 @@ namespace AttendanceTrackingSystem.Controllers
              repoEmployee= _repoEmployee;
             repoAttendance = _repoAttendance;
         }
-        public IActionResult ShowInstructor()
-        {
-            var Instructor = repoInstructor.getAll();
-            var Tracks = repoTrack.getAll();
 
-            ShowInstructorViewModel model = new ShowInstructorViewModel();
-            model.Instroctors = Instructor;
-            model.Tracks = Tracks;
+
+
+
+
+
+        public IActionResult ShowInstructor(int pageNumber = 1, int pageSize = 4)
+        {
+            var allInstructors = repoInstructor.getAll().AsQueryable(); // Ensure IQueryable
+
+            // Count total records
+            var totalRecords = allInstructors.Count();
+
+            // Paginate the instructors
+            var paginatedInstructors = PaginatedList<Instructor>.Create(allInstructors, pageNumber, pageSize);
+
+            // Retrieve the instructors for the current page
+            var instructorsForPage = paginatedInstructors.ToList();
+
+            // Retrieve all tracks
+            var tracks = repoTrack.getAll();
+
+            // Create the view model
+            var model = new ShowInstructorViewModel
+            {
+                Instroctors = instructorsForPage,
+                Tracks = tracks,
+                InstructorsPaination = new PaginatedList<Instructor>(instructorsForPage, totalRecords, pageNumber, pageSize)
+            };
 
             return View(model);
         }
+
         public IActionResult AddInstructor()
         {
             return View();
@@ -48,7 +72,7 @@ namespace AttendanceTrackingSystem.Controllers
                 {
                     if (ImgUrl != null)
                     {
-                        string ImgeName = instructor.Name + instructor.Name + "." + ImgUrl.FileName.Split(".").Last();
+                        string ImgeName = instructor.UserId + instructor.Name + "." + ImgUrl.FileName.Split(".").Last();
 
                         using (var fs = new FileStream("wwwroot/Images/" + ImgeName, FileMode.Create))
                         {
@@ -98,7 +122,7 @@ namespace AttendanceTrackingSystem.Controllers
                 {
                     if (ImgUrl != null)
                     {
-                        string ImgeName = instructor.Name + instructor.Name + "." + ImgUrl.FileName.Split(".").Last();
+                        string ImgeName = instructor.UserId + instructor.Name + "." + ImgUrl.FileName.Split(".").Last();
 
                         using (var fs = new FileStream("wwwroot/Images/" + ImgeName, FileMode.Create))
                         {
