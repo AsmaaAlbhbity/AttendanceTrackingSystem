@@ -21,16 +21,23 @@ public class AdminController : Controller
     }
 
     // GET: Admin
-    public IActionResult Employee(int pageNumber = 1, int pageSize = 4)
+    public IActionResult Employee(string searchString, int pageNumber = 1, int pageSize = 4)
     {
         var employees = _repoEmployee.getAll();
 
-        // Filter the employees to include only those with a type of "Employee"
+       if (!string.IsNullOrEmpty(searchString))
+{
+    employees = employees.Where(e => e.Name.Contains(searchString) || e.Email.Contains(searchString)).ToList();
+}
+
+
+
         var employeeUsers = employees.Where(e => e.UserType == "Employee").AsQueryable();
         var model = PaginatedList<Employee>.Create(employeeUsers, pageNumber, pageSize);
 
         return View(model);
     }
+
 
 
 
@@ -62,7 +69,6 @@ public class AdminController : Controller
 
         return View(viewModel);
     }
-
 
     // GET: Admin/Create
     public ActionResult Create()

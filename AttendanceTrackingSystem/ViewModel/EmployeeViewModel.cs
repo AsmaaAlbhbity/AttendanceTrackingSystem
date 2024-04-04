@@ -22,7 +22,7 @@ namespace AttendanceTrackingSystem.ViewModel
         [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$%])[A-Za-z\d@$%_]{8,}$", ErrorMessage = "Must be 8 characters or more.\r\nMust contain at least one uppercase letter.\r\nMust contain at least one lowercase letter.\r\nMust contain at least one digit.\r\nMust contain at least one special character from @$%_")]
         public string Password { get; set; }
 
-        public string ImgUrl { get; set; }
+        public string? ImgUrl { get; set; }
 
         [Required]
         [Range(0, double.MaxValue)]

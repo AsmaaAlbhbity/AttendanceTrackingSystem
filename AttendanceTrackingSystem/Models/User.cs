@@ -22,5 +22,7 @@ namespace AttendanceTrackingSystem.Models
         public string UserType { get; set; }
         public string? ImgUrl { get; set; }
         public virtual List<Msg> Msgs { get; set; }
+        
+
     }
 }

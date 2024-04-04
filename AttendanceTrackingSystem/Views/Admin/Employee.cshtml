@@ -2,6 +2,13 @@
 @model PaginatedList<Employee>
 
 <h2>Employees</h2>
+<form asp-action="Employee" asp-controller="Admin" method="get" class="float-right">
+    <div class="form-inline">
+        <input type="text" name="searchString" class="form-control" />
+        <input type="submit" value="Search" class="btn btn-primary ml-2" />
+    </div>
+</form>
+
 
 <table class="table">
     <tr>
@@ -26,13 +33,15 @@
                     <a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-primary btn-sm">
                         <i class="fa fa-edit"></i> Edit
                     </a>
+                    @*make the details view *@
                     <a asp-action="Details" asp-route-id="@item.UserId" class="btn btn-info btn-sm">
-                        <i class="fa fa-info-circle"></i> Details
-                    </a>
+                        <i class="fa fa-info">  </i> Details 
+                        </a>
                     <a asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-danger btn-sm">
                         <i class="fa fa-trash"></i> Delete
                     </a>
                 </div>
+
             </td>
         </tr>
     }
