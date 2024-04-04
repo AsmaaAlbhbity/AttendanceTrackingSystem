@@ -1,23 +1,68 @@
 ﻿ @model AttendanceSummaryViewModel
-
+@functions {
+    public string GetScheduleTypeClass(ScheduleType type)
+    {
+        switch (type)
+        {
+            case ScheduleType.Online:
+                return "schedule-online";
+            case ScheduleType.Offline:
+                return "schedule-offline";
+            case ScheduleType.Holiday:
+                return "schedule-holiday";
+            case ScheduleType.Funday:
+                return "schedule-funday";
+            default:
+                return "";
+        }
+    }
+}
 
 @if (Model.StudentSchedule != null && Model.StudentSchedule.Count > 0)
 {
-    <table class="table table-striped ">
+    <table class="table">
+        <caption style="caption-side: top; font-size: 24px;">@ViewBag.TrackName - Supervisor: @ViewBag.SupervisorName</caption>
         <thead>
             <tr>
-                <th>Date</th>
+                <th style="width: 100px;">Date</th>
+                <th style="width: 100px;">Day</th>
                 <th>Start Time</th>
                 <th>End Time</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var schedule in Model.StudentSchedule)
             {
-                <tr>
-                    <td>@schedule.Date.ToShortDateString()</td>
-                    <td>@schedule.StartPeriod</td>
-                    <td>@schedule.EndPeriod</td>
+                <tr class="@(GetScheduleTypeClass(schedule.Type))">
+                    <td style="width: 100px;">@schedule.Date.ToShortDateString()</td>
+                    <td style="width: 100px;">@schedule.Date.DayOfWeek</td>
+                    <td style="text-align: center;">
+                        @if (schedule.Type == ScheduleType.Holiday || schedule.Type == ScheduleType.Funday)
+                        {
+                            @schedule.Type.ToString()
+                        }
+                        else
+                        {
+                            @schedule.StartPeriod.ToString()
+                        }
+                    </td>
+                    <td>
+                        @if (schedule.Type == ScheduleType.Holiday || schedule.Type == ScheduleType.Funday)
+                        {
+                            <!-- Empty space -->
+                        }
+                        else
+                        {
+                            @schedule.EndPeriod.ToString()
+                        }
+                    </td>
+                    <td style="text-align: center;">
+                        @if (schedule.Type != ScheduleType.Holiday && schedule.Type != ScheduleType.Funday)
+                        {
+                            @schedule.Type.ToString()
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
@@ -27,3 +72,5 @@ else
 {
     <p class="alert alert-info text-center w-50">No schedule assigned.</p>
 }
+
+
