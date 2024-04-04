@@ -12,7 +12,6 @@
     else
         role = "Student Affair";
 
-    ViewData["Title"] = "Add Instructor";
 
     SelectList InstructorsTrack = new SelectList(Model.InstructorTrack, "TrackId", "Name");
     SelectList AnotherTrack = new SelectList(Model.AnotherTrack, "TrackId", "Name");

@@ -1,7 +1,6 @@
 ﻿@model ShowInstructorViewModel
 @{
 
-    ViewData["Title"] = "Instructor Management";
 }
 
 <div id="InstructorStyles">
@@ -27,28 +26,37 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var instructor in Model.Instroctors)
+            @if (Model.Instroctors.Count() > 0)
             {
-                <tr>
-                    <td>@instructor.UserId</td>
-                    <td><img height="50px" width="50px" src="~/Images/@instructor.ImgUrl" class="rounded-circle" /></td>
-                    <td>@instructor.Email</td>
-                    <td>
-                        <a class="Action" asp-action="EditInstructor" asp-controller="Admin" asp-route-id="@instructor.UserId">
-                            <img src="~/images/drawingedit.png" class="Actionimg" />
-                        </a>
-                        <a class="Action" asp-action="ManageTrack" asp-controller="Admin" asp-route-id="@instructor.UserId">
-                            <img src="~/images/ManageTrack.png" class="Actionimg" />
-                        </a>
-                        <a class="Action" data-toggle="modal" data-target="#instructorDetailsModal" onclick="populateModal('@instructor.UserId', '@instructor.Name', '@instructor.ImgUrl', '@instructor.Email', '@instructor.InstructorSalary', '@Model.Tracks.FirstOrDefault(a => a.SupervisorId == instructor.UserId)?.Name')">
-                            <img src="~/images/information.png" class="Actionimg" />
-                        </a>
-                        <a class="Action">
-                            <img src="~/images/delete.png" class="Actionimg" onclick="deleteInstructor('@instructor.UserId', '@instructor.Name')" />
-                        </a>
-                    </td>
-                </tr>
+                @foreach (var instructor in Model.Instroctors)
+                {
+                    <tr>
+                        <td>@instructor.UserId</td>
+                        <td><img height="50px" width="50px" src="~/Images/@instructor.ImgUrl" class="rounded-circle" /></td>
+                        <td>@instructor.Email</td>
+                        <td>
+                            <a class="Action" asp-action="EditInstructor" asp-controller="Admin" asp-route-id="@instructor.UserId">
+                                <img src="~/images/drawingedit.png" class="Actionimg" />
+                            </a>
+                            <a class="Action" asp-action="ManageTrack" asp-controller="Admin" asp-route-id="@instructor.UserId">
+                                <img src="~/images/ManageTrack.png" class="Actionimg" />
+                            </a>
+                            <a class="Action" data-toggle="modal" data-target="#instructorDetailsModal" onclick="populateModal('@instructor.UserId', '@instructor.Name', '@instructor.ImgUrl', '@instructor.Email', '@instructor.InstructorSalary', '@Model.Tracks.FirstOrDefault(a => a.SupervisorId == instructor.UserId)?.Name')">
+                                <img src="~/images/information.png" class="Actionimg" />
+                            </a>
+                            <a class="Action">
+                                <img src="~/images/delete.png" class="Actionimg" onclick="deleteInstructor('@instructor.UserId', '@instructor.Name')" />
+                            </a>
+                        </td>
+                    </tr>
+                }
             }
+            else
+            {
+                <p class="alert alert-info text-center w-50">No Teachers</p>
+            }
+           
+           
         </tbody>
     </table>
 
