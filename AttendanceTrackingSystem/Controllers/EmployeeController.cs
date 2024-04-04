@@ -1,12 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AttendanceTrackingSystem.Controllers
 {
-    public class EmployeeController : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
+	[Authorize]
+	[Authorize(Roles = "Security")]
+	[Authorize(Roles = "StudentAffairs")]
+	public class EmployeeController : Controller
+	{
+		public IActionResult Index()
+		{
+			return View();
+		}
+	}
 }

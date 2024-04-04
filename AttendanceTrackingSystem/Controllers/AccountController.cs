@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AttendanceTrackingSystem.Controllers
 {
@@ -108,6 +109,7 @@ namespace AttendanceTrackingSystem.Controllers
 			await HttpContext.SignOutAsync();
 			return RedirectToAction("Login");
 		}
+		[Authorize]
 		public IActionResult Profile()
 		{
 			int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
@@ -123,6 +125,7 @@ namespace AttendanceTrackingSystem.Controllers
 			ViewBag.img = model1.ImgUrl;
 			return View(model1);
 		}
+		[Authorize]
 		[HttpPost]
 		public IActionResult updateImage(IFormFile ImgUrl)
 		{
@@ -147,6 +150,7 @@ namespace AttendanceTrackingSystem.Controllers
 			//TempData["CacheBuster"] = cacheBuster;
 			return RedirectToAction("Profile");
 		}
+		[Authorize]
 		[HttpPost]
 		public IActionResult Profile(EditProfileViewModel model)
 		{
@@ -166,6 +170,7 @@ namespace AttendanceTrackingSystem.Controllers
 			return RedirectToAction("Profile");
 			//return RedirectToAction("Error", "Home");
 		}
+
 		[HttpGet]
 		public IActionResult CheckPassword(string OldPassword)
 		{

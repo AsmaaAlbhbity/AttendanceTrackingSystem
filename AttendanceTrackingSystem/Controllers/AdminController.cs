@@ -4,6 +4,7 @@ using AttendanceTrackingSystem.Pagination;
 using AttendanceTrackingSystem.Repository;
 using AttendanceTrackingSystem.ViewModel;
 using Castle.Components.DictionaryAdapter.Xml;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -11,6 +12,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AttendanceTrackingSystem.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         IRepoInstructor repoInstructor;

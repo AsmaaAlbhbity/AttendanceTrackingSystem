@@ -2,12 +2,14 @@ using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
 using AttendanceTrackingSystem.Repository;
 using AttendanceTrackingSystem.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
 
 namespace AttendanceTrackingSystem.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
      
