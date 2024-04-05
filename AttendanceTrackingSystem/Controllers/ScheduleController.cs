@@ -38,7 +38,6 @@ namespace AttendanceTrackingSystem.Controllers
 					ViewBag.InstructorTracks = InstTracks;
 					ViewBag.SelectedTrackId = trackId;
 					List<Schedule> WeekSchedule = repoSchedule.GetWeeklyScheduleForTrack(trackId.Value);
-					return View(WeekSchedule);
 				}
 				else // First Time opening the page
 				{
@@ -51,7 +50,7 @@ namespace AttendanceTrackingSystem.Controllers
 				{
 					List<Schedule> WeekSchedule = repoSchedule.GetWeeklyScheduleForTrack(trackId.Value);
 					ViewBag.InstructorTracks = InstTracks;
-					ViewBag.SelectedTrackName = InstTracks.Where(a => a.TrackId == trackId).Select(a => a.Name);
+					ViewBag.SelectedTrackName = InstTracks.FirstOrDefault(a => a.TrackId == trackId).Name;
 					return View(WeekSchedule);
 				}
 				else
