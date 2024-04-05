@@ -1,5 +1,5 @@
-﻿/*Model */
-#detailsModal .modal-content {
+﻿
+ #detailsModal .modal-content {
     background-color: #f8f9fa;
     border: none;
     border-radius: 10px;
@@ -38,7 +38,24 @@
 #detailsModal .modal-body strong {
     font-weight: bold;
 }
+@media (max-width: 768px) {
+    .employee-search-form {
+        flex-direction: column;
+    }
 
-#detailsModal #trackName {
-    margin-top: 10px;
+    .employee-search-input-group {
+        flex-direction: column;
+    }
+
+    .employee-search-input,
+    .employee-search-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .employee-create-button {
+        width: 100%;
+    }
 }
+
+
