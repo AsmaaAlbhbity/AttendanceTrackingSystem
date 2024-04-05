@@ -6,7 +6,7 @@
     @if (Model.userMessages.Count == 0)
     {
         <p class="alert alert-info text-center m-3">No notifications</p>
-        
+
     }
     else
     {
@@ -23,47 +23,50 @@
     }
 </div>
 
-<script>
-    $(document).ready(function () {
-        var hasUnreadMessages = $('.msg-item[data-read="False"]').length > 0;
-        if (hasUnreadMessages) {
-            $('#notificationIcon').addClass('bell-filled');
-        } else {
-            $('#notificationIcon').removeClass('bell-filled');
-        }
-     
-        function updateNotificationStatus() {
+@section Scripts {
 
-            $('.msg-item[data-read="True"] .msg-title').each(function () {
-                $(this).css('color', '#929396');
+    <script>
+        $(document).ready(function () {
+            var hasUnreadMessages = $('.msg-item[data-read="False"]').length > 0;
+            if (hasUnreadMessages) {
+                $('#notificationIcon').addClass('bell-filled');
+            } else {
+                $('#notificationIcon').removeClass('bell-filled');
+            }
+
+            function updateNotificationStatus() {
+
+                $('.msg-item[data-read="True"] .msg-title').each(function () {
+                    $(this).css('color', '#929396');
+                });
+                $('.msg-item[data-read="True"] .msg-des').each(function () {
+                    $(this).css('color', '#929396');
+                });
+            }
+
+
+            $('#notificationIcon').click(function () {
+                $('#notificationContainer').toggle();
+
+                $.ajax({
+                    url: '/Home/MarkMessageAsRead',
+                    method: 'POST',
+                    data: { userId: @Model.UserId },
+                    success: function () {
+
+                        $('.msg-item').data('read', true);
+                        // $('.msg-item').css('background-color', '#64f26021');
+
+                        updateNotificationStatus();
+                    },
+                    error: function () {
+
+                        alert('Failed to mark all messages as read');
+                    }
+                });
             });
-            $('.msg-item[data-read="True"] .msg-des').each(function () {
-                $(this).css('color', '#929396');
-            });
-        }
 
-
-        $('#notificationIcon').click(function () {
-            $('#notificationContainer').toggle();
-
-            $.ajax({
-                url: '/Home/MarkMessageAsRead',
-                method: 'POST',
-                data: { userId: @Model.UserId },
-                success: function () {
-                 
-                    $('.msg-item').data('read', true);
-                    // $('.msg-item').css('background-color', '#64f26021');
-                   
-                    updateNotificationStatus();
-                },
-                error: function () {
-                 
-                    alert('Failed to mark all messages as read');
-                }
-            });
         });
-
-    });
-</script>
+    </script>
+}
 

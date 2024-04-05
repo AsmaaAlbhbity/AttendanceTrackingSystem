@@ -100,6 +100,8 @@ namespace AttendanceTrackingSystem.Controllers
         [HttpPost]
         public IActionResult MakePermission(Permission permission)
         {
+            permission.UserId = 1;
+            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
                 
