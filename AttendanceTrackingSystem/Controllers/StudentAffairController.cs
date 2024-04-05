@@ -26,9 +26,9 @@ namespace AttendanceTrackingSystem.Controllers
         public IActionResult Index(string? message, int? page, string? searchTerm)
         {
             TempData["SuccessMessage"] = myToastMessage;
-            
 
-            var allStudents = repoStudent.getAll(); 
+
+            var allStudents = repoStudent.getAll();
 
 
             if (!string.IsNullOrEmpty(searchTerm))
@@ -38,7 +38,7 @@ namespace AttendanceTrackingSystem.Controllers
 
             if (!page.HasValue || page < 1)
             {
-                page = 1; 
+                page = 1;
             }
 
             int totalStudents = allStudents.Count();
@@ -46,14 +46,14 @@ namespace AttendanceTrackingSystem.Controllers
 
             if (page > totalPages)
             {
-                page = totalPages; 
+                page = totalPages;
             }
 
             var students = allStudents.Skip((page.Value - 1) * pageSize).Take(pageSize).ToList();
 
             ViewBag.TotalPages = totalPages;
             ViewBag.Page = page;
-            ViewBag.SearchTerm = searchTerm; 
+            ViewBag.SearchTerm = searchTerm;
 
             return View(students);
         }
@@ -94,63 +94,53 @@ namespace AttendanceTrackingSystem.Controllers
 
 
         [HttpPost]
-        public IActionResult Create([Bind("UserId,Name, Email, Password, Phone, StudentDegree, StudentUniversity, StudentFaculity, StudentGraduationYear, StudentSpecialization, TrackId,Image")] Student student)
+        public IActionResult Create( Student student)
         {
             ModelState.Remove("Msgs");
             ModelState.Remove("UserType");
             ModelState.Remove("Track");
+
             student.UserType = "1";
             student.IsApproved = Approve.Accepted;
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return BadRequest("Incorrect data input!");
+
+            if (student.UserId != 0)
             {
-                // you can search for the image in the wwrroot folders
-                if (student.Image != null && student.Image.Length > 0)
+                if (student.Image != null && (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
                 {
-
-                    if (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg")
-                    {
-                        var uniqueFileName = CreateUniqueFileName(student.Image);
-                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images/Profile", uniqueFileName);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            student.Image.CopyTo(stream);
-                        }
-                        student.ImgUrl = uniqueFileName;
-                        if (student.UserId != 0)
-                        {
-                            repoStudent.Update(student);
-                            myToastMessage= "Student has been updated successfully.";
-							return RedirectToAction("Index");
-							
-						}
-						else
-                        {
-                            repoStudent.Add(student);
-                            myToastMessage = "Student has been created successfully.";
-                            return RedirectToAction("Index");
-
-                        }
-                        //return Ok(new { message = "Student has been created successfully." });
-
-                    }
-                    else
-                    {
-                      
-                        return BadRequest("Only PNG or JPEG image files are allowed.");
-                    }
-
+                    SaveImageToDirectory(student);
+                    repoStudent.Update(student);
+                    myToastMessage = "Student has been updated successfully.";
+                    return RedirectToAction("Index");
+                }
+                else if (student.Image == null && repoStudent.IsImageExistedBefore(student.ImgUrl))
+                {
+                    repoStudent.Update(student);
+                    myToastMessage = "Student has been updated successfully.";
+                    return RedirectToAction("Index");
                 }
                 else
-                {
-
+                    return BadRequest("Only PNG or JPEG image files are allowed.");
+            }
+            else
+            {
+                if (student.Image == null || student.Image.Length == 0)
                     return BadRequest("You must include a file.");
-                }
+
+                if (!(student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
+                    return BadRequest("Only PNG or JPEG image files are allowed.");
+
+                SaveImageToDirectory(student);
+                repoStudent.Add(student);
+                myToastMessage = "Student has been created successfully.";
+
+                return RedirectToAction("Index");
             }
 
-            return BadRequest("Incorrect data input!");
+            return BadRequest("Invalid operation");
         }
-
         [HttpPost]
         public IActionResult Delete(int id)
         {
@@ -186,14 +176,14 @@ namespace AttendanceTrackingSystem.Controllers
                     {
                         ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
                         int rowCount = worksheet.Dimension.Rows;
-                     
+
                         for (int row = 2; row <= rowCount; row++)
                         {
-                            if (String.IsNullOrEmpty( worksheet.Cells[row, 1].Value?.ToString()))
+                            if (String.IsNullOrEmpty(worksheet.Cells[row, 1].Value?.ToString()))
                             {
                                 break;
                             }
-                           
+
                             string name = worksheet.Cells[row, 1].Value?.ToString();
                             string email = worksheet.Cells[row, 2].Value?.ToString();
                             string phone = worksheet.Cells[row, 3].Value?.ToString();
@@ -240,6 +230,27 @@ namespace AttendanceTrackingSystem.Controllers
 
                 return BadRequest($"An error occurred while processing the file. Please try again later. \n number of Students Added: {studentAdded}");
             }
+        }
+
+        private void SaveImageToDirectory(Student student)
+        {
+            if (student.Image != null && (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
+            {
+                var uniqueFileName = CreateUniqueFileName(student.Image);
+                student.ImgUrl = uniqueFileName;
+                var filePath = getFileName(uniqueFileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    student.Image.CopyTo(stream);
+                }
+            }
+        }
+
+
+    
+        private string getFileName(string fileName)
+        {
+            return Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "Images", "Profile", fileName);
         }
         private string CreateUniqueFileName(IFormFile file)
         {

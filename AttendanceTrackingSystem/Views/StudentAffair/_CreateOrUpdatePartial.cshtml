@@ -29,6 +29,7 @@
             </div>
         </div>
 
+        <input asp-for="ImgUrl" hidden />
         <input asp-for="UserId" hidden />
         <div class="row mb-3">
             <div class="col-md-4">
@@ -221,6 +222,7 @@
                 formData.append('StudentGraduationYear', $('#StudentGraduationYear').val());
                 formData.append('StudentSpecialization', $('#StudentSpecialization').val());
                 formData.append('TrackId', $('#TrackId').val());
+                formData.append('ImgUrl', $('#ImgUrl').val());
                 formData.append('Image', $('#Image')[0].files[0]);
 
                 // Submit form data via AJAX

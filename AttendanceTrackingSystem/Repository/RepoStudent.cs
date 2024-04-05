@@ -48,6 +48,11 @@ namespace AttendanceTrackingSystem.Repository
                 db.SaveChanges();
             }
         }
+        public bool IsImageExistedBefore(string imageName)
+        {
+            imageName = imageName.Split('_').First();
+            return db.Users.Any(u => u.ImgUrl.StartsWith(imageName + "_"));
+        }
         public List<Student> GetPaginatedStudents(int page, int pageSize)
         {
             return db.Users.OfType<Student>().Skip((page - 1) * pageSize).Take(pageSize).ToList();
