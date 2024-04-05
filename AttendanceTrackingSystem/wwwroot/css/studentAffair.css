@@ -157,3 +157,21 @@
     background-color: #007bff;
     text-decoration: none;
 }
+
+#addBtnStd,
+#addBtnStd {
+    padding: 0.5em 1em;
+    border: none;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    text-decoration: none;
+    overflow: hidden;
+    box-shadow: 0 0 2vw rgba(0, 0, 0, 0.1);
+}
+#addBtnStd:hover,
+#addBtnStds :hover{
+    background-color: #007bff;
+    text-decoration: none;
+}
