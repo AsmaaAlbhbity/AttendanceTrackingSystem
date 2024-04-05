@@ -43,7 +43,7 @@
 					<td style="width: 150px;">@schedule.Date.DayOfWeek</td>
 					@if (schedule.Type == ScheduleType.Holiday || schedule.Type == ScheduleType.Funday)
 					{
-						<td colspan="3" class="text-center fw-bolder fst-italic fs-5">-- @schedule.Type.ToString() --</td>
+						<td colspan="3" class="text-center fst-italic fs-5">-- @schedule.Type.ToString() --</td>
 					}
 					else
 					{
@@ -62,9 +62,8 @@
 		</tbody>
 	</table>
 	<div class="row">
-		<div class="col">
-			<a asp-action="EditSchedule" asp-route-trackId="@ViewBag.SelectedTrackId" style="background-color:#6c5ddc" class="text-white btn">Edit Schedule</a>
-		</div>
+		<a asp-action="EditSchedule" asp-route-trackId="@ViewBag.SelectedTrackId" style="background-color:#6c5ddc" class="col-3 text-white btn mx-auto">Edit Schedule</a>
+		<a asp-action="AddSchedule" asp-route-trackId="@ViewBag.SelectedTrackId" style="background-color:#6c5ddc" class="col-3 text-white btn mx-auto">Add new schedule</a>
 	</div>
 }
 else

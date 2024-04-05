@@ -17,11 +17,13 @@ namespace AttendanceTrackingSystem.Controllers
 		IRepoAccount repoAccount;
 		IRepoTrack repoTrack;
 		IRepoStudent repoStudent;
-		public AccountController(IRepoAccount _repoAccount ,IRepoTrack _repoTrack,IRepoStudent _repoStudent)
+		IRepoInstructor repoInstructor;
+		public AccountController(IRepoAccount _repoAccount, IRepoTrack _repoTrack, IRepoStudent _repoStudent, IRepoInstructor _repoInstructor)
 		{
 			repoAccount = _repoAccount;
-			repoTrack=_repoTrack;
+			repoTrack = _repoTrack;
 			repoStudent = _repoStudent;
+			repoInstructor = _repoInstructor;
 		}
 		public IActionResult Index()
 		{
@@ -43,7 +45,11 @@ namespace AttendanceTrackingSystem.Controllers
 					Claim claim2;
 					if (user.UserType != "Employee")
 					{
-						claim2 = new Claim(ClaimTypes.Role, user.UserType);
+						if (repoInstructor.IsSuperisor(user.UserId))
+
+							claim2 = new Claim(ClaimTypes.Role, "Supervisor");
+						else
+							claim2 = new Claim(ClaimTypes.Role, user.UserType);
 					}
 					else
 					{
@@ -51,8 +57,8 @@ namespace AttendanceTrackingSystem.Controllers
 					}
 					Claim claim3 = new Claim(ClaimTypes.Email, user.Email);
 					Claim claim4 = new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString());
-                    Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl?.ToString() ?? "");
-                    ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+					Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl?.ToString() ?? "");
+					ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 					identity.AddClaim(claim1);
 					identity.AddClaim(claim2);
 					identity.AddClaim(claim3);
@@ -77,31 +83,32 @@ namespace AttendanceTrackingSystem.Controllers
 					else
 						ViewBag.role = user.UserType;
 
-                    switch (user.UserType)
-                    {
-                        case "Student":
-                            return RedirectToAction("Home", "Student");
-                        case "Instructor":
-                            return RedirectToAction("Home", "Home");
-                        case "Employee":
-                            switch (repoAccount.GetEmployeeType(user.UserId))
-                            {
-                                case "Admin":
-                                    return RedirectToAction("Home", "Admin");
-                                case "Security":
-                                case "StudentAffairs":
+					switch (user.UserType)
+					{
+						case "Student":
+							return RedirectToAction("Home", "Student");
+						case "Instructor":
+						case "Supervisor":
+							return RedirectToAction("Home", "Home");
+						case "Employee":
+							switch (repoAccount.GetEmployeeType(user.UserId))
+							{
+								case "Admin":
+									return RedirectToAction("Home", "Admin");
+								case "Security":
+								case "StudentAffairs":
 
-                                    return RedirectToAction("Home", "Home");
-                      
-             
-                                default:
-                                    return RedirectToAction("Index", "Home"); // Default fallback
-                            }
-                        // Add more cases for other user types as needed...
-                        default:
-                            return RedirectToAction("Index", "Home");
-                    }
-                }
+									return RedirectToAction("Home", "Home");
+
+
+								default:
+									return RedirectToAction("Index", "Home"); // Default fallback
+							}
+						// Add more cases for other user types as needed...
+						default:
+							return RedirectToAction("Index", "Home");
+					}
+				}
 				else
 				{
 					ModelState.AddModelError("", "Invalid Email Or password");
@@ -187,56 +194,56 @@ namespace AttendanceTrackingSystem.Controllers
 		}
 
 
-        public IActionResult Signup()
+		public IActionResult Signup()
 		{
-			ViewBag.Tracks=repoTrack.GetActiveTracks();
-        
-            return View();
+			ViewBag.Tracks = repoTrack.GetActiveTracks();
+
+			return View();
 		}
 
-        [HttpPost]
-        public async Task<IActionResult> Signup(Student newStudent, IFormFile ImgUrl)
-        {
-            try
-            {
-                //ModelState.Remove("ImgUrl");
-                if (ModelState.IsValid)
-                {
-                    if (ImgUrl != null)
-                    {
-                        string ImgeName = newStudent.Name + newStudent.Name + "." + ImgUrl.FileName.Split(".").Last();
+		[HttpPost]
+		public async Task<IActionResult> Signup(Student newStudent, IFormFile ImgUrl)
+		{
+			try
+			{
+				//ModelState.Remove("ImgUrl");
+				if (ModelState.IsValid)
+				{
+					if (ImgUrl != null)
+					{
+						string ImgeName = newStudent.Name + newStudent.Name + "." + ImgUrl.FileName.Split(".").Last();
 
-                        using (var fs = new FileStream("wwwroot/Images/" + ImgeName, FileMode.Create))
-                        {
-                            await ImgUrl.CopyToAsync(fs);
-                        }
+						using (var fs = new FileStream("wwwroot/Images/" + ImgeName, FileMode.Create))
+						{
+							await ImgUrl.CopyToAsync(fs);
+						}
 
-                        newStudent.ImgUrl = ImgeName;
-                    }
+						newStudent.ImgUrl = ImgeName;
+					}
 
-                    repoStudent.Add(newStudent);
-                    return RedirectToAction("Home");
-                }
+					repoStudent.Add(newStudent);
+					return RedirectToAction("Home");
+				}
 
-                ViewBag.Tracks = repoTrack.GetActiveTracks();
+				ViewBag.Tracks = repoTrack.GetActiveTracks();
 
 
 				return RedirectToAction("login");
-            }
-            catch (DbUpdateException ex)
-            {
-                if (ex.InnerException is SqlException sqlException && sqlException.Number == 2601)
-                {
-                    ModelState.AddModelError("Email", "The email address is already in use.");
-                    return View(newStudent);
-                }
-                else
-                {
-                    throw;
-                }
-                
-            }
-        }
+			}
+			catch (DbUpdateException ex)
+			{
+				if (ex.InnerException is SqlException sqlException && sqlException.Number == 2601)
+				{
+					ModelState.AddModelError("Email", "The email address is already in use.");
+					return View(newStudent);
+				}
+				else
+				{
+					throw;
+				}
 
-    }
+			}
+		}
+
+	}
 }

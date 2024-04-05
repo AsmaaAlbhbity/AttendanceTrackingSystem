@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace AttendanceTrackingSystem.Controllers
 {
     [Authorize]
-    [Authorize(Roles = "Security,StudentAffairs,Instructor,Admin")]
+    [Authorize(Roles = "Security,StudentAffairs,Instructor,Admin,Supervisor")]
     public class HomeController : Controller
     {
      

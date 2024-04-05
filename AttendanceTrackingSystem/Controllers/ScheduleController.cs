@@ -2,13 +2,16 @@
 using AttendanceTrackingSystem.Models;
 using AttendanceTrackingSystem.Repository;
 using AttendanceTrackingSystem.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NuGet.DependencyResolver;
 using System.Security.Claims;
 
 namespace AttendanceTrackingSystem.Controllers
 {
+	[Authorize(Roles = "Supervisor")]
 	public class ScheduleController : Controller
 	{
 		IRepoInstructor repoInstructor;
@@ -27,6 +30,7 @@ namespace AttendanceTrackingSystem.Controllers
 		{
 			return View();
 		}
+		[Authorize(Roles = "Instructor,Supervisor")]
 		[HttpPost]
 		public IActionResult ProcessTrackSchedule(int? trackId)
 		{
@@ -39,7 +43,7 @@ namespace AttendanceTrackingSystem.Controllers
 			// Redirect to the same action but using the GET method
 			return RedirectToAction("ShowTrackSchedule", new { trackId = trackId });
 		}
-
+		[Authorize(Roles = "Instructor,Supervisor")]
 		[HttpGet]
 		public IActionResult ShowTrackSchedule(int? trackId)
 		{
@@ -80,11 +84,12 @@ namespace AttendanceTrackingSystem.Controllers
 			}
 		}
 
-		public IActionResult ViewAllSchedule(int trackId)
+		public IActionResult ViewAllSchedule()
 		{
 			try
 			{
-				ViewBag.SelectedTrackId = trackId;
+				int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+				int trackId = repoInstructor.GetTrackBySupervisor(userId);
 				List<Schedule> WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId);
 				return View(WholeSchedule);
 			}
@@ -96,7 +101,33 @@ namespace AttendanceTrackingSystem.Controllers
 		}
 		public IActionResult AddSchedule()
 		{
-			return View();
+			int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			int trackId = repoInstructor.GetTrackBySupervisor(userId);
+			var upcomingWeekSchedules = repoSchedule.CreateNextWeekSchedukeTemplate();
+			return View(upcomingWeekSchedules);
+		}
+
+		[HttpPost]
+		public IActionResult AddSchedule(List<Schedule> schedules)
+		{
+			try
+			{
+				int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+				int trackId = repoInstructor.GetTrackBySupervisor(userId);
+
+				foreach (var schedule in schedules)
+				{
+					repoSchedule.AddOrReplaceSchedule(schedule);
+				}
+
+				var WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId); // Retrieve the updated schedule list
+				return View("ViewAllSchedule", WholeSchedule);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "An error occurred in AddSchedule action");
+				return View("Error");
+			}
 		}
 
 	}
