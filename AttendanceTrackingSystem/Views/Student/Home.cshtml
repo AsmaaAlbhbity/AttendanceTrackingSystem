@@ -13,16 +13,16 @@
         </div>
     </div>
 
-    @Html.Partial("StudentChartPartialView.cshtml", Model)
+    @Html.Partial("_StudentChartPartialView.cshtml", Model)
 
     <div class="Schedule">
         <h2 class="custome-title">Show Your Schedule</h2>
-        @Html.Partial("StudentScudlePartialView.cshtml", Model)
+        @Html.Partial("_StudentScudlePartialView.cshtml", Model)
     </div>
 
     <div class="Permissions">
         <h2 class="custome-title">Permissions History</h2>
-        @Html.Partial("~/Views/Shared/_UsersPermissionsStatePartialView.cshtml", Model)
+    @Html.Partial("_StudentPermissionsStatePartialView.cshtml", Model)
     </div>
 
     <a asp-action="MakePermission" asp-controller="Student" asp-route-Id="@Model.UserId" class="custome-btn d-block " >make a permission</a>

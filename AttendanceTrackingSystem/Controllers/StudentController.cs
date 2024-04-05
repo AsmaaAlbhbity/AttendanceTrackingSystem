@@ -3,6 +3,8 @@ using AttendanceTrackingSystem.Models;
 using AttendanceTrackingSystem.Repository;
 using AttendanceTrackingSystem.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace AttendanceTrackingSystem.Controllers
@@ -15,6 +17,7 @@ namespace AttendanceTrackingSystem.Controllers
         IRepoMsg repoMsg;
         IRepoPermission repoPermission;
         IRepoAccount repoAccount;
+    
         private readonly ILogger<StudentController> _logger;
 
         public StudentController(ILogger<StudentController> logger,IRepoAccount _repoAccount,IRepoPermission _repoPermission, IRepoAttendance _repoAttendance, IRepoStudent _repoStudent,IRepoMsg _repoMsg)
@@ -112,9 +115,21 @@ namespace AttendanceTrackingSystem.Controllers
                 return View(permission);
             }
         }
+        [HttpPost]
+        public IActionResult DeletePermission(int permissionId)
+        {
+            repoPermission.Delete(permissionId);
+            return RedirectToAction("Home");
+        }
+
+      
+
+
         public IActionResult Index()
         {
             return View();
         }
     }
 }
+
+

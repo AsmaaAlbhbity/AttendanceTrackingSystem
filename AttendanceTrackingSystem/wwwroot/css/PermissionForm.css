@@ -43,7 +43,7 @@ input[type="datetime-local"],select {
     outline: none;
 }
 
-.main-title {
+.main-titleP {
     text-align: center;
     margin: 40px auto;
     color:var(--main-color)
