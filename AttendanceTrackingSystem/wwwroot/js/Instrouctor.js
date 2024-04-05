@@ -1,56 +1,11 @@
-﻿// Pagination variables
-var currentPage = 1;
-var itemsPerPage = 3;
-
-// Function to display the current page
-function displayPage() {
-    var startIndex = (currentPage - 1) * itemsPerPage;
-    var endIndex = startIndex + itemsPerPage;
-    var tableRows = $("#instructorTable tbody tr");
-
-    tableRows.hide(); // Hide all rows
-
-    // Show rows for the current page
-    for (var i = startIndex; i < endIndex && i < tableRows.length; i++) {
-        $(tableRows[i]).show();
-    }
-
-    // Update pagination buttons
-    updatePaginationButtons();
-}
-
-// Function to navigate to a specific page
-function goToPage(page) {
-    currentPage = page;
-    displayPage();
-}
-
-// Function to navigate to the previous page
-function previousPage() {
-    if (currentPage > 1) {
-        currentPage--;
-        displayPage();
-    }
-}
-
-// Function to navigate to the next page
-function nextPage() {
-    var totalRows = $("#instructorTable tbody tr").length;
-    var totalPages = Math.ceil(totalRows / itemsPerPage);
-
-    if (currentPage < totalPages) {
-        currentPage++;
-        displayPage();
-    }
-}
-
+﻿
 // Function to search the table by email or ID
 function searchTable() {
     var searchText = $("#searchInput").val().toLowerCase().trim();
     var tableRows = $("#instructorTable tbody tr");
 
     if (searchText === "") {
-        // Show all rows when search input is empty
+
         tableRows.show();
     } else {
         tableRows.each(function (index) {
@@ -66,39 +21,10 @@ function searchTable() {
         });
     }
 
-    // Reset pagination to the first page when searching
-    currentPage = 1;
+    
 
-    // Update pagination buttons
-    updatePaginationButtons();
-}
 
-// Add event listener for keyup event on the search input field
-document.getElementById("searchInput").addEventListener("keyup", function (event) {
-    // Check if the search input is empty after releasing the delete key
-    if (event.keyCode === 8 && this.value.trim() === "") {
-        // If it's empty, call the function to reset the page state
-        resetPageState();
-    }
-});
 
-// Function to reset the page state to initial state
-function resetPageState() {
-    // Reset pagination variables
-    currentPage = 1;
-
-    // Show only the rows for the first page
-    $("#instructorTable tbody tr").each(function (index) {
-        if (index < itemsPerPage) {
-            $(this).show();
-        } else {
-            $(this).hide();
-        }
-    });
-
-    // Update pagination buttons
-    updatePaginationButtons();
-}
 
 // Function to populate modal
 function populateModal(userId, name, imgUrl, email, salary, supervisorTrack) {
@@ -108,15 +34,14 @@ function populateModal(userId, name, imgUrl, email, salary, supervisorTrack) {
     $('#modalUserSalary').text(salary);
     if (supervisorTrack) {
         $('#modalSupervisorTrack').text(supervisorTrack);
-        $('#trackName').show(); // Show the paragraph if supervisorTrack is not null
+        $('#trackName').show(); 
     } else {
-        $('#trackName').hide(); // Hide the paragraph if supervisorTrack is null
+        $('#trackName').hide(); 
     }
     $('#modalInstructorImage').attr('src', imgUrl);
 }
 
-// Call displayPage initially to show the first page
-displayPage();
+
 
 function deleteInstructor(userId, userName) {
     Swal.fire({
