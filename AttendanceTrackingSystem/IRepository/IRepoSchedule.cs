@@ -10,7 +10,6 @@ namespace AttendanceTrackingSystem.IRepository
 		public void Update(Schedule schedule);
 		public void Delete(int id);
 		public List<Schedule> GetWeeklyScheduleForTrack(int TrackId);
-
-
+		public List<Schedule> GetAllScheduleForTrack(int trackId);
 	}
 }
