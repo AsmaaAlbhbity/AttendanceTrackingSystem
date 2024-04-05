@@ -267,6 +267,7 @@ namespace AttendanceTrackingSystem.Controllers
             ViewBag.stdAffCount = repoEmployee.getEmpCount(Models.EmployeeType.StudentAffairs);
             ViewBag.secCount = repoEmployee.getEmpCount(Models.EmployeeType.Security);
             ViewBag.trackCount = repoTrack.getAll().Count();
+            ViewBag.tracks=repoTrack.getAll();
 
             var userTypeCounts = repoUser.GetUserTypeCounts();
             var attendanceCountsPerUserType = repoAttendance.GetAttendanceCountsPerUserType();

@@ -36,12 +36,7 @@ namespace AttendanceTrackingSystem.Controllers
         {
             try
             {
-                //            var email = HttpContext.User.FindFirstValue(ClaimTypes.Email);
-                //            var user=repoAccount.GetUserByEmail(email);
-                //            if (user != null)
-                //            {
-                //	id = user.UserId;
-                //}
+              
                 id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 var startDate = DateTime.Today.AddMonths(-1);
                 endDate ??= DateTime.Today;
@@ -103,9 +98,10 @@ namespace AttendanceTrackingSystem.Controllers
             return View();
         }
         [HttpPost]
-        [HttpPost]
+     
         public IActionResult MakePermission(Permission permission)
         {
+            ModelState.Remove("User");
             if (ModelState.IsValid)
             {
                 try

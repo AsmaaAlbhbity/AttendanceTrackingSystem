@@ -142,8 +142,8 @@ nav i{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
-    z-index: 9999; /* Ensure it's on top of other content */
+    background-color: rgba(255, 255, 255, 0.1); 
+    z-index: 9999; 
 }
 
 #spinner {
@@ -204,6 +204,9 @@ nav i{
 }
 
 @media (max-width: 574px) {
+    #sidebarCollapse.show-nav{
+        display:block;
+    }
     .navbar-toggler {
         display: block;
     }
@@ -230,6 +233,9 @@ nav i{
 }
 
 @media (max-width: 997px) {
+    #sidebarCollapse.show-nav {
+        display: block;
+    }
     .navbar {
         display: block;
         padding-left: 40px;

@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace AttendanceTrackingSystem.Controllers
 {
     [Authorize]
-    [Authorize(Roles = "Security,StudentAffairs,Instructor,Admin")]
+    [Authorize(Roles = "Security,StudentAffairs,Instructor,Admin,Student")]
     public class HomeController : Controller
     {
      
@@ -101,6 +101,8 @@ namespace AttendanceTrackingSystem.Controllers
             var userAttendance = repoAttendance.GetUserAttendance(userId, startDate, DateTime.Today);
             return Json(userAttendance);
         }
+
+   
 
         [HttpPost]
         public IActionResult MarkMessageAsRead(int userId )

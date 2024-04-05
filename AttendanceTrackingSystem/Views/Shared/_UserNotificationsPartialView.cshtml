@@ -13,7 +13,7 @@
     
     @if (Model.userMessages.Count == 0 && isStudentAffairs && hasPendingStudents)
     {
-        <div class="msg-item" id="pendingStudentsNotification" data-msg-id="pendingStudentsNotification">
+        <div class="msg-item " id="pendingStudentsNotification" data-read="False" data-msg-id="pendingStudentsNotification">
             <p class="msg-title">Pending Student List</p>
             <p class="msg-des">There are pending students waiting for review.</p>
             <!-- Add more details or links if needed -->
@@ -41,7 +41,7 @@
 <script>
     $(document).ready(function () {
         $('#pendingStudentsNotification').click(function () {
-            // Redirect to the page for changing pending student state
+            
             window.location.href = '/StudentAffair/ApproveOrRejectPendingStudents';
         });
         var hasUnreadMessages = $('.msg-item[data-read="False"]').length > 0;
@@ -70,9 +70,10 @@
                 success: function () {
                     $('.msg-item').data('read', true);
                     updateNotificationStatus();
+                  
                 },
                 error: function () {
-                    alert('Failed to mark all messages as read');
+                    console.log('Failed to mark all messages as read');
                 }
             });
         });

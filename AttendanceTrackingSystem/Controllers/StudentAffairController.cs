@@ -7,6 +7,7 @@ using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
 using OfficeOpenXml;
 using AttendanceTrackingSystem.ViewModel;
+using AttendanceTrackingSystem.Migrations;
 
 namespace AttendanceTrackingSystem.Controllers
 {
@@ -15,11 +16,14 @@ namespace AttendanceTrackingSystem.Controllers
         int pageSize = 5;
         private readonly IRepoStudent repoStudent;
         private readonly IRepoTrack repoTrack;
+        private readonly IRepoMsg repoMsg;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        public StudentAffairController(IRepoStudent _repoStudent, IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment)
+        public StudentAffairController(IRepoStudent _repoStudent,IRepoMsg _repoMsg, IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment)
         {
             repoStudent = _repoStudent;
             repoTrack = _repoTrack;
+
+            repoMsg = _repoMsg;
             _hostingEnvironment = hostingEnvironment;
 
         }
@@ -284,17 +288,33 @@ namespace AttendanceTrackingSystem.Controllers
         
             if (action == "approve")
             {
-            
                 repoStudent.ApproveStudent(studentId);
-            }
+				var message = new Msg
+				{
+					UserId = studentId,
+					Title = "Welcome Message",
+					Description = "Welcome to our system!",
+					Date = DateTime.Now,
+					IsRead = false
+				};
+
+				repoMsg.Add(message);
+            
+			}
             else if (action == "reject")
             {
-             
-                repoStudent.RejectStudent(studentId);
+
+                    repoStudent.Delete(studentId);
+    
             }
 
-    
-            return RedirectToAction("ApproveOrRejectPage");
+            var hasPendingStudents=repoStudent.GetPendingStudents().Count() > 0;
+            if (!hasPendingStudents)
+            {
+               
+                return RedirectToAction("Home","Home");
+            }
+            return RedirectToAction("ApproveOrRejectPendingStudents");
         }
 
     }
