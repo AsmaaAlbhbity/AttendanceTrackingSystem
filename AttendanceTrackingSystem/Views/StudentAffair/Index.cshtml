@@ -163,8 +163,14 @@
 
     <script>
 
+        if ('@TempData["SuccessMessage"]' !== '') {
+            toastr.success('@TempData["SuccessMessage"]');
+
+        }
+     
         $(document).ready(function () {
-            displayToastMessages();
+    
+
 
             $("#submitUploadExcel").click(function () {
            

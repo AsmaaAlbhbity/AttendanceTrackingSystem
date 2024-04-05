@@ -12,6 +12,7 @@ namespace AttendanceTrackingSystem.Controllers
     public class StudentAffairController : Controller
     {
         int pageSize = 5;
+        static string myToastMessage = "";
         private readonly IRepoStudent repoStudent;
         private readonly IRepoTrack repoTrack;
         private readonly IWebHostEnvironment _hostingEnvironment;
@@ -24,10 +25,8 @@ namespace AttendanceTrackingSystem.Controllers
         }
         public IActionResult Index(string? message, int? page, string? searchTerm)
         {
-            if (message != null)
-            {
-                TempData["SuccessMessage"] = message;
-            }
+            TempData["SuccessMessage"] = myToastMessage;
+            
 
             var allStudents = repoStudent.getAll(); 
 
@@ -83,7 +82,7 @@ namespace AttendanceTrackingSystem.Controllers
                 ViewBag.Header = "Update Student";
                 ViewBag.Tracks = repoTrack.getAll();
                 var student = repoStudent.getById(id.Value);
-                student.Image = await GetFileFromPath(student.ImgUrl);
+                //student.Image = await GetFileFromPath(student.ImgUrl);
 
 
                 // Call GetFileFromPath asynchronously to get the IFormFile object representing the image file
@@ -121,22 +120,23 @@ namespace AttendanceTrackingSystem.Controllers
                         if (student.UserId != 0)
                         {
                             repoStudent.Update(student);
-
-                            return Ok(new { message = "Student has been updated successfully." });
-                        }
-                        else
+                            myToastMessage= "Student has been updated successfully.";
+							return RedirectToAction("Index");
+							
+						}
+						else
                         {
                             repoStudent.Add(student);
-                            //return RedirectToAction("Index", new { message = "Student has been created successfully." });
-                            return Ok(new { message = "Student has been created successfully." });
-                        }
+                            myToastMessage = "Student has been created successfully.";
+                            return RedirectToAction("Index");
 
+                        }
                         //return Ok(new { message = "Student has been created successfully." });
 
                     }
                     else
                     {
-
+                      
                         return BadRequest("Only PNG or JPEG image files are allowed.");
                     }
 

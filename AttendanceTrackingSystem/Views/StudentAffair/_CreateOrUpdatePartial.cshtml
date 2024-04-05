@@ -1,6 +1,7 @@
 ﻿@model AttendanceTrackingSystem.Models.Student
 @{
     SelectList Tracks = new SelectList(ViewBag.Tracks, "TrackId", "Name");
+
 }
 
 <div class="modal-header bg-primary text-white">
@@ -234,11 +235,10 @@
                         $('#spinner-container').show();
                     },
                     success: function (result) {
-                        displayMsg(result.message);
+                       
                         $('#addStudentModal .btn-close').click();
-                        setTimeout(function () {
-                            window.location.href = '/StudentAffair/Index';
-                        }, 2000);
+                        window.location.href = '/StudentAffair/Index';
+                       
                     },
                     error: function (xhr, status, error) {
                         toastr.error(xhr.responseText);

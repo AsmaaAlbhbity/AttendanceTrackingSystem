@@ -12,16 +12,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>@ViewData["Title"]</title>
-	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" rel="stylesheet" integrity="sha512-glciccPoOqr5mfDGmlJ3bpbvomZmFK+5dRARpt62nZnlKwaYZSfFpFIgUoD8ujqBw4TmPa/F3TX28OctJzoLfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
-	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-	<link href="~/css/site.css" rel="stylesheet" />
-	<link href="~/AttendanceTrackingSystem.styles.css" rel="stylesheet" asp-append-version="true" />
-	<link href="~/css/ChartsAndHomeViewsForUsers.css" rel="stylesheet" />
-	<link href="~/css/notifications.css" rel="stylesheet" />
-	<link href="~/css/PermissionForm.css" rel="stylesheet" />
-	<link href="~/css/instructor.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" rel="stylesheet" integrity="sha512-glciccPoOqr5mfDGmlJ3bpbvomZmFK+5dRARpt62nZnlKwaYZSfFpFIgUoD8ujqBw4TmPa/F3TX28OctJzoLfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/AttendanceTrackingSystem.styles.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/ChartsAndHomeViewsForUsers.css" rel="stylesheet" />
+    <link href="~/css/notifications.css" rel="stylesheet" />
+    <link href="~/css/PermissionForm.css" rel="stylesheet" />
+    <link href="~/css/instructor.css" rel="stylesheet" /> 
 
 
 
@@ -94,19 +94,12 @@
 
 	<script src="~/lib/jquery/dist/jquery.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 	<script src="~/js/site.js"></script>
-	<script>
-		// Display toastr messages if TempData contains any
-
-		function displayMsg(msg) {
-			toastr.success(msg);
-		}
-
-	</script>
 	@await RenderSectionAsync("Scripts", required: false)
 
 </body>
