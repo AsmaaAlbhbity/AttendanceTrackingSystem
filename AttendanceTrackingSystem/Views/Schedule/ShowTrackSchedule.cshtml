@@ -40,7 +40,7 @@
 					}
 				}
 			</select>
-			<button type="submit" class="btn btn-primary mt-3">Show Schedule</button>
+			@* <button type="submit" class="btn btn-primary mt-3">Show Schedule</button> *@
 		</form>
 	</div>
 </div>
@@ -97,6 +97,11 @@ else
 {
 	<p class="alert alert-info text-center">No schedule assigned.</p>
 }
+<script>
+	$("#trackId").change(function () {
+		$(this).closest("form").submit();
+	});
+</script>
 
 
 
