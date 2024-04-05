@@ -13,7 +13,6 @@ namespace AttendanceTrackingSystem.Controllers
     public class StudentAffairController : Controller
     {
         int pageSize = 5;
-        string myToastMessage = "";
         private readonly IRepoStudent repoStudent;
         private readonly IRepoTrack repoTrack;
         private readonly IWebHostEnvironment _hostingEnvironment;
@@ -67,6 +66,7 @@ namespace AttendanceTrackingSystem.Controllers
             var student = repoStudent.getById(id.Value);
             return PartialView("_Details", student);
         }
+
         [HttpGet]
         public async Task<IActionResult> Create(int? id)
         {
@@ -89,6 +89,9 @@ namespace AttendanceTrackingSystem.Controllers
 
 
         [HttpPost]
+        /// <summary>
+        /// Create a new student or update an existing one
+        /// </summary>
         public IActionResult Create(Student student)
         {
             try
@@ -101,7 +104,9 @@ namespace AttendanceTrackingSystem.Controllers
                 student.IsApproved = Approve.Accepted;
 
                 if (!ModelState.IsValid)
+                {
                     return BadRequest("Incorrect data input!");
+                }
 
                 if (student.UserId != 0)
                 {

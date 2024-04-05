@@ -5,8 +5,11 @@
 
 }
 
-<div class="container mt-5">
-    <h4 class="text-center mb-4">Manage Students</h4>
+<div class="container" id="StudentStyles">
+  <div id="title-container">
+        <h1 class="main-title">Student Management</h1>
+        <img src="~/images/Buffer.gif" class="imgTitle" />
+   </div>
     <div class="row justify-content-center">
         <div class="col-md-6">
             <form method="get">
@@ -14,7 +17,7 @@
                     <div class="input-group-prepend border-0">
                         <button id="button-addon4" type="submit" class="btn btn-link text-info"><i class="fa fa-search"></i></button>
                     </div>
-                    <input type="search" name="searchTerm" placeholder="Search by email" aria-describedby="button-addon4" class="form-control bg-none border-0" value="@ViewBag.SearchTerm">
+                    <input type="search" name="searchTerm" placeholder="Search Students by email" aria-describedby="button-addon4" class="form-control bg-none border-0" value="@ViewBag.SearchTerm">
                 </div>
             </form>
         </div>
@@ -22,12 +25,12 @@
     <div class="row">
         <div class="col-md-6">
             <button class="btn btn-primary mb-3 add-btn" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa fa-plus"></i> Add Student </button>
-            <button class="btn btn-success mb-3 add-btn" data-bs-toggle="modal" data-bs-target="#uploadExcelModal"><i class="fa fa-upload"></i> Upload Students from Excel </button>
+            <button class="btn btn-success mb-3 " data-bs-toggle="modal" data-bs-target="#uploadExcelModal"><i class="fa fa-upload"></i> Upload Students from Excel </button>
 
         </div>
     </div>
  
-    <table class="table table-hover">
+    <table class="table table-hover" id="studentTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -51,10 +54,11 @@
                     <td>@student.IsApproved</td>
                     <td>@student.Track.Name</td>
                     <td>
-                        <a class="btn btn-sm btn-outline-primary mx-1 details-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#studentDetailsModal"><i class="fa fa-info"></i> Details</a>
-                        <a class="btn btn-sm btn-light mx-1 update-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa fa-pen-nib"></i> Update</a>
-                        <a class="btn btn-sm btn-danger mx-1 delete-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#deleteStudentModal"><i class="fa fa-user-slash"></i> Delete</a>
-
+                        <div class="d-flex justify-content-center justify-content-md-end">
+                            <a class="btn btn-sm btn-outline-primary mx-1 details-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#studentDetailsModal"><i class="fa fa-info"></i> Details</a>
+                            <a class="btn btn-sm btn-light mx-1 update-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#addStudentModal"><i class="fa fa-pen-nib"></i> Update</a>
+                            <a class="btn btn-sm btn-danger mx-1 delete-btn" data-student-id="@student.UserId" data-bs-toggle="modal" data-bs-target="#deleteStudentModal"><i class="fa fa-user-slash"></i> Delete</a>
+                        </div>
                     </td>
                 </tr>
             }

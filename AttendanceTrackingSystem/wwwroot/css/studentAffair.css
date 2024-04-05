@@ -1,0 +1,159 @@
+﻿/*===============================================================*/
+/*show Student*/
+/*===============================================================*/
+#StudentStyles {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: #333;
+    padding: 1vw;
+}
+#title-container {
+    text-align: left;
+    padding-right: 5vw;
+
+}
+
+/*===============================================================*/
+/* Title Styles */
+/*===============================================================*/
+
+#title-container .imgTitle {
+    width: 12vw;
+    height: 20vh;
+    margin-left: 18vw;
+}
+
+#title-container .InsTitle {
+    display: inline-block;
+    font-size: 2vw; /* Adjust font size */
+    vertical-align: middle;
+    margin-left: 5vw;
+}
+
+/*===============================================================*/
+#StudentStyles #studentTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1vw;
+    background-color: #fff;
+    border-radius: 0.5vw;
+    overflow: hidden;
+    box-shadow: 0 0 2vw rgba(0, 0, 0, 0.1);
+}
+
+#StudentStyles #studentTable th, td {
+    padding: 0.5vw;
+    border-bottom: 0.1vw solid #ddd;
+    font-size: 1.1vw;
+    text-align: center;
+}
+
+#studentTable th {
+    background-color: var(--main-color);
+    color: #fff;
+}
+
+#studentTable td {
+    color: var(--main-color);
+}
+
+#StudentStyles input[type="search"] {
+/*    padding: 1vw 2vw;
+    width: 20vw;*/
+    border: 0.1vw solid #ccc;
+    border-radius: 1vw;
+    font-size: 1.1vw;
+
+    float: right;
+}
+#StudentStylesinput[type="search"]:active {
+    border: solid var(--main-color) 1px;
+}
+
+#StudentStyles .add-btn {
+    background-color: var(--main-color);
+/*    padding: 1vw 2vw;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 1vw;
+    float: left;
+    margin-right: 2vw;
+    width: 14vw;*/
+}
+/*
+#StudentStyles .add-btn:hover {
+    background-color: #5a2d9c;
+}
+
+#StudentStyles .close {
+    color: #aaa;
+    float: right;
+    font-size: 2.8vw;
+    font-weight: bold;
+}
+#StudentStyles .close:hover,
+#StudentStyles .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}*/
+/*suggest styles from instructor.css*/
+
+/*===============================================================*/
+
+.modal-body .row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5em;
+}
+.modal-body .form-control {
+    padding: 0.5em 0;
+    border: none;
+    border-bottom: 2px solid var(--main-color);
+    outline: none;
+}
+.modal-body label {
+    top: 0.5em;
+    left: 0;
+    transition: transform 0.3s, font-size 0.3s;
+    pointer-events: none;
+    margin-left: 2vw;
+    color: var(--main-color);
+    transform-origin: left top;
+}
+.modal-body input {
+    width: 100%;
+    padding: 0.5em 0;
+    border: none;
+    border-bottom: 2px solid var(--main-color);
+    outline: none;
+}
+.modal-body input :focus
+.modal-body input :not(:placeholder-shown) {
+    border-color: var(--main-color);
+}
+
+.modal-body input:focus + label,
+.modal-body input:not(:placeholder-shown) + label {
+    transform: translateY(-1.5em) scale(0.8);
+    color: var(--main-color);
+}
+.modal-body input:focus + label {
+    color: var(--main-color);
+}
+#submitBtn {
+    padding: 0.5em 1em;
+    border: none;
+    background-color: var(--main-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+#submitBtn:hover {
+    background-color: #007bff;
+    text-decoration: none;
+}
