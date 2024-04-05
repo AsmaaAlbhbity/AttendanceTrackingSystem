@@ -31,6 +31,7 @@
 
         <input asp-for="ImgUrl" hidden />
         <input asp-for="UserId" hidden />
+        <input asp-for="StudentDegree" hidden />
         <div class="row mb-3">
             <div class="col-md-4">
                 <label class="font-weight-bold" asp-for="Name"></label>
@@ -66,16 +67,6 @@
             <div class="col-md-8">
                 <input class="form-control" asp-for="Password">
                 <span asp-validation-for="Password"></span>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label class="font-weight-bold" asp-for="StudentDegree">Degree</label>
-            </div>
-            <div class="col-md-8">
-                <input class="form-control" asp-for="StudentDegree">
-                <span asp-validation-for="StudentDegree" class="text-danger"></span>
             </div>
         </div>
 

@@ -6,6 +6,7 @@ using System.Net.Mime;
 using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
 using OfficeOpenXml;
+using System.ComponentModel.DataAnnotations;
 
 namespace AttendanceTrackingSystem.Controllers
 {
@@ -88,47 +89,60 @@ namespace AttendanceTrackingSystem.Controllers
 
 
         [HttpPost]
-        public IActionResult Create( Student student)
+        public IActionResult Create(Student student)
         {
-            ModelState.Remove("Msgs");
-            ModelState.Remove("UserType");
-            ModelState.Remove("Track");
-
-            student.UserType = "1";
-            student.IsApproved = Approve.Accepted;
-
-            if (!ModelState.IsValid)
-                return BadRequest("Incorrect data input!");
-
-            if (student.UserId != 0)
+            try
             {
-                if (student.Image != null && (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
+                ModelState.Remove("Msgs");
+                ModelState.Remove("UserType");
+                ModelState.Remove("Track");
+
+                student.UserType = ((int)UserType.Student).ToString();
+                student.IsApproved = Approve.Accepted;
+
+                if (!ModelState.IsValid)
+                    return BadRequest("Incorrect data input!");
+
+                if (student.UserId != 0)
                 {
-                    SaveImageToDirectory(student);
-                    repoStudent.Update(student);
-                    return Ok(new { message = "Student has been updated successfully." });
-                }
-                else if (student.Image == null && repoStudent.IsImageExistedBefore(student.ImgUrl))
-                {
-                    repoStudent.Update(student);
-                    return Ok(new { message = "Student has been updated successfully." });
+                    if (student.Image != null && (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
+                    {
+                        SaveImageToDirectory(student);
+                        repoStudent.Update(student);
+                        return Ok(new { message = "Student has been updated successfully." });
+                    }
+                    else if (student.Image == null && repoStudent.IsImageExistedBefore(student.ImgUrl))
+                    {
+                        repoStudent.Update(student);
+                        return Ok(new { message = "Student has been updated successfully." });
+                    }
+                    else
+                        return BadRequest("Only PNG or JPEG image files are allowed.");
                 }
                 else
-                    return BadRequest("Only PNG or JPEG image files are allowed.");
+                {
+                    if (student.Image == null || student.Image.Length == 0)
+                        return BadRequest("You must include a file.");
+
+                    if (!(student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
+                        return BadRequest("Only PNG or JPEG image files are allowed.");
+
+                    SaveImageToDirectory(student);
+                    repoStudent.Add(student);
+                    return Ok(new { message = "Student has been created successfully." });
+                }
             }
-            else
+            catch (ValidationException ex)
             {
-                if (student.Image == null || student.Image.Length == 0)
-                    return BadRequest("You must include a file.");
-
-                if (!(student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
-                    return BadRequest("Only PNG or JPEG image files are allowed.");
-
-                SaveImageToDirectory(student);
-                repoStudent.Add(student);
-                return Ok(new { message = "Student has been created successfully." });
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Handle other unexpected exceptions
+                return StatusCode(500, "An error occurred while processing the request.");
             }
         }
+
         [HttpPost]
         public IActionResult Delete(int id)
         {
