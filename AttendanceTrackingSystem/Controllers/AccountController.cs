@@ -37,69 +37,78 @@ namespace AttendanceTrackingSystem.Controllers
 			if (ModelState.IsValid)
 			{
 				User user = repoAccount.GetUser(model.Email, model.Password);
-				if (user != null)
+				if (user != null )
 				{
-					Claim claim1 = new Claim(ClaimTypes.Name, user.Name);
-					Claim claim2;
-					if (user.UserType != "Employee")
+					if (user.IsApproved == Approve.Accepted)
 					{
-						claim2 = new Claim(ClaimTypes.Role, user.UserType);
+						Claim claim1 = new Claim(ClaimTypes.Name, user.Name);
+						Claim claim2;
+						if (user.UserType != "Employee")
+						{
+							claim2 = new Claim(ClaimTypes.Role, user.UserType);
+						}
+						else
+						{
+							claim2 = new Claim(ClaimTypes.Role, repoAccount.GetEmployeeType(user.UserId));
+						}
+						Claim claim3 = new Claim(ClaimTypes.Email, user.Email);
+						Claim claim4 = new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString());
+						Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl?.ToString() ?? "");
+						ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+						identity.AddClaim(claim1);
+						identity.AddClaim(claim2);
+						identity.AddClaim(claim3);
+						identity.AddClaim(claim4);
+						identity.AddClaim(claim5);
+						ClaimsPrincipal principal = new ClaimsPrincipal(identity);
+						await HttpContext.SignInAsync(principal);
+						TempData["role"] = claim2.Value;
+						//ViewBag.ImgUrl = user.ImgUrl ?? "~images/user.png";
+						TempData["img"] = user.ImgUrl ?? "/images/user.png";
+						EditProfileViewModel model1 = new EditProfileViewModel
+						{
+							Name = user.Name,
+							Email = user.Email,
+							Phone = user.Phone,
+							ImgUrl = user.ImgUrl ?? "/images/user.png",
+							OldPassword = user.Password
+						};
+
+						if (user.UserType == "Employee")
+							ViewBag.role = repoAccount.GetEmployeeType(user.UserId).ToString();
+						else
+							ViewBag.role = user.UserType;
+
+						switch (user.UserType)
+						{
+							case "Student":
+								return RedirectToAction("Home", "Student");
+							case "Instructor":
+								return RedirectToAction("Home", "Home");
+							case "Employee":
+								switch (repoAccount.GetEmployeeType(user.UserId))
+								{
+									case "Admin":
+										return RedirectToAction("Home", "Admin");
+									case "Security":
+									case "StudentAffairs":
+
+										return RedirectToAction("Home", "Home");
+
+
+									default:
+										return RedirectToAction("Index", "Home"); // Default fallback
+								}
+							// Add more cases for other user types as needed...
+							default:
+								return RedirectToAction("Index", "Home");
+						}
 					}
 					else
 					{
-						claim2 = new Claim(ClaimTypes.Role, repoAccount.GetEmployeeType(user.UserId));
-					}
-					Claim claim3 = new Claim(ClaimTypes.Email, user.Email);
-					Claim claim4 = new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString());
-                    Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl?.ToString() ?? "");
-                    ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-					identity.AddClaim(claim1);
-					identity.AddClaim(claim2);
-					identity.AddClaim(claim3);
-					identity.AddClaim(claim4);
-					identity.AddClaim(claim5);
-					ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-					await HttpContext.SignInAsync(principal);
-					TempData["role"] = claim2.Value;
-					//ViewBag.ImgUrl = user.ImgUrl ?? "~images/user.png";
-					TempData["img"] = user.ImgUrl ?? "/images/user.png";
-					EditProfileViewModel model1 = new EditProfileViewModel
-					{
-						Name = user.Name,
-						Email = user.Email,
-						Phone = user.Phone,
-						ImgUrl = user.ImgUrl ?? "/images/user.png",
-						OldPassword = user.Password
-					};
+                        TempData["ErrorMessageApprove"] = "Your account is not approved yet. Please try again later.";
+                        return RedirectToAction("Login");
 
-					if (user.UserType == "Employee")
-						ViewBag.role = repoAccount.GetEmployeeType(user.UserId).ToString();
-					else
-						ViewBag.role = user.UserType;
-
-                    switch (user.UserType)
-                    {
-                        case "Student":
-                            return RedirectToAction("Home", "Student");
-                        case "Instructor":
-                            return RedirectToAction("Home", "Home");
-                        case "Employee":
-                            switch (repoAccount.GetEmployeeType(user.UserId))
-                            {
-                                case "Admin":
-                                    return RedirectToAction("Home", "Admin");
-                                case "Security":
-                                case "StudentAffairs":
-
-                                    return RedirectToAction("Home", "Home");
-                      
-             
-                                default:
-                                    return RedirectToAction("Index", "Home"); // Default fallback
-                            }
-                        // Add more cases for other user types as needed...
-                        default:
-                            return RedirectToAction("Index", "Home");
                     }
                 }
 				else
@@ -189,17 +198,30 @@ namespace AttendanceTrackingSystem.Controllers
 
         public IActionResult Signup()
 		{
-			ViewBag.Tracks=repoTrack.GetActiveTracks();
-        
+			
+            var activeTracksWithStudentCount=repoTrack.GetActiveTracksWithStudentCount();
+            ViewBag.ActiveTracks = activeTracksWithStudentCount;
+
             return View();
 		}
 
         [HttpPost]
         public async Task<IActionResult> Signup(Student newStudent, IFormFile ImgUrl)
         {
+			
             try
             {
-                //ModelState.Remove("ImgUrl");
+                if (ImgUrl == null)
+                    ModelState.Remove("ImgUrl");
+
+                ModelState.Remove("Track");
+                var tenYearsAgo = DateTime.Today.AddYears(-10);
+                if (newStudent.StudentGraduationYear > DateTime.Today || newStudent.StudentGraduationYear < tenYearsAgo)
+                {
+                    ModelState.AddModelError("StudentGraduationYear", "Please enter a date within the last 10 years.");
+                }
+
+
                 if (ModelState.IsValid)
                 {
                     if (ImgUrl != null)
@@ -213,15 +235,18 @@ namespace AttendanceTrackingSystem.Controllers
 
                         newStudent.ImgUrl = ImgeName;
                     }
+                   
+
 
                     repoStudent.Add(newStudent);
-                    return RedirectToAction("Home");
+                    return RedirectToAction("Login");
                 }
+              
+                var activeTracksWithStudentCount = repoTrack.GetActiveTracksWithStudentCount();
+                ViewBag.ActiveTracks = activeTracksWithStudentCount;
 
-                ViewBag.Tracks = repoTrack.GetActiveTracks();
 
-
-				return RedirectToAction("login");
+                return View(newStudent);
             }
             catch (DbUpdateException ex)
             {

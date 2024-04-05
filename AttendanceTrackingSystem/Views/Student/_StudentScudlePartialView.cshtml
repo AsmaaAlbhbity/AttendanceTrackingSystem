@@ -21,7 +21,7 @@
 @if (Model.StudentSchedule != null && Model.StudentSchedule.Count > 0)
 {
     <table class="table">
-        <caption style="caption-side: top; font-size: 24px;">@ViewBag.TrackName - Supervisor: @ViewBag.SupervisorName</caption>
+        <caption style="caption-side: top; font-size: 24px;">@ViewBag.TrackName - Supervisor: @ViewBag.Supervisor.Name </caption>
         <thead>
             <tr>
                 <th style="width: 100px;">Date</th>
@@ -50,7 +50,7 @@
                     <td>
                         @if (schedule.Type == ScheduleType.Holiday || schedule.Type == ScheduleType.Funday)
                         {
-                            <!-- Empty space -->
+                            
                         }
                         else
                         {

@@ -1,4 +1,5 @@
 ﻿using AttendanceTrackingSystem.Models;
+using AttendanceTrackingSystem.ViewModel;
 
 namespace AttendanceTrackingSystem.IRepository
 {
@@ -10,8 +11,13 @@ namespace AttendanceTrackingSystem.IRepository
         public void Update(Student student);
         public void Delete(int id);
 
+        public List<Student> GetPendingStudents();
         public string GetTrackNameByUserId(int userId);
-        public string GetSupervisorNameByUserId(int userId);
+        public Instructor GetSupervisorByStudentId(int userId);
+        public void ApproveStudent(int studentId);
+
+        public void RejectStudent(int studentId);
+
         public List<Schedule> GetFutureStudentSchedule(int studentId);
         public List<Student> GetPaginatedStudents(int page, int pageSize);
 

@@ -1,5 +1,6 @@
 ﻿using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
+using AttendanceTrackingSystem.ViewModel;
 
 namespace AttendanceTrackingSystem.Repository
 {
@@ -40,9 +41,24 @@ namespace AttendanceTrackingSystem.Repository
             db.SaveChanges();
         }
 
-        public List<Track> GetActiveTracks()
+        
+
+        public List<ActiveTrackWithStudentCount> GetActiveTracksWithStudentCount()
         {
-            return db.Tracks.Where(track => track.IsActive==true).ToList();
+            var activeTracks = db.Tracks.Where(track => track.IsActive).ToList();
+            var activeTracksWithStudentCount = new List<ActiveTrackWithStudentCount>();
+            foreach (var track in activeTracks)
+            {
+                var trackWithStudentCount = new ActiveTrackWithStudentCount
+                {
+                    TrackId = track.TrackId,
+                    TrackName = track.Name,
+                    TrackCapacity=track.Capacity,
+                    StudentCount = db.Students.Count(student => student.TrackId == track.TrackId)
+                };
+                activeTracksWithStudentCount.Add(trackWithStudentCount);
+            }
+            return activeTracksWithStudentCount;
         }
     }
 }

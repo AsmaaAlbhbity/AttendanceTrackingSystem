@@ -19,15 +19,17 @@ namespace AttendanceTrackingSystem.Controllers
         IRepoMsg repoMsg;
         IRepoPermission repoPermission;
         IRepoAccount repoAccount;
+        IRepoStudent repoStudent;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger,IRepoAccount _repoAccount,IRepoPermission _repoPermission ,  IRepoAttendance _repoAttendance,IRepoMsg _repoMsg)
+        public HomeController(ILogger<HomeController> logger,IRepoStudent _repoStudent,IRepoAccount _repoAccount,IRepoPermission _repoPermission ,  IRepoAttendance _repoAttendance,IRepoMsg _repoMsg)
         {
             _logger = logger;
             repoAccount = _repoAccount;
            repoAttendance = _repoAttendance;
             repoMsg = _repoMsg;
             repoPermission = _repoPermission;
+            repoStudent = _repoStudent;
         }
         public IActionResult Index()
         {
@@ -52,13 +54,8 @@ namespace AttendanceTrackingSystem.Controllers
         {
             try
             {
-				var email = HttpContext.User.FindFirstValue(ClaimTypes.Email);
-				var user = repoAccount.GetUserByEmail(email);
-				if (user != null)
-				{
-					userId = user.UserId;
-				}
-				
+		
+                 userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 var startDate = DateTime.Today.AddMonths(-1);
                 endDate ??= DateTime.Today;
 
@@ -84,6 +81,9 @@ namespace AttendanceTrackingSystem.Controllers
                     userMessages = userMessages,
                     UserPermissions = userPermissions,
                 };
+                // for studen affairs to change state
+                var pendingStudents = repoStudent.GetPendingStudents();
+                ViewBag.PendingStudents = pendingStudents;
 
 
                 return View(attendanceSummaryViewModel);

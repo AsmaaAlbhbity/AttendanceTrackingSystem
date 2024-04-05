@@ -32,17 +32,6 @@ select {
     font-size: 16px;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-input[type="datetime-local"],select {
-    height: 45px;
-    border: none;
-    border-bottom: 2px solid var(--main-color);
-    padding: 4px;
-    outline: none;
-}
-
 .main-titleP {
     text-align: center;
     margin: 40px auto;
@@ -66,17 +55,6 @@ button.btn.btn-custom {
    
         border:1px solid white;
     }
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
 
 @media (max-width:787px){
     .imgform {

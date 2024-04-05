@@ -1,5 +1,6 @@
 ﻿using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
+using AttendanceTrackingSystem.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -78,7 +79,7 @@ namespace AttendanceTrackingSystem.Repository
             return null;
         }
 
-        public string GetSupervisorNameByUserId(int userId)
+        public Instructor GetSupervisorByStudentId(int userId)
         {
             var student = db.Students.FirstOrDefault(s => s.UserId == userId);
             if (student != null)
@@ -86,11 +87,29 @@ namespace AttendanceTrackingSystem.Repository
                 var track = db.Tracks.FirstOrDefault(t => t.TrackId == student.TrackId);
                 if (track != null)
                 {
-                    return db.Instructors.FirstOrDefault(i=>i.UserId==track.SupervisorId).Name;
+                    return db.Instructors.FirstOrDefault(i=>i.UserId==track.SupervisorId);
                 }
             }
             return null;
         }
+        //asmaa
+        public List<Student> GetPendingStudents()
+        {
+            return db.Students.Where(std=>std.IsApproved==Approve.pending).ToList();
+        }
+        public void ApproveStudent(int studentId)
+        {
+            db.Students.FirstOrDefault(std=>std.UserId==studentId).IsApproved=Approve.Accepted;
+        }
+        public void RejectStudent(int studentId)
+        {
+            db.Students.FirstOrDefault(std => std.UserId == studentId).IsApproved = Approve.Rejected;
+        }
+
+
+
+
+
     }
 }
 

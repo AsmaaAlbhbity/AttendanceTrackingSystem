@@ -1,4 +1,5 @@
 ﻿using AttendanceTrackingSystem.Models;
+using AttendanceTrackingSystem.ViewModel;
 
 namespace AttendanceTrackingSystem.IRepository
 {
@@ -9,6 +10,7 @@ namespace AttendanceTrackingSystem.IRepository
         public void Add(Track track);
         public void Update(Track track);
         public void Delete(int id);
-        public List<Track> GetActiveTracks();
+
+        public List<ActiveTrackWithStudentCount> GetActiveTracksWithStudentCount();
     }
 }

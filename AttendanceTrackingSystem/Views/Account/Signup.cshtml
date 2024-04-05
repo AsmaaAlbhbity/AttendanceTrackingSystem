@@ -87,13 +87,13 @@
                     <label class="custome-label" asp-for="TrackId"></label>
                     <select id="trackId" class="custome-input" name="TrackId" onchange="checkCapacity()">
                     <option value="">Select Track</option>
-                    @foreach (var track in ViewBag.Tracks)
+                            @foreach (var track in ViewBag.ActiveTracks)
                     {
-                        <option value="@track.TrackId" data-capacity="@track.Capacity" >@track.Name</option>
+                                <option value="@track.TrackId" data-studentCount="@track.StudentCount" data-capacity="@track.TrackCapacity">@track.TrackName</option>
                     }
                     </select>
 
-                   
+                      
                   </div>
 
                 </div>
@@ -101,13 +101,13 @@
 
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="StudentGraduationYear">Graduation Year</label>
-                        <input class="custome-input" asp-for="StudentGraduationYear" oninput="setMaxDate(this)" />
+                        <input class="custome-input" asp-for="StudentGraduationYear"  />
                        
                     </div>
 
 
                 <div class="custom-form-control">
-                    <label class="custome-label" asp-for="ImgUrl"></label>
+                    <label class="custome-label" asp-for="ImgUrl" >Img Url</label>
                     <input type="file" class="custome-input" name="ImgUrl"/>
                   
                 </div>
@@ -115,10 +115,11 @@
 
                 </div>
                 <input type="hidden" asp-for="IsApproved" value="@Approve.pending" />
-                <input type="hidden" asp-for="UserType" value="Student" />
-                @* <input type="hidden" asp-for="StudentDegree" value="255" /> *@
+                <input type="hidden" asp-for="UserType" value="@UserType.Student" />
+                <input type="hidden" asp-for="StudentDegree" value="255" /> 
 
                 <div asp-validation-summary="All" class="text-danger alert-danger"></div>
+                <span id="capacityErrorMessage" class="text-danger alert-danger"></span>
                 <input type="submit" value="Create" class="btn btn-custom" />
             </form>
 
@@ -126,23 +127,11 @@
 
     </div>
 
-    <script>
-        function checkCapacity() {
-            var selectedTrackId = document.getElementById("trackId").value;
-            var selectedTrackCapacity = parseInt(document.getElementById("trackId").options[document.getElementById("trackId").selectedIndex].getAttribute("data-capacity"));
 
+        <script src="~/js/Signup.js">
        
-            if (selectedTrackCapacity < /*  capacity */) {
-                alert("Track capacity exceeded!");
-            }
-        }
-        function setMaxDate(input) {
-  
-            var currentYear = new Date().getFullYear();
-
-            
-            input.setAttribute('max', currentYear);
-        }
     </script>
+   
     </body>
 </html>
+

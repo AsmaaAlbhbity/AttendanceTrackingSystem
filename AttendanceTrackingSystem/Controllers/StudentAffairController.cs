@@ -6,6 +6,7 @@ using System.Net.Mime;
 using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
 using OfficeOpenXml;
+using AttendanceTrackingSystem.ViewModel;
 
 namespace AttendanceTrackingSystem.Controllers
 {
@@ -263,6 +264,38 @@ namespace AttendanceTrackingSystem.Controllers
         }
 
 
+
+
+
+
+        //handle pending student
+        public IActionResult ApproveOrRejectPendingStudents()
+        {
+          
+            var model = repoStudent.GetPendingStudents();
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult ApproveOrReject(int studentId, string action)
+        {
+          
+
+        
+            if (action == "approve")
+            {
+            
+                repoStudent.ApproveStudent(studentId);
+            }
+            else if (action == "reject")
+            {
+             
+                repoStudent.RejectStudent(studentId);
+            }
+
+    
+            return RedirectToAction("ApproveOrRejectPage");
+        }
 
     }
 }
