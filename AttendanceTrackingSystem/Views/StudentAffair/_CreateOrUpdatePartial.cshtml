@@ -17,13 +17,13 @@
                 <label class="font-weight-bold" for="fileInput">Image</label>
             </div>
             <div class="col-md-8 std-img">
-            
+
                 <div id="imageViewer">
                     <img src="@Url.Content("~/Images/Profile/" + Model.ImgUrl)" alt="Student Image" class="img-fluid rounded-circle border" style="max-width: 100px;" />
                     <a type="button" class="fa fa-trash mx-2" style="color: red;" id="removeImageBtn"></a>
                 </div>
 
-                <input  class="form-control" asp-for="Image" style="display: none;">
+                <input class="form-control" asp-for="Image" style="display: none;">
                 <span asp-validation-for="Image" class="text-danger"></span>
 
             </div>
@@ -140,7 +140,7 @@
     </form>
 </div>
 <div id="spinner-container">
-    <div class="spinner-border text-primary"  role="status">
+    <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
@@ -179,8 +179,8 @@
         $('#studentForm input, #studentForm select').on('blur', function () {
             $(this).valid();
         });
-    
-       
+
+
         // Image Functionalities
         if ('@Model.ImgUrl' === '') {
             $('#imageViewer').hide();
@@ -202,8 +202,8 @@
         });
 
 
-     
-    
+
+
         $('#submitBtn').click(function (e) {
             e.preventDefault();
 
@@ -237,10 +237,20 @@
                         $('#spinner-container').show();
                     },
                     success: function (result) {
-                       
+                
                         $('#addStudentModal .btn-close').click();
-                        window.location.href = '/StudentAffair/Index';
-                       
+                        let redirectUrl;
+                        let activePage = parseInt($('.pagination .page-item.active .page-link').text());
+                        if (!isNaN(activePage)) {
+                            redirectUrl = '@Url.Action("Index", "StudentAffair")' + '?page=' + activePage + '&&message=' + result.message;
+                        }
+                        else {
+                            redirectUrl = '@Url.Action("Index", "StudentAffair")' + '?message=' + result.message;
+                        }
+
+                        window.location.href = redirectUrl;
+
+            
                     },
                     error: function (xhr, status, error) {
                         toastr.error(xhr.responseText);

@@ -12,7 +12,7 @@ namespace AttendanceTrackingSystem.Controllers
     public class StudentAffairController : Controller
     {
         int pageSize = 5;
-        static string myToastMessage = "";
+        string myToastMessage = "";
         private readonly IRepoStudent repoStudent;
         private readonly IRepoTrack repoTrack;
         private readonly IWebHostEnvironment _hostingEnvironment;
@@ -25,8 +25,7 @@ namespace AttendanceTrackingSystem.Controllers
         }
         public IActionResult Index(string? message, int? page, string? searchTerm)
         {
-            TempData["SuccessMessage"] = myToastMessage;
-
+            TempData["SuccessMessage"] = message;
 
             var allStudents = repoStudent.getAll();
 
@@ -82,11 +81,6 @@ namespace AttendanceTrackingSystem.Controllers
                 ViewBag.Header = "Update Student";
                 ViewBag.Tracks = repoTrack.getAll();
                 var student = repoStudent.getById(id.Value);
-                //student.Image = await GetFileFromPath(student.ImgUrl);
-
-
-                // Call GetFileFromPath asynchronously to get the IFormFile object representing the image file
-
                 return PartialView("_CreateOrUpdatePartial", student);
             }
 
@@ -112,14 +106,12 @@ namespace AttendanceTrackingSystem.Controllers
                 {
                     SaveImageToDirectory(student);
                     repoStudent.Update(student);
-                    myToastMessage = "Student has been updated successfully.";
-                    return RedirectToAction("Index");
+                    return Ok(new { message = "Student has been updated successfully." });
                 }
                 else if (student.Image == null && repoStudent.IsImageExistedBefore(student.ImgUrl))
                 {
                     repoStudent.Update(student);
-                    myToastMessage = "Student has been updated successfully.";
-                    return RedirectToAction("Index");
+                    return Ok(new { message = "Student has been updated successfully." });
                 }
                 else
                     return BadRequest("Only PNG or JPEG image files are allowed.");
@@ -134,12 +126,8 @@ namespace AttendanceTrackingSystem.Controllers
 
                 SaveImageToDirectory(student);
                 repoStudent.Add(student);
-                myToastMessage = "Student has been created successfully.";
-
-                return RedirectToAction("Index");
+                return Ok(new { message = "Student has been created successfully." });
             }
-
-            return BadRequest("Invalid operation");
         }
         [HttpPost]
         public IActionResult Delete(int id)
