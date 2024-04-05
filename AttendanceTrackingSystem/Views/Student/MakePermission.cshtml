@@ -22,7 +22,7 @@
 
 <img src="~/Images/permission.svg" class="imgform" alt ="user"/>
 <form asp-action="MakePermission" asp-controller="Student" class="Perminssionform ">
-    <h1 class="main-title">Make A Permission</h1>
+    <h1 class="main-titleP">Make A Permission</h1>
     <div class="form-group">
         <label asp-for="Text">Permission Reason:</label>
         <input  asp-for="Text" class="form-control" placeholder="Enter Your Permission Reason" required />
@@ -30,7 +30,7 @@
     </div>
     <div class="form-group my-3">
         <label asp-for="Date">Date:</label>
-        <input asp-for="Date" class="form-control" placeholder="Enter The Date" required />
+        <input asp-for="Date" id="permissionDate" class="form-control" placeholder="Enter The Date" required />
         <span class="text-danger"></span>
     </div>
     <input type="hidden" asp-for="State" value="@PermissionState.Pending" />
@@ -48,3 +48,9 @@
 </form>
 
 
+@section Scripts {
+    <script>
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("permissionDate").setAttribute("min", today);
+    </script>
+}

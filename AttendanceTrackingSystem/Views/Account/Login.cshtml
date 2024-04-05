@@ -19,17 +19,19 @@
 			color: red;
 			font-weight: bold;
 		}
+
+	
 	</style>
 </head>
 <body>
-	<section class="vh-100" style="background-color: #6c5ddc;">
+	<section class="vh-100" style="background: linear-gradient(120deg, rgba(108,93,208,1) 0%, rgba(185,172,244,1) 100%);">
 		<div class="container py-5 h-100">
 			<div class="row d-flex justify-content-center align-items-center h-100">
 				<div class="col col-xl-10">
-					<div class="card" style="border-radius: 1rem;">
+					<div class="card" style="border-radius: 1rem;padding:70px 15px;">
 						<div class="row g-0">
 							<div class="col-md-6 col-lg-5 d-none d-md-block m-auto">
-								<img src="~/Images/Confirmed attendance-pana.svg"
+								<img src="~/Images/loginPage.gif"
 									 alt="login form" class="img-fluid p-2" style="border-radius: 1rem 0 0 1rem;" />
 							</div>
 							<div class="col-md-6 col-lg-7 d-flex align-items-center">
@@ -37,7 +39,7 @@
 									<form method="post">
 
 										<div class="d-flex align-items-center mb-3 pb-1">
-											<i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
+											<i class="fas fa-cubes fa-2x me-3" style="color: #7e62d4;"></i>
 											<span class="h1 fw-bold mb-0">Attendance System</span>
 										</div>
 
@@ -56,7 +58,7 @@
 											<span asp-validation-for="Password"></span>
 										</div>
 										<div id="Val" asp-validation-summary="ModelOnly"></div>
-
+										<p class="text-secondary text-black " style="font-size:16px">Or New Student? <a class="link-primary" asp-action="signup" asp-controller="account">Sign Up</a></p>
 										<div class="py-1 row">
 											<button class="btn btn-lg col-6 mx-auto text-white" style="background-color:#6c5ddc" type="submit">Login</button>
 										</div>

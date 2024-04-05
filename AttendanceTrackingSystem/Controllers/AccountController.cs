@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AttendanceTrackingSystem.Controllers
@@ -13,9 +15,13 @@ namespace AttendanceTrackingSystem.Controllers
 	public class AccountController : Controller
 	{
 		IRepoAccount repoAccount;
-		public AccountController(IRepoAccount _repoAccount)
+		IRepoTrack repoTrack;
+		IRepoStudent repoStudent;
+		public AccountController(IRepoAccount _repoAccount ,IRepoTrack _repoTrack,IRepoStudent _repoStudent)
 		{
 			repoAccount = _repoAccount;
+			repoTrack=_repoTrack;
+			repoStudent = _repoStudent;
 		}
 		public IActionResult Index()
 		{
@@ -179,5 +185,58 @@ namespace AttendanceTrackingSystem.Controllers
 			return Json(user.Password == OldPassword);
 
 		}
-	}
+
+
+        public IActionResult Signup()
+		{
+			ViewBag.Tracks=repoTrack.GetActiveTracks();
+        
+            return View();
+		}
+
+        [HttpPost]
+        public async Task<IActionResult> Signup(Student newStudent, IFormFile ImgUrl)
+        {
+            try
+            {
+                //ModelState.Remove("ImgUrl");
+                if (ModelState.IsValid)
+                {
+                    if (ImgUrl != null)
+                    {
+                        string ImgeName = newStudent.Name + newStudent.Name + "." + ImgUrl.FileName.Split(".").Last();
+
+                        using (var fs = new FileStream("wwwroot/Images/" + ImgeName, FileMode.Create))
+                        {
+                            await ImgUrl.CopyToAsync(fs);
+                        }
+
+                        newStudent.ImgUrl = ImgeName;
+                    }
+
+                    repoStudent.Add(newStudent);
+                    return RedirectToAction("Home");
+                }
+
+                ViewBag.Tracks = repoTrack.GetActiveTracks();
+
+
+				return RedirectToAction("login");
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException is SqlException sqlException && sqlException.Number == 2601)
+                {
+                    ModelState.AddModelError("Email", "The email address is already in use.");
+                    return View(newStudent);
+                }
+                else
+                {
+                    throw;
+                }
+                
+            }
+        }
+
+    }
 }

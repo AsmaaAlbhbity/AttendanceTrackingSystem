@@ -1,0 +1,46 @@
+﻿ @model AttendanceSummaryViewModel
+
+
+@if (Model.UserPermissions != null && Model.UserPermissions.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Permission Type</th>
+                <th>Permission State</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var permission in Model.UserPermissions)
+            {
+                <tr>
+                    <td>@permission.Date.ToShortDateString()</td>
+                    <td>@permission.Type</td>
+                    <td><p class="@permission.State">@permission.State</p></td>
+                    <td>
+                        @if (permission.State == PermissionState.Pending && permission.Date.Date >= DateTime.Today)
+                        {
+                            <a onclick="deletePermission('@permission.PermissionId')" style="cursor: pointer;">
+                                <i class="fa fa-trash text-danger"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <i class="fas fa-ban text-danger"></i>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="alert alert-info text-center w-50">You didn't take any permissions yet!</p>
+}
+
+<script src="~/js/Student.js">
+   
+</script>

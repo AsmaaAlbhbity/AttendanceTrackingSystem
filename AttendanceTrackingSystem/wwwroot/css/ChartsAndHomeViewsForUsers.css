@@ -1,48 +1,6 @@
-﻿/* Fonts */
-body {
-    font-family: 'ui-monospace', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
+﻿
 /* Variables */
-:root {
-    --main-color: #6c5ddc;
-    --blue-color: #21D1FF;
-    --pink-color: #E94D90;
-    --main-text-color: #3B3B3B;
-    --body-bg: #f4f4f4;
-}
 
-/* Start style home form admin */
-.admin-control {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 60px;
-    margin: 40px 0px 80px;
-    flex-wrap: wrap;
-}
-
-    .admin-control .item-control {
-        border-bottom: 2px solid var(--main-color);
-        padding: 15px;
-        border-radius: 15px;
-        width: 40%;
-    }
-
-        .admin-control .item-control img {
-            width: 150px;
-            height: 150px;
-        }
-
-        .admin-control .item-control h4 {
-            color: var(--main-text-color);
-            font-size: 24px;
-        }
-
-        .admin-control .item-control h2 {
-            color: var(--main-color);
-            font-size: 50px;
-        }
 
 .charts {
     display: flex;
@@ -58,11 +16,7 @@ body {
         gap: 40px;
     }
 
-    .admin-control {
-        flex-direction: column;
-        justify-content: center;
-        text-align: center;
-    }
+  
 }
 
 /* Home page form instruc command security */
