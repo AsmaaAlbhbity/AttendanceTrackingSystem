@@ -114,44 +114,57 @@ namespace AttendanceTrackingSystem.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> EditInstructor(int id , Instructor instructor , IFormFile ImgUrl)
+        public async Task<IActionResult> EditInstructor(int id, Instructor instructor, IFormFile? ImgUrl)
         {
-            instructor.UserId = id;
             try
             {
                 if (ModelState.IsValid)
                 {
+                    var existingInstructor = repoInstructor.getById(id);
+                    if (existingInstructor == null)
+                    {
+                        return NotFound(); // Handle not found case
+                    }
+
+                    // Update instructor properties
+                    existingInstructor.Name = instructor.Name;
+                    existingInstructor.Email = instructor.Email;
+                    existingInstructor.Password = instructor.Password;
+                    existingInstructor.Phone = instructor.Phone;
+                    existingInstructor.InstructorSalary = instructor.InstructorSalary;
+
                     if (ImgUrl != null)
                     {
-                        string ImgeName = instructor.UserId + instructor.Name + "." + ImgUrl.FileName.Split(".").Last();
+                        string ImgeName = existingInstructor.UserId + existingInstructor.Name + "." + ImgUrl.FileName.Split(".").Last();
 
                         using (var fs = new FileStream("wwwroot/Images/" + ImgeName, FileMode.Create))
                         {
                             await ImgUrl.CopyToAsync(fs);
                         }
 
-                        instructor.ImgUrl = ImgeName;
-
+                        existingInstructor.ImgUrl = ImgeName;
                     }
-                    repoInstructor.Update(instructor);
+                    repoInstructor.Update(existingInstructor);
                     return RedirectToAction("ShowInstructor");
                 }
-                return View(instructor);
 
+                return View(instructor);
             }
             catch (DbUpdateException ex)
             {
                 if (ex.InnerException is SqlException sqlException && sqlException.Number == 2601)
                 {
                     ModelState.AddModelError("Email", "The email address is already in use.");
-                    return View(instructor);
                 }
                 else
                 {
-                    throw;
+                    ModelState.AddModelError(string.Empty, "Error updating the instructor.");
                 }
+
+                return View(instructor);
             }
         }
+
         public IActionResult ChooseSupervisor(int userId)
         {
             var track = repoTrack.getAll().FirstOrDefault(a=>a.SupervisorId== userId);
