@@ -2,6 +2,7 @@
 using AttendanceTrackingSystem.Models;
 using AttendanceTrackingSystem.Repository;
 using AttendanceTrackingSystem.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -9,8 +10,9 @@ using System.Security.Claims;
 
 namespace AttendanceTrackingSystem.Controllers
 {
-   
-    public class StudentController : Controller
+    [Authorize]
+	[Authorize(Roles = "Student")]
+	public class StudentController : Controller
     {
         IRepoAttendance repoAttendance;
         IRepoStudent repoStudent;
@@ -30,7 +32,6 @@ namespace AttendanceTrackingSystem.Controllers
             _logger = logger;
 
         }
-
         public IActionResult Home(int id, DateTime? endDate)
         {
             try

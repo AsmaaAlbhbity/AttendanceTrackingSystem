@@ -11,5 +11,8 @@ namespace AttendanceTrackingSystem.IRepository
         public void Delete(int id);
         public void AddTrack(int TrackId, int InstructorId);
         public void RemoveTrack(int TrackId, int InstructorId);
+        public List<Track> GetInstructorTracks(int InstructorId);
+        public bool IsSuperisor(int id);
+
     }
 }

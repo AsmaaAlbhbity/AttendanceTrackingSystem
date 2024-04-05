@@ -40,5 +40,19 @@ namespace AttendanceTrackingSystem.Repository
             db.Schedules.Update(schedule);
             db.SaveChanges();
         }
+        // Abdullah
+        public List<Schedule> GetWeeklyScheduleForTrack(int trackId)
+        {
+            var today = DateTime.Today;
+            var saturday = today.AddDays(-1-(int)today.DayOfWeek);
+            var friday = saturday.AddDays(6);
+
+            var weeklySchedule = db.Schedules
+                .Where(s => s.TrackId == trackId && s.Date >= saturday && s.Date <= friday)
+                .OrderBy(a=>a.Date).ToList();
+            return weeklySchedule;
+        }
+
+
     }
 }
