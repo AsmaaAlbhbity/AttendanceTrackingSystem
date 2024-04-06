@@ -195,15 +195,14 @@ namespace AttendanceTrackingSystem.Controllers
 
 
         public IActionResult Signup()
-<<<<<<< HEAD
+
 		{
 			
             var activeTracksWithStudentCount=repoTrack.GetActiveTracksWithStudentCount();
             ViewBag.ActiveTracks = activeTracksWithStudentCount;
-=======
-        {
-            ViewBag.Tracks = repoTrack.GetActiveTracks();
->>>>>>> origin/Abdullah
+
+            //ViewBag.Tracks = repoTrack.GetActiveTracks();
+
 
             return View();
         }
@@ -249,11 +248,10 @@ namespace AttendanceTrackingSystem.Controllers
                 ViewBag.ActiveTracks = activeTracksWithStudentCount;
 
 
-<<<<<<< HEAD
-                return View(newStudent);
-=======
+
+
                 return RedirectToAction("login");
->>>>>>> origin/Abdullah
+
             }
             catch (DbUpdateException ex)
             {
