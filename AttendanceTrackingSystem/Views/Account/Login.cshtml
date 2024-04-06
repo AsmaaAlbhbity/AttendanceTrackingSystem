@@ -58,6 +58,12 @@
 											<span asp-validation-for="Password"></span>
 										</div>
 										<div id="Val" asp-validation-summary="ModelOnly"></div>
+										@if (TempData["ErrorMessageApprove"] != null)
+										{
+											<div class="alert alert-danger">
+												@TempData["ErrorMessageApprove"]
+											</div>
+										}
 										<p class="text-secondary text-black " style="font-size:16px">Or New Student? <a class="link-primary" asp-action="signup" asp-controller="account">Sign Up</a></p>
 										<div class="py-1 row">
 											<button class="btn btn-lg col-6 mx-auto text-white" style="background-color:#6c5ddc" type="submit">Login</button>

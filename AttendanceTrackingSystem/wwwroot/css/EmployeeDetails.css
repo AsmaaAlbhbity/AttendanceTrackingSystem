@@ -1,0 +1,61 @@
+﻿
+ #detailsModal .modal-content {
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 10px;
+    color: var(--main-color);
+}
+
+#detailsModal .modal-header {
+    background-color: var(--main-color);
+    color: #fff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+    #detailsModal .modal-header .close {
+        color: #fff;
+        opacity: 1;
+        font-size: 24px;
+    }
+
+#detailsModal .modal-body {
+    padding: 20px;
+}
+
+#detailsModal #employeeImage {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+#detailsModal .modal-body p {
+    margin-bottom: 5px;
+    padding: 2px;
+}
+
+#detailsModal .modal-body strong {
+    font-weight: bold;
+}
+@media (max-width: 768px) {
+    .employee-search-form {
+        flex-direction: column;
+    }
+
+    .employee-search-input-group {
+        flex-direction: column;
+    }
+
+    .employee-search-input,
+    .employee-search-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .employee-create-button {
+        width: 100%;
+    }
+}
+
+

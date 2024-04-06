@@ -7,15 +7,18 @@ namespace AttendanceTrackingSystem.Models
     public enum Approve
     {
         Accepted,
+       
         pending,
-        Fired
+        Fired,
+        Rejected
 
     }
     public enum UserType
     {
+        Student,
         Instructor,
         Admin,
-        Employee
+        Employee,
     }
 
     public class User
@@ -32,7 +35,8 @@ namespace AttendanceTrackingSystem.Models
         public Approve IsApproved { get; set; }
         public string UserType { get; set; } 
         public string? ImgUrl { get; set; }
-         [NotMapped]
+
+        [NotMapped]
         public IFormFile? Image { get; set; }
         [JsonIgnore]
         public virtual List<Msg>? Msgs { get; set; }

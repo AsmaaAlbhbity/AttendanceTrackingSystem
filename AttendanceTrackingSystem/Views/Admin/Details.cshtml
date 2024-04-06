@@ -1,0 +1,32 @@
+﻿@model EmployeeViewModel
+
+<div class="flip-card-container">
+    <div class="flip-card">
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <!-- Front side content -->
+                <h5>@Model.Name</h5>
+                <img src="@Model.ImgUrl" alt="Employee Image" class="card-img-top" />
+            </div>
+            <div class="flip-card-back">
+                <!-- Back side content -->
+                <p>Email: @Model.Email</p>
+                <p>Phone: @Model.Phone</p>
+                <p>Password: @Model.Password</p>
+                <p>Employee Salary: @Model.EmployeeSalary</p>
+                <p>Employee Type: @Model.EmployeeType</p>
+                <p>User Type: @Model.UserType</p>
+                <p>Is Approved: @Model.IsApproved</p>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <link href="~/css/employee-card.css" rel="stylesheet" />
+    <link href="~/css/employeedetails.css" rel="stylesheet" />
+    <link href="~/css/employeeedit.css" rel="stylesheet" />
+    <link href="~/css/employyelist.css" rel="stylesheet" />
+
+}
+
+   

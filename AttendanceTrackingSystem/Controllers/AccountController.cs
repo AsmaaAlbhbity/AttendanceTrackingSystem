@@ -195,8 +195,14 @@ namespace AttendanceTrackingSystem.Controllers
 
 
         public IActionResult Signup()
-        {
-            ViewBag.Tracks = repoTrack.GetActiveTracks();
+
+		{
+			
+            var activeTracksWithStudentCount=repoTrack.GetActiveTracksWithStudentCount();
+            ViewBag.ActiveTracks = activeTracksWithStudentCount;
+
+            //ViewBag.Tracks = repoTrack.GetActiveTracks();
+
 
             return View();
         }
@@ -204,9 +210,20 @@ namespace AttendanceTrackingSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Signup(Student newStudent, IFormFile ImgUrl)
         {
+			
             try
             {
-                //ModelState.Remove("ImgUrl");
+                if (ImgUrl == null)
+                    ModelState.Remove("ImgUrl");
+
+                ModelState.Remove("Track");
+                var tenYearsAgo = DateTime.Today.AddYears(-10);
+                if (newStudent.StudentGraduationYear > DateTime.Today || newStudent.StudentGraduationYear < tenYearsAgo)
+                {
+                    ModelState.AddModelError("StudentGraduationYear", "Please enter a date within the last 10 years.");
+                }
+
+
                 if (ModelState.IsValid)
                 {
                     if (ImgUrl != null)
@@ -220,15 +237,21 @@ namespace AttendanceTrackingSystem.Controllers
 
                         newStudent.ImgUrl = ImgeName;
                     }
+                   
+
 
                     repoStudent.Add(newStudent);
-                    return RedirectToAction("Home");
+                    return RedirectToAction("Login");
                 }
+              
+                var activeTracksWithStudentCount = repoTrack.GetActiveTracksWithStudentCount();
+                ViewBag.ActiveTracks = activeTracksWithStudentCount;
 
-                ViewBag.Tracks = repoTrack.GetActiveTracks();
+
 
 
                 return RedirectToAction("login");
+
             }
             catch (DbUpdateException ex)
             {

@@ -23,6 +23,9 @@
         padding:15px 20px;
   
     }
+        .admin-control .item-control > div {
+            justify-content: space-between;
+        }
 
         .admin-control .item-control img {
             width: 135px;
@@ -38,7 +41,11 @@
             color: var(--main-color);
             font-size: 50px;
         }
-
+            .admin-tracks-info {
+                background-color: #edebff;
+                margin: 34px 0px;
+                text-align: center;
+            }
 
         @media (max-width:1270px){
             .admin-control {
@@ -54,6 +61,6 @@
         grid-template-columns: 1fr ;
     }
     .admin-control .item-control >div {
-      justify-content:space-between
+      justify-content:space-between;
     }
 }

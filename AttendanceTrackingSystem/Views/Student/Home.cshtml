@@ -25,5 +25,5 @@
     @Html.Partial("_StudentPermissionsStatePartialView.cshtml", Model)
     </div>
 
-    <a asp-action="MakePermission" asp-controller="Student" asp-route-Id="@Model.UserId" class="custome-btn d-block " >make a permission</a>
+<a asp-action="MakePermission" asp-controller="Student" asp-route-Id="@Model.UserId" asp-route-SId="@ViewBag.Supervisor.UserId" class="custome-btn d-block ">make a permission</a>
 

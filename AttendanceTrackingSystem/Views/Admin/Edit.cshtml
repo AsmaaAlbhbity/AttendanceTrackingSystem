@@ -1,0 +1,62 @@
+﻿@model EmployeeViewModel
+
+<div id="EmployeeEditContainer">
+    <h2 class="EmployeeEditTitle">Edit Employee</h2>
+
+    <form asp-action="Edit" asp-controller="Admin" id="EmployeeEditForm">
+
+        <input asp-for="UserId" type="hidden" value="@Model.UserId" />
+        <input asp-for="UserType" type="hidden" value="Employee" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="EmployeeEditLabel"></label>
+            <input asp-for="Name" class="EmployeeEditInput" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email" class="EmployeeEditLabel"></label>
+            <input asp-for="Email" class="EmployeeEditInput" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Phone" class="EmployeeEditLabel"></label>
+            <input asp-for="Phone" class="EmployeeEditInput" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password" class="EmployeeEditLabel"></label>
+            <input asp-for="Password" class="EmployeeEditInput" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ImgUrl" class="EmployeeEditLabel"></label>
+            <input asp-for="ImgUrl" class="EmployeeEditInput"  />
+            <span asp-validation-for="ImgUrl" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EmployeeSalary" class="EmployeeEditLabel"></label>
+            <input asp-for="EmployeeSalary" class="EmployeeEditInput"  />
+            <span asp-validation-for="EmployeeSalary" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EmployeeType" class="EmployeeEditLabel"></label>
+            <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="EmployeeEditSelect"></select>
+            <span asp-validation-for="EmployeeType" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="EmployeeEditButton">Save</button>
+    </form>
+</div>
+@section scripts {
+    <link href="~/css/employee-card.css" rel="stylesheet" />
+    <link href="~/css/employeedetails.css" rel="stylesheet" />
+    <link href="~/css/employeeedit.css" rel="stylesheet" />
+    <link href="~/css/employyelist.css" rel="stylesheet" />
+
+}

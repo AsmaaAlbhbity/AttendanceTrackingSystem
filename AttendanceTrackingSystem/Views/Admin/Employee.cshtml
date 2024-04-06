@@ -1,0 +1,87 @@
+﻿@using AttendanceTrackingSystem.Pagination
+@model PaginatedList<Employee>
+
+<h2 class="employee-title">Employees</h2>
+<form asp-action="Employee" asp-controller="Admin" method="get" class="employee-search-form">
+    <div class="employee-search-input-group">
+        <input type="text" name="searchString" class="employee-search-input" />
+        <input type="submit" value="Search" class="employee-search-button" />
+    </div>
+</form>
+
+<table class="employee-table" >
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Employee Salary</th>
+        <th>Employee Type</th>
+       
+        <th>actions</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="employee-row">
+            <td>@item.Name</td>
+            <td>@item.Email</td>
+            <td>@item.EmployeeSalary</td>
+            <td>@item.EmployeeType</td>
+            <td>
+                <div class="action-buttons">
+                    <a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-primary btn-sm employee-actions">
+                        <i class="fa fa-edit"></i> Edit
+                    </a>
+
+                    <a asp-action="Details" asp-route-id="@item.UserId" class="btn btn-info btn-sm employee-actions">
+                        <i class="fa fa-info">  </i> Details
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-danger btn-sm employee-actions">
+                        <i class="fa fa-trash"></i> Delete
+                    </a>
+                </div>
+            </td>
+        </tr>
+    }
+</table>
+
+<ul class="employee-pagination">
+    @if (Model.HasPreviousPage)
+    {
+        <li class="employee-pagination-item">
+            <a class="employee-pagination-link" href="@Url.Action("Employee", "Admin", new { pageNumber = Model.PageIndex - 1 })">Previous</a>
+        </li>
+    }
+    @for (var i = 1; i <= Model.TotalPages; i++)
+    {
+        <li class="employee-pagination-item @(i == Model.PageIndex ? "active" : "")">
+            <a class="employee-pagination-link" href="@Url.Action("Employee", "Admin", new { pageNumber = i })">@i</a>
+        </li>
+    }
+    @if (Model.HasNextPage)
+    {
+        <li class="employee-pagination-item">
+            <a class="employee-pagination-link" href="@Url.Action("Employee", "Admin", new { pageNumber = Model.PageIndex + 1 })">Next</a>
+        </li>
+    }
+</ul>
+
+<a asp-action="Create" class="employee-create-button">Create New Employee</a>
+
+@section scripts{
+    <link href="~/css/employee-card.css" rel="stylesheet" />
+    <link href="~/css/employeedetails.css" rel="stylesheet" />
+    <link href="~/css/employeeedit.css" rel="stylesheet" />
+    <link href="~/css/employyelist.css" rel="stylesheet" />
+
+
+    <script>
+        $('#searchButton').click(function () {
+            var searchQuery = $('#searchInput').val();
+
+            $.get('/Admin/Employee?searchString=' + searchQuery, function (data) {
+                $('#employeeTable').html(data);
+            });
+        });
+
+    </script>
+}

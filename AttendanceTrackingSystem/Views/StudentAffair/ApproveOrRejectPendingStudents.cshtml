@@ -1,0 +1,49 @@
+﻿@model List<Student>
+
+<h2 class="custome-title">Pending Student Approval</h2>
+
+@if (Model.Count > 0)
+{
+    <table class="table studentaffairs-pendingstd-table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Student Name</th>
+                <th>Email</th>
+                <th>University</th>
+                <th>Faculty</th>
+                <th>Specialization</th>
+                <th>GraduationYear</th>
+                <th>Track</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model)
+            {
+                <tr>
+                    <td>@student.UserId</td>
+                    <td>@student.Name</td>
+                    <td>@student.Email</td>
+                    <td>@student.StudentUniversity</td>
+                    <td>@student.StudentFaculity</td>
+                    <td>@student.StudentSpecialization</td>
+                    <td>@student.StudentGraduationYear</td>
+                    <td>@student.Track.Name</td>
+                    <td>
+                        <form asp-action="ApproveOrReject" asp-route-studentId="@student.UserId">
+                            <button type="submit" name="action" value="approve" class="btn btn-success">Approve</button>
+                            <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-info text-center" role="alert">
+        There are no pending students for approval.
+    </div>
+}

@@ -108,7 +108,7 @@
 
 @media (max-width: 1333px) {
     select#durationSelect {
-        top: 300px;
+        top: 340px;
     }
 }
 
@@ -129,20 +129,27 @@
     text-align: center;
     margin: auto;
     font-size: 18px;
+  
 }
-
-.custome-btn {
-    background-color: var(--main-color);
-    color: white;
-    border-radius: 15px;
-    border: 1px solid white;
-    padding: 15px 20px;
-    font-weight: bold;
-    transition: 1s;
-    margin: 40px 20px;
-    width: fit-content;
-    text-decoration:none;
-}
+    .Permissions table thead {
+        background-color: var(--main-color);
+        color: white;
+    }
+    .Permissions table tr{
+        padding:10px 0px
+    }
+    .custome-btn {
+        background-color: var(--main-color);
+        color: white;
+        border-radius: 15px;
+        border: 1px solid white;
+        padding: 15px 20px;
+        font-weight: bold;
+        transition: 1s;
+        margin: 40px 20px;
+        width: fit-content;
+        text-decoration: none;
+    }
 
     .custome-btn:hover {
         background-color: white;
@@ -181,7 +188,7 @@ td p {
 }
 
 .schedule-holiday {
-    background-color: #89d289;
+    background-color: #e5cf8d;
 }
 
 .schedule-funday {

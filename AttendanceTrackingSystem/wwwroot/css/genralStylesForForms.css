@@ -110,4 +110,46 @@
     }
 }
 
+/*for permission form*/
 
+.Perminssionform {
+    max-width: 600px;
+    margin: 130px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 3px -3px 21px rgb(137 114 161 / 10%);
+}
+
+.imgform {
+    position: absolute;
+    top: 50px;
+    right: 35px;
+    width: 300px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.main-titleP {
+    text-align: center;
+    margin: 40px auto;
+    color: var(--main-color)
+}
+
+
+@media (max-width:787px) {
+    .imgform {
+        position: absolute;
+        top: 30px;
+        right: 15px;
+        width: 250px;
+    }
+}

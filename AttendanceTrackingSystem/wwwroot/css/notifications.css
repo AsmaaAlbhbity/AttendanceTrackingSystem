@@ -11,94 +11,119 @@
     right:50px;
     top:85px;
 }
+@media (max-width: 997px) {
+    #notificationIcon {
 
-div#notificationContainer {
-    position: absolute;
-    right: 60px;
-    top: 125px;
-    box-shadow: 3px 3px 15px #ddd;
-    background-color: white;
-    border-radius: 4px;
-    z-index: 2000;
-    height: 30vh;
-    width: 250px;
-    overflow: auto;
-}
-
-.msg-item {
-    background-color: transparent;
-  
-    padding: 10px 15px;
-
- 
-}
-    .msg-item:hover {
-        background-color: #ebebf5;
-    }
-    .msg-item p {
-        margin-bottom: 4px;
-    }
-    .msg-item .msg-title {
-        color: #050505;
-        font-size: 20px;
-    }
-
-
-    .msg-item .msg-des {
-        color: #050505;
-        font-size: 17px;
-        margin-bottom: 18px;
-    }
-
-    .msg-item .date {
-        font-weight: bold;
-        color: #407de0f0;
-        font-size: 14px;
-    }
-
-#notificationContainer::-webkit-scrollbar {
-    width: 8px; 
- 
-}
-#notificationContainer::-webkit-scrollbar-track {
-    background: white; 
-}
-
-#notificationContainer::-webkit-scrollbar-thumb {
-    background: #BCC0C4;
-}
-
-
-#notificationContainer scrollbar {
-    width: 8px;
-}
-
-#notificationContainer scrollbar-track {
-    background: white;
-}
-
-#notificationContainer scrollbar-thumb {
-    background: #BCC0C4;
-}
-
-.bell-filled, #notificationIcon:hover {
-    color: var(--main-color);
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateX(0);
-    }
-
-    40% {
-        transform: translateX(5px);
-    }
-
-    60% {
-        transform: translateX(3px);
+        top: 110px;
     }
 }
 
-#notificationIcon.bell-filled {
-    animation: bounce 1s infinite; 
-}
+    div#notificationContainer {
+        position: absolute;
+        right: 60px;
+        top: 125px;
+        box-shadow: 3px 3px 15px #ddd;
+        background-color: white;
+        border-radius: 4px;
+        z-index: 2000;
+        height: 30vh;
+        width: 250px;
+        overflow: auto;
+    }
+
+    .msg-item {
+        background-color: transparent;
+        padding: 10px 15px;
+    }
+
+        .msg-item:hover {
+            background-color: #ebebf5;
+        }
+
+        .msg-item p {
+            margin-bottom: 4px;
+        }
+
+        .msg-item .msg-title {
+            color: #050505;
+            font-size: 20px;
+        }
+
+
+        .msg-item .msg-des {
+            color: #050505;
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
+
+        .msg-item .date {
+            font-weight: bold;
+            color: #407de0f0;
+            font-size: 14px;
+        }
+
+    #notificationContainer::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    #notificationContainer::-webkit-scrollbar-track {
+        background: white;
+    }
+
+    #notificationContainer::-webkit-scrollbar-thumb {
+        background: #BCC0C4;
+    }
+
+
+    #notificationContainer scrollbar {
+        width: 8px;
+    }
+
+    #notificationContainer scrollbar-track {
+        background: white;
+    }
+
+    #notificationContainer scrollbar-thumb {
+        background: #BCC0C4;
+    }
+
+    .bell-filled, #notificationIcon:hover {
+        color: var(--main-color);
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateX(0);
+        }
+
+        40% {
+            transform: translateX(5px);
+        }
+
+        60% {
+            transform: translateX(3px);
+        }
+    }
+
+    #notificationIcon.bell-filled {
+        animation: bounce 1s infinite;
+    }
+
+    .studentaffairs-pendingstd-table {
+        /*background-color: aliceblue;*/
+        text-align: center;
+        margin: 30px 0px;
+    }
+
+        .studentaffairs-pendingstd-table thead {
+            background-color: var(--main-color);
+            color: white;
+        }
+
+        .studentaffairs-pendingstd-table tr {
+            padding: 10px 0px;
+        }
+
+    #pendingStudentsNotification {
+        background-color: #e8f7d4;
+    }
