@@ -7,12 +7,15 @@ namespace AttendanceTrackingSystem.Models
     public enum Approve
     {
         Accepted,
+       
         pending,
-        Fired
+        Fired,
+        Rejected
 
     }
     public enum UserType
     {
+        Student,
         Instructor,
         Admin,
         Employee

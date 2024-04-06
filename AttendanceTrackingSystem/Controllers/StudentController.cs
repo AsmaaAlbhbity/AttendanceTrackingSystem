@@ -36,13 +36,8 @@ namespace AttendanceTrackingSystem.Controllers
         {
             try
             {
-                var email = HttpContext.User.FindFirstValue(ClaimTypes.Email);
-                var user=repoAccount.GetUserByEmail(email);
-                if (user != null)
-                {
-					id = user.UserId;
-				}
-             
+              
+                id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 var startDate = DateTime.Today.AddMonths(-1);
                 endDate ??= DateTime.Today;
                 var model = repoStudent.getById(id);
@@ -76,8 +71,7 @@ namespace AttendanceTrackingSystem.Controllers
                 attendanceSummaryViewModel.StudentSchedule = studentSchedule;
 
                 ViewBag.TrackName = repoStudent.GetTrackNameByUserId(id);
-
-                ViewBag.SupervisorName = repoStudent.GetSupervisorNameByUserId(id);
+                ViewBag.Supervisor = repoStudent.GetSupervisorByStudentId(id);
 
 
                 return View(attendanceSummaryViewModel);
@@ -96,26 +90,63 @@ namespace AttendanceTrackingSystem.Controllers
             return Json(userAttendance);
         }
 
-        public IActionResult MakePermission(int userId)
+        public IActionResult MakePermission(int userId,int SId)
         {
+   
             ViewBag.userId = userId;
-          return View();
+            TempData["SuperVisorId"] = SId;
+            return View();
         }
         [HttpPost]
+     
         public IActionResult MakePermission(Permission permission)
         {
+            ModelState.Remove("User");
             if (ModelState.IsValid)
             {
-                
-                repoPermission.Add(permission);
-                return RedirectToAction("Home");
+                try
+                {
+                   
+                    int SId = (TempData["SuperVisorId"] as int?) ?? -1;
+
+                    if (SId != -1)
+                    {
+                      
+                        var message = new Msg
+                        {
+                            UserId = SId,
+                            Title = "Permission Request",
+                            Description = "New permission request from student " + permission.UserId.ToString(),
+                            Date = DateTime.Now,
+                            IsRead = false
+                        };
+
+                   
+                        repoPermission.Add(permission);
+                        repoMsg.Add(message);
+                    }
+                    else
+                    {
+                     
+                        ModelState.AddModelError("", "SupervisorId is null. Unable to send permission request.");
+                        return View(permission);
+                    }
+
+                    return RedirectToAction("Home");
+                }
+                catch (Exception ex)
+                {
+                   
+                    ModelState.AddModelError("", "An error occurred while processing the permission request.");
+                    return View(permission);
+                }
             }
             else
             {
-               
                 return View(permission);
             }
         }
+
         [HttpPost]
         public IActionResult DeletePermission(int permissionId)
         {

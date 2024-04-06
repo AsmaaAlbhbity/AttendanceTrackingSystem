@@ -20,11 +20,11 @@
                         window.location.reload();
                     } else {
 
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: response.message
-                        });
+                        //Swal.fire({
+                        //    icon: 'error',
+                        //    title: 'Oops...',
+                        //    text: response.message
+                        //});
                     }
                 },
                 error: function (xhr, status, error) {
@@ -34,3 +34,4 @@
         }
     });
 }
+

@@ -48,8 +48,10 @@ namespace AttendanceTrackingSystem.Repository
         {
             // Fetch attendance data for the user within the specified date range
             return db.Attendances
-                .Where(a => a.UserId == userId && a.Date >= startDate && a.Date <= endDate)
+                .Where(a => a.UserId == userId && a.Date >= startDate && a.Date <= endDate )
                 .ToList();
+
+
         }
      
 

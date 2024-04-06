@@ -1,9 +1,11 @@
 ﻿@model AdminHomeViewModel
 
 <h2 class="custome-title">Admin Dashboard</h2>
-    <div class="admin-control ">
+
+
+<div class="admin-control ">
         <div class="item-control" >
-            <div  class="d-flex">
+        <div class="d-flex justify-content-between">
                     <div class="d-flex flex-column">
                     <h4>Total Track Count</h4>
                     <h2 >@ViewBag.trackCount</h2>
@@ -13,7 +15,7 @@
         </div>
 
         <div class="item-control">
-             <div  class="d-flex">
+             <div  class="d-flex justify-content-between">
                 <div  class="d-flex flex-column">
                     <h4>Total Students Affairs</h4>
                     <h2 >@ViewBag.stdAffCount</h2>
@@ -23,7 +25,7 @@
         </div>
 
         <div class="item-control">
-        <div class="d-flex">
+        <div class="d-flex justify-content-between">
                     <div class="d-flex flex-column">
                     <h4>Total Securaty</h4>
                     <h2 >@ViewBag.secCount</h2>
@@ -33,6 +35,41 @@
         </div>
 
     </div>
+
+
+<h2 class="custome-title">Tracks Information</h2>
+
+
+<div class="admin-tracks-info">
+<table class="table">
+    <thead>
+    <th>Inatke</th>
+    <th>Program</th>
+    <th>track</th>
+    <th>supervistor</th>
+    <th>capacity</th>
+    <th>Student No</th>
+    </thead>
+    <tbody>
+        @foreach (var item in @ViewBag.tracks as List<Track>)
+        {
+            <tr>
+                <td>@item.Intake.Name</td>
+                <td>@item.Intake.Program.Name</td>
+                <td>@item.Name</td>
+                <td>@item.Instructor.Name</td>
+                <td>@item.Capacity</td>
+                <td>@item.Students.Count</td>
+
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+</div>
+
+
     <h2 class="custome-title">Charts</h2>
     <div class="charts">
         @Html.Partial("_AdminChartPartialView.cshtml", Model)
