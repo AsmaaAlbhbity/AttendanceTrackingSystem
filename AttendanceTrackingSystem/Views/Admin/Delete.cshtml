@@ -1,0 +1,12 @@
+﻿@model EmployeeViewModel
+
+<h2>Delete Employee</h2>
+
+<p>Are you sure you want to delete @Model.Name?</p>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.UserId" />
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Employee" class="btn btn-secondary " style="width:150px">Cancel</a>
+</form>

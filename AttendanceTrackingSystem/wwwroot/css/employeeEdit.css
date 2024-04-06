@@ -1,0 +1,73 @@
+﻿/*===============================================================*/
+/* Edit Employee */
+/*===============================================================*/
+#EmployeeEditContainer {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: #333;
+    padding: 1vw;
+}
+
+/*===============================================================*/
+/* Title Styles */
+/*===============================================================*/
+.EmployeeEditTitle {
+    display: block;
+    font-size: 2vw;
+    vertical-align: middle;
+    margin-left: 5vw;
+}
+
+/*===============================================================*/
+/* Form Styles */
+/*===============================================================*/
+#EmployeeEditForm .form-group {
+    position: relative;
+    width: 48%;
+    margin-bottom: 1em;
+}
+
+.EmployeeEditInput {
+    width: 100%;
+    padding: 0.5em 0;
+    border: none;
+    border-bottom: 2px solid var(--main-color);
+    outline: none;
+}
+
+.EmployeeEditLabel {
+    display: block;
+    margin-bottom: 0.5em;
+    color: var(--main-color);
+}
+
+.EmployeeEditInput:focus,
+.EmployeeEditInput:not(:placeholder-shown) {
+    border-color: var(--main-color);
+}
+
+.EmployeeEditSelect {
+    width: 100%;
+    padding: 0.5em;
+    border: 2px solid var(--main-color);
+    border-radius: 5px;
+    outline: none;
+    font-size: 1em;
+    margin-left: 0.6vw !important;
+}
+
+.EmployeeEditButton {
+    padding: 0.5em 1em;
+    border: none;
+    background-color: var(--main-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+    .EmployeeEditButton:hover {
+        background-color: #007bff;
+        text-decoration: none;
+    }

@@ -1,0 +1,55 @@
+﻿@model EmployeeViewModel
+
+<div id="EmployeeEditContainer">
+    <h2 class="EmployeeEditTitle">Create Employee</h2>
+
+    <form asp-action="Create" method="post" asp-controller="Admin" id="EmployeeEditForm">
+
+        <input asp-for="UserType" type="hidden" value="Employee" />
+
+        <div class="form-group">
+            <label asp-for="Name" class="EmployeeEditLabel"></label>
+            <input asp-for="Name" class="EmployeeEditInput" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email" class="EmployeeEditLabel"></label>
+            <input asp-for="Email" class="EmployeeEditInput" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Phone" class="EmployeeEditLabel"></label>
+            <input asp-for="Phone" class="EmployeeEditInput" />
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password" class="EmployeeEditLabel"></label>
+            <input asp-for="Password" type="password" class="EmployeeEditInput" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ImgUrl" class="EmployeeEditLabel"></label>
+            <input asp-for="ImgUrl" class="EmployeeEditInput" />
+            <span asp-validation-for="ImgUrl" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EmployeeSalary" class="EmployeeEditLabel"></label>
+            <input asp-for="EmployeeSalary" class="EmployeeEditInput" />
+            <span asp-validation-for="EmployeeSalary" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EmployeeType" class="EmployeeEditLabel"></label>
+            <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="EmployeeEditSelect"></select>
+            <span asp-validation-for="EmployeeType" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="EmployeeEditButton">Create</button>
+    </form>
+</div>
+<a asp-action="Index" class="EmployeeEditButton" style="width:250px">Back to Employee List</a>
