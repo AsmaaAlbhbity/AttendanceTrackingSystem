@@ -1,4 +1,6 @@
-﻿namespace AttendanceTrackingSystem.Models
+﻿using System.Text.Json.Serialization;
+
+namespace AttendanceTrackingSystem.Models
 {
     public enum ScheduleType
     {
@@ -15,7 +17,7 @@
         public TimeOnly EndPeriod { get; set; }
         public int TrackId { get; set; }
         public ScheduleType Type { get; set; }
-
+        [JsonIgnore]
         public virtual Track Track { get; set; }
         public virtual List<StudentAttendance> StudentAttendances { get; set; } = new List<StudentAttendance>();
     }

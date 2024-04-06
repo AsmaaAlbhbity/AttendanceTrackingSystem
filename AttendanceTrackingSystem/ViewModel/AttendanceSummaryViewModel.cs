@@ -10,7 +10,10 @@ namespace AttendanceTrackingSystem.ViewModel
         public int AbsentCount { get; set; }
        public List<Msg> userMessages {  get; set; }
         public DateTime StartDate { get; set; }
-        public List<Attendance> AttendanceData { get; set; }
+        public List<Attendance>? AttendanceData { get; set; }
+
+        public List<StudentAttendance>? AttendanceStudentData { get; set; }
+
 
         public List<Schedule>?  StudentSchedule { get; set; }
        public List<Permission>? UserPermissions { get; set; }

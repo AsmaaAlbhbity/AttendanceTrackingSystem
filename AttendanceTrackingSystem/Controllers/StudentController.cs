@@ -15,6 +15,7 @@ namespace AttendanceTrackingSystem.Controllers
 	public class StudentController : Controller
     {
         IRepoAttendance repoAttendance;
+        IRepoStudentAttendance repoStudentAttendance;
         IRepoStudent repoStudent;
         IRepoMsg repoMsg;
         IRepoPermission repoPermission;
@@ -22,21 +23,23 @@ namespace AttendanceTrackingSystem.Controllers
     
         private readonly ILogger<StudentController> _logger;
 
-        public StudentController(ILogger<StudentController> logger,IRepoAccount _repoAccount,IRepoPermission _repoPermission, IRepoAttendance _repoAttendance, IRepoStudent _repoStudent,IRepoMsg _repoMsg)
+        public StudentController(ILogger<StudentController> logger,IRepoStudentAttendance _repoStudentAttendance,IRepoAccount _repoAccount,IRepoPermission _repoPermission, IRepoAttendance _repoAttendance, IRepoStudent _repoStudent,IRepoMsg _repoMsg)
         {
             repoAttendance = _repoAttendance;
             repoStudent = _repoStudent;
             repoMsg = _repoMsg;
             repoPermission= _repoPermission; 
             repoAccount= _repoAccount;
+            repoStudentAttendance = _repoStudentAttendance;
             _logger = logger;
 
         }
+
+
         public IActionResult Home(int id, DateTime? endDate)
         {
             try
             {
-              
                 id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 var startDate = DateTime.Today.AddMonths(-1);
                 endDate ??= DateTime.Today;
@@ -46,73 +49,66 @@ namespace AttendanceTrackingSystem.Controllers
                     ViewBag.stdDegree = model.StudentDegree;
                 }
 
-                var userAttendance = repoAttendance.GetUserAttendance(id, startDate, endDate.Value);
-
-
+                var userAttendance = repoStudentAttendance.GetStudentAttendance(id, startDate, endDate.Value);
+                var scheduleDates = repoStudentAttendance.GetStudentScheduleDates(id, startDate, endDate.Value);
+                int absentCount = scheduleDates.Count(date => !userAttendance.Any(a => a.Date.Date == date.Date));
                 int lateCount = userAttendance.Count(a => a.CheckIn > new TimeOnly(9, 0));
                 int onTimeCount = userAttendance.Count(a => a.CheckIn <= new TimeOnly(9, 0));
-                int absentCount = DateTime.Today.Subtract(startDate).Days - userAttendance.Count();
-
                 List<Msg> userMessages = repoMsg.getAll(id);
-                List<Permission> userPermissions=repoPermission.getAllById(id);
+                List<Permission> userPermissions = repoPermission.getAllById(id);
                 var attendanceSummaryViewModel = new AttendanceSummaryViewModel
                 {
                     UserId = id,
                     LateCount = lateCount,
                     AbsentCount = absentCount,
                     OnTimeCount = onTimeCount,
-                    AttendanceData = userAttendance,
+                    AttendanceStudentData = userAttendance,
                     StartDate = startDate,
                     userMessages = userMessages,
                     UserPermissions = userPermissions,
                 };
-
                 var studentSchedule = repoStudent.GetFutureStudentSchedule(id);
+                var lateOrAbsentDates = repoAttendance.GetLateOrAbsentDates(id);
                 attendanceSummaryViewModel.StudentSchedule = studentSchedule;
-
                 ViewBag.TrackName = repoStudent.GetTrackNameByUserId(id);
                 ViewBag.Supervisor = repoStudent.GetSupervisorByStudentId(id);
-
-
+                ViewBag.LateOrAbsentDates = lateOrAbsentDates;
                 return View(attendanceSummaryViewModel);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred in Home action");
-                return View("Error"); 
+                return View("Error");
             }
         }
 
-        public IActionResult FetchAttendanceData(int userId, DateTime startDate)
+
+
+
+
+
+        public IActionResult MakePermission(int userId, int SId)
         {
 
-            var userAttendance = repoAttendance.GetUserAttendance(userId, startDate, DateTime.Today);
-            return Json(userAttendance);
-        }
-
-        public IActionResult MakePermission(int userId,int SId)
-        {
-   
             ViewBag.userId = userId;
             TempData["SuperVisorId"] = SId;
             return View();
         }
         [HttpPost]
-     
+
         public IActionResult MakePermission(Permission permission)
         {
-            permission.UserId = 1;
-            ModelState.Remove("UserId");
+            ModelState.Remove("User");
             if (ModelState.IsValid)
             {
                 try
                 {
-                   
+
                     int SId = (TempData["SuperVisorId"] as int?) ?? -1;
 
                     if (SId != -1)
                     {
-                      
+
                         var message = new Msg
                         {
                             UserId = SId,
@@ -122,13 +118,13 @@ namespace AttendanceTrackingSystem.Controllers
                             IsRead = false
                         };
 
-                   
+
                         repoPermission.Add(permission);
                         repoMsg.Add(message);
                     }
                     else
                     {
-                     
+
                         ModelState.AddModelError("", "SupervisorId is null. Unable to send permission request.");
                         return View(permission);
                     }
@@ -137,7 +133,7 @@ namespace AttendanceTrackingSystem.Controllers
                 }
                 catch (Exception ex)
                 {
-                   
+
                     ModelState.AddModelError("", "An error occurred while processing the permission request.");
                     return View(permission);
                 }
@@ -151,11 +147,20 @@ namespace AttendanceTrackingSystem.Controllers
         [HttpPost]
         public IActionResult DeletePermission(int permissionId)
         {
-            repoPermission.Delete(permissionId);
-            return RedirectToAction("Home");
+            try
+            {
+                repoPermission.Delete(permissionId);
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions here
+                return Json(new { success = false, message = "Failed to delete permission: " + ex.Message });
+            }
         }
 
-      
+
+
 
 
         public IActionResult Index()

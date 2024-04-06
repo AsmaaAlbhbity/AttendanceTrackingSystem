@@ -1,9 +1,11 @@
 ﻿using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
+using AttendanceTrackingSystem.ViewModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace AttendanceTrackingSystem.Repository
 {
+    
     public class RepoAttendance : IRepoAttendance
     {
         AttendanceDBContext db;
@@ -46,14 +48,17 @@ namespace AttendanceTrackingSystem.Repository
 
         public List<Attendance> GetUserAttendance(int userId, DateTime startDate, DateTime endDate)
         {
-            // Fetch attendance data for the user within the specified date range
+      
             return db.Attendances
                 .Where(a => a.UserId == userId && a.Date >= startDate && a.Date <= endDate )
                 .ToList();
 
 
         }
-     
+       
+
+
+        //admin charts
 
         public List<AttendanceCountPerUserType> GetAttendanceCountsPerUserType()
         {
@@ -74,5 +79,23 @@ namespace AttendanceTrackingSystem.Repository
 
             return attendanceCountsPerUserType;
         }
+
+        // calendar
+
+
+        public List<AttendanceRecordViewModel> GetLateOrAbsentDates(int userId)
+        {
+            var lateOrAbsentDates = db.Attendances
+                .Where(a => a.UserId == userId && (a.Status == AttendaneStatus.Late || a.Status == AttendaneStatus.Absent))
+                .Select(a => new AttendanceRecordViewModel
+                {
+                    Date = a.Date,
+                    Status = a.Status
+                })
+                .ToList();
+
+            return lateOrAbsentDates;
+        }
+
     }
 }
