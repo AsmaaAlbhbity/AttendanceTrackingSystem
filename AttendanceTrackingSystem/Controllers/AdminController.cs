@@ -470,7 +470,7 @@ namespace AttendanceTrackingSystem.Controllers
     // GET: Admin/Delete/5
     public ActionResult Delete(int id)
     {
-        var employee = _repoEmployee.getById(id);
+        var employee = repoEmployee.getById(id);
         if (employee == null)
         {
             return NotFound();
