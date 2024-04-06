@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Schedule>
+@{
 	ViewData["Title"] = "Whole Schedule";
 	Layout = "~/Views/Shared/_LayoutSystem.cshtml";
 }
@@ -43,7 +44,7 @@
 					<td style="width: 150px;">@schedule.Date.DayOfWeek</td>
 					@if (schedule.Type == ScheduleType.Holiday || schedule.Type == ScheduleType.Funday)
 					{
-						<td colspan="3" class="text-center fst-italic fs-5">-- @schedule.Type.ToString() --</td>
+						<td colspan="3" style="letter-spacing:10px" class="text-center fw-bold fst-italic fs-6">@schedule.Type.ToString()</td>
 					}
 					else
 					{

@@ -11,7 +11,7 @@ namespace AttendanceTrackingSystem.IRepository
         public void Delete(int id);
         public List<Schedule> GetWeeklyScheduleForTrack(int TrackId);
         public List<Schedule> GetAllScheduleForTrack(int trackId);
-        public List<Schedule> CreateNextWeekSchedukeTemplate();
+        public List<Schedule> CreateNextWeekScheduleTemplate();
         public bool IsScheduleExist(int trackId, DateTime date);
         public void DeleteByIdAndDate(int trackId, DateTime date);
         public void AddOrReplaceSchedule(Schedule schedule);
