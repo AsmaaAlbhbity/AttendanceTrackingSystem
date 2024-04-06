@@ -21,33 +21,49 @@
 							<h5 class="mt-3">@Model.Name</h5>
 							<p>@TempData["role"]</p>
 							@* Edit *@
-							@* <i class="far fa-edit mb-5"></i> *@
-							@* ----------------- Modal -----------------*@
-							<i data-toggle="modal" data-target="#UserModal" data-whatever="mdo" style="color:#AD18C1;font-size:25px" class="btn far fa-edit mb-3"></i>
-
-							<div class="modal fade" id="UserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							@* ---------------------- Modal For Image ------------------------ *@
+							<i data-toggle="modal" data-target="#ChangeImageModal" style="color:#AD18C1;font-size:25px" class="btn fa-solid fa-image mb-3"></i>
+							<div class="modal fade" id="ChangeImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								<div class="modal-dialog modal-lg" role="document">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title text-dark" id="exampleModalLabel">Edit Data</h5>
+											<h5 class="modal-title text-dark" id="exampleModalLabel">Change Profile photo</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div style="font-size:medium;" class="modal-body col-12 text-dark">
+											<form method="post" asp-action="updateImage" enctype="multipart/form-data">
+												<input asp-for="@Model.Name" hidden />
+												<input asp-for="@Model.Email" hidden />
+												<input asp-for="@Model.Phone" hidden />
+												<div>
+													<label for="MyImg">Change Image: </label>
+													<input class="mt-3" id="MyImg" type="file" name="ImgUrl" />
+												</div>
+												<input type="submit" class="btn align-bottom btn-primary my-3" value="Update Image"></input>
+											</form>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							@* ----------------- Modal -----------------*@
+							<i data-toggle="modal" data-target="#PassworModal" style="color:#AD18C1;font-size:25px" class="btn fa-solid fa-key mb-3"></i>
+							<div class="modal fade" id="PassworModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title text-dark" id="exampleModalLabel">Change Password</h5>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>
 										<div style="font-size:small" class="modal-body col-12 text-dark ">
-											<form method="post" asp-action="updateImage" enctype="multipart/form-data">
-												<input asp-for="@Model.Name" hidden />
-												<input asp-for="@Model.Email" hidden />
-												<input asp-for="@Model.Phone" hidden />
-
-												<div>
-													<label asp-for="@Model.ImgUrl">Change Image</label>
-													<input id="MyImg" type="file" name="ImgUrl" />
-												</div>
-												<input type="submit" class="btn btn-primary mb-2" value="Update Image"></input>
-											</form>
-											<div class="col-10 mb-2 mx-auto" style="background-color:#6c5ddc;height:1px"></div>
-
 											<form class="text-dark" method="post" enctype="multipart/form-data">
 												<input asp-for="@Model.Name" hidden />
 												<input asp-for="@Model.Email" hidden />
@@ -71,7 +87,7 @@
 													<span asp-validation-for="ConfirmPassword"></span>
 												</div>
 												<div id="Val" asp-validation-summary="ModelOnly"></div>
-												<input type="submit"  class="btn" value="Change Password"></input>
+												<input type="submit" class="btn" value="Change Password"></input>
 											</form>
 										</div>
 										<div class="modal-footer">
@@ -106,9 +122,8 @@
 	</div>
 </section>
 @section Scripts {
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js" crossorigin="anonymous"></script>
-
-
 	<script>
 		var inputButtons = document.querySelectorAll('input[type="button"], input[type="submit"], button');
 
@@ -116,15 +131,6 @@
 			button.style.backgroundColor = '#6c5ddc';
 			button.style.color = 'white';
 		});
-
-		// document.getElementById('SubmitBtn').addEventListener("click", function (e) {
-		// 	e.preventDefault();
-		// 	console.log(newpass.Value == null);
-		// 	if (newpass.Value.trim() === '') {
-		// 		document.getElementById('oldPass').value = document.getElementById('newPass').value = document.getElementById('ConfirmPassword').value = '@Model.OldPassword';
-		// 	}
-		// 	document.getElementById("MyForm").submit();
-		// })
 
 		function togglePasswordVisibility(inputId) {
 			var input = document.getElementById(inputId);

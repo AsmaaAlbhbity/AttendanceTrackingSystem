@@ -1,0 +1,110 @@
+﻿@model List<Schedule>
+@{
+	ViewData["Title"] = "Create Schedules";
+	Layout = "~/Views/Shared/_LayoutSystem.cshtml";
+}
+<h1 class="text-center">Create Upcoming Week Schedule</h1>
+
+<form method="post" asp-action="AddSchedule">
+	<table class="table table-bordered border-2" style="border-color:#6c5ddc">
+		<thead>
+			<tr class="text-center">
+				<th>Date</th>
+				<th>Day</th>
+				<th>Start Period</th>
+				<th>End Period</th>
+				<th>Day Type</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for (var i = 0; i < Model.Count; i++)
+			{
+				<input asp-for="@Model[i].TrackId" value="@ViewBag.TrackId" hidden />
+				<tr class="text-center">
+					<td style="width:100px;">
+						<input asp-for="@Model[i].Date" class="form-control" readonly />
+					</td>
+					<td style="width:100px;">@Model[i].Date.DayOfWeek.ToString()</td>
+					<td>
+						<input type="time" asp-for="@Model[i].StartPeriod" min="09:00" max="19:00" class="form-control" required />
+					</td>
+					<td>
+						<input type="time" asp-for="@Model[i].EndPeriod" min="09:00" max="21:00" class="form-control" required />
+					</td>
+					<td>
+						<select asp-for="@Model[i].Type" class="form-control" required>
+							<option value="@ScheduleType.Online">@ScheduleType.Online</option>
+							<option value="@ScheduleType.Offline">@ScheduleType.Offline</option>
+							<option value="@ScheduleType.Funday">@ScheduleType.Funday</option>
+							<option value="@ScheduleType.Holiday">@ScheduleType.Holiday</option>
+						</select>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<div class="mb-2" style="color:red" id="Valid"></div>
+	<div class="row">
+		<button style="background-color :#6c5ddc" type="submit" class="mx-auto text-white btn btn-lg col-4">Save</button>
+	</div>
+</form>
+
+@section Scripts {
+	<script>
+		function handleSelectChange() {
+			$('select').each(function () {
+				var dayType = $(this).val();
+				var tr = $(this).parent().parent();
+				var startInput = tr.find('input[name$=".StartPeriod"]');
+				var endInput = tr.find('input[name$=".EndPeriod"]');
+				if (dayType == '@ScheduleType.Holiday' || dayType == '@ScheduleType.Funday') {
+					tr.addClass('schedule-holiday');
+					startInput.prop('disabled', true);
+					startInput.val('09:00');
+					startInput.removeAttr('required');
+					endInput.prop('disabled', true);
+					endInput.removeAttr('required');
+					endInput.val('21:00');
+				} else {
+					tr.removeClass('schedule-holiday');
+					startInput.prop('disabled', false);
+					startInput.attr('required', 'required');
+					endInput.prop('disabled', false);
+					endInput.attr('required', 'required');
+				}
+			});
+		}
+
+		// Call the function on page load
+		$(document).ready(function () {
+			handleSelectChange();
+		});
+
+		// Call the function when select element value changes
+		$('select').change(function () {
+			handleSelectChange();
+		});
+		// Validation over Start and End time
+		$('form').submit(function () {
+			var valid = true;
+			$('input[name$=".StartPeriod"]').each(function () {
+				var start = $(this).val();
+				var end = $(this).closest('tr').find('input[name$=".EndPeriod"]').val();
+				var type = $(this).closest("tr").find('select').val();
+
+				// && type != (ScheduleType.Holiday || ScheduleType.Funday)
+				if (end <= start) {
+					valid = false;
+					$(this).addClass('is-invalid');
+					$(this).closest('tr').find('input[name$=".EndPeriod"]').addClass('is-invalid');
+					$('#Valid').text('End time must be greater than start time');
+				} else {
+					$(this).removeClass('is-invalid');
+					$(this).closest('tr').find('input[name$=".EndPeriod"]').removeClass('is-invalid');
+					$('#Valid').text('');
+				}
+			});
+			return valid;
+		});
+	</script>
+}

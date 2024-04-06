@@ -76,6 +76,14 @@ namespace AttendanceTrackingSystem.Repository
             return Tracks.Count > 0;
             
         }
-
+        public int GetTrackBySupervisor(int id)
+        {
+			var track = db.Tracks.FirstOrDefault(a => a.SupervisorId == id);
+			if (track != null)
+            {
+				return track.TrackId;
+			}
+			return 0;
+		}
     }
 }

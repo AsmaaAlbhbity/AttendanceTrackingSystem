@@ -8,7 +8,7 @@
 <html>
 <head>
 
-	
+
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<title>@ViewData["Title"]</title>
@@ -19,6 +19,18 @@
 	<link rel="stylesheet" href="~/css/site.css" />
 	<link rel="stylesheet" href="~/AttendanceTrackingSystem.styles.css" asp-append-version="true" />
 	<link href="~/css/ChartsAndHomeViewsForUsers.css" rel="stylesheet" />
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.1.0/css/hover-min.css" rel="stylesheet" integrity="sha512-glciccPoOqr5mfDGmlJ3bpbvomZmFK+5dRARpt62nZnlKwaYZSfFpFIgUoD8ujqBw4TmPa/F3TX28OctJzoLfg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
+
+	<link href="~/css/ChartsAndHomeViewsForUsers.css" rel="stylesheet" />
+	<link href="~/css/AdminStyles.css" rel="stylesheet" />
+	<link href="~/css/genralStylesForForms.css" rel="stylesheet" />
 	<link href="~/css/notifications.css" rel="stylesheet" />
 	<link href="~/css/instructor.css" rel="stylesheet" />
 	<link href="~/css/AdminStyles.css" rel="stylesheet" />
@@ -35,6 +47,7 @@
 
 
    
+	<link href="~/css/instructor.css" rel="stylesheet" />
 
 
 
@@ -43,7 +56,7 @@
 
 	<div class="container-fluid">
 		<nav class="navbar   ">
-			<button class="navbar--toggler" type="button" >
+			<button class="navbar--toggler" type="button">
 				<i class="fas fa-bars"></i>
 			</button>
 		</nav>
@@ -55,11 +68,10 @@
 					<img src="@TempData.Peek("img")?_=@DateTime.UtcNow.Ticks" />
 					<div>
 						<h4>@User.Identity.Name</h4>
-					
-
-						<p>@TempData["role"]</p>
+						<p>@TempData.Peek("role")</p>
 					</div>
 				</div>
+
 				<ul class="nav flex-column gap-3">
 					<li class="nav-item">
 						<a class="nav-link hvr-bounce-to-right @ViewData["ProfileActive"]" asp-controller="Account" asp-action="Profile">
@@ -76,14 +88,33 @@
 							<i class="fas fa-graduation-cap"></i> Students
 						</a>
 					</li>
-					
+
 					<li class="nav-item">
 						<a class="nav-link hvr-bounce-to-right @ViewData["InstructorsActive"]" asp-controller="Admin" asp-action="ShowInstructor">
 							<i class="fas fa-chalkboard-teacher"></i> Instructors
 						</a>
 					</li>
-						
-					
+					@if (TempData.Peek("role").ToString() == "Instructor" || TempData.Peek("role").ToString() == "Supervisor")
+					{
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right" asp-controller="Schedule" asp-action="ShowTrackSchedule">
+								<i class="fas fa-chalkboard-teacher"></i> Tracks Schedules
+							</a>
+						</li>
+					}
+					@if (TempData.Peek("role").ToString() == "Supervisor")
+					{
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right" asp-controller="Schedule" asp-action="ViewAllSchedule">
+								<i class="fa-solid fa-calendar-days"></i> All Schedule
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right" asp-controller="Schedule" asp-action="AddSchedule">
+								<i class="fa-regular fa-calendar-circle-plus"></i> Add New Schedule
+							</a>
+						</li>
+					}
 					<li class="nav-item">
 						<a class="nav-link hvr-bounce-to-right @ViewData["LogOutActive"]" asp-controller="Account" asp-action="Logout">
 							<i class="fas fa-sign-out-alt"></i> LogOut
@@ -97,25 +128,31 @@
 
 			<!-- Main Content -->
 			<div class="dynamic-section ">
-				
+
 				@RenderBody()
 			</div>
 		</div>
 	</div>
 
-
 	<script src="~/lib/jquery/dist/jquery.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 	<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 	<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 	<script src="~/js/site.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	
+	
+	<script>
+		// Display toastr messages if TempData contains any
 
+		function displayMsg(msg) {
+			toastr.success(msg);
+		}
 
-
-
-
-	@RenderSection("scripts", required: false)
+	</script>
+	@await RenderSectionAsync("Scripts", required: false)
 
 </body>
 </html>
