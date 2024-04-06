@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting.Internal;
 using OfficeOpenXml;
 using AttendanceTrackingSystem.ViewModel;
 using AttendanceTrackingSystem.Migrations;
+using System.ComponentModel.DataAnnotations;
 
 namespace AttendanceTrackingSystem.Controllers
 {
@@ -29,12 +30,9 @@ namespace AttendanceTrackingSystem.Controllers
         }
         public IActionResult Index(string? message, int? page, string? searchTerm)
         {
-            if (message != null)
-            {
-                TempData["SuccessMessage"] = message;
-            }
+            TempData["SuccessMessage"] = message;
 
-            var allStudents = repoStudent.getAll(); 
+            var allStudents = repoStudent.getAll();
 
 
             if (!string.IsNullOrEmpty(searchTerm))
@@ -44,7 +42,7 @@ namespace AttendanceTrackingSystem.Controllers
 
             if (!page.HasValue || page < 1)
             {
-                page = 1; 
+                page = 1;
             }
 
             int totalStudents = allStudents.Count();
@@ -52,14 +50,14 @@ namespace AttendanceTrackingSystem.Controllers
 
             if (page > totalPages)
             {
-                page = totalPages; 
+                page = totalPages;
             }
 
             var students = allStudents.Skip((page.Value - 1) * pageSize).Take(pageSize).ToList();
 
             ViewBag.TotalPages = totalPages;
             ViewBag.Page = page;
-            ViewBag.SearchTerm = searchTerm; 
+            ViewBag.SearchTerm = searchTerm;
 
             return View(students);
         }
@@ -73,6 +71,7 @@ namespace AttendanceTrackingSystem.Controllers
             var student = repoStudent.getById(id.Value);
             return PartialView("_Details", student);
         }
+
         [HttpGet]
         public async Task<IActionResult> Create(int? id)
         {
@@ -88,11 +87,6 @@ namespace AttendanceTrackingSystem.Controllers
                 ViewBag.Header = "Update Student";
                 ViewBag.Tracks = repoTrack.getAll();
                 var student = repoStudent.getById(id.Value);
-
-
-
-                // Call GetFileFromPath asynchronously to get the IFormFile object representing the image file
-
                 return PartialView("_CreateOrUpdatePartial", student);
             }
 
@@ -100,59 +94,63 @@ namespace AttendanceTrackingSystem.Controllers
 
 
         [HttpPost]
-        public IActionResult Create([Bind("UserId,Name, Email, Password, Phone, StudentDegree, StudentUniversity, StudentFaculity, StudentGraduationYear, StudentSpecialization, TrackId,Image")] Student student)
+        /// <summary>
+        /// Create a new student or update an existing one
+        /// </summary>
+        public IActionResult Create(Student student)
         {
-            ModelState.Remove("Msgs");
-            ModelState.Remove("UserType");
-            ModelState.Remove("Track");
-            student.UserType = "1";
-            student.IsApproved = Approve.Accepted;
-
-            if (ModelState.IsValid)
+            try
             {
-                // you can search for the image in the wwrroot folders
-                if (student.Image != null && student.Image.Length > 0)
+                ModelState.Remove("Msgs");
+                ModelState.Remove("UserType");
+                ModelState.Remove("Track");
+
+                student.UserType = ((int)UserType.Student).ToString();
+                student.IsApproved = Approve.Accepted;
+
+                if (!ModelState.IsValid)
                 {
-                    if (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg")
+                    return BadRequest("Incorrect data input!");
+                }
+
+                if (student.UserId != 0)
+                {
+                    if (student.Image != null && (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
                     {
-                        var uniqueFileName = CreateUniqueFileName(student.Image);
-                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Images/Profile", uniqueFileName);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            student.Image.CopyTo(stream);
-                        }
-                        student.ImgUrl = uniqueFileName;
-                        if (student.UserId != 0)
-                        {
-                            repoStudent.Update(student);
-
-                            return Ok(new { message = "Student has been updated successfully." });
-                        }
-                        else
-                        {
-                            repoStudent.Add(student);
-                            //return RedirectToAction("Index", new { message = "Student has been created successfully." });
-                            return Ok(new { message = "Student has been created successfully." });
-                        }
-
-                        //return Ok(new { message = "Student has been created successfully." });
-
+                        SaveImageToDirectory(student);
+                        repoStudent.Update(student);
+                        return Ok(new { message = "Student has been updated successfully." });
+                    }
+                    else if (student.Image == null && repoStudent.IsImageExistedBefore(student.ImgUrl))
+                    {
+                        repoStudent.Update(student);
+                        return Ok(new { message = "Student has been updated successfully." });
                     }
                     else
-                    {
-
                         return BadRequest("Only PNG or JPEG image files are allowed.");
-                    }
-
                 }
                 else
                 {
+                    if (student.Image == null || student.Image.Length == 0)
+                        return BadRequest("You must include a file.");
 
-                    return BadRequest("You must include a file.");
+                    if (!(student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
+                        return BadRequest("Only PNG or JPEG image files are allowed.");
+
+                    SaveImageToDirectory(student);
+                    repoStudent.Add(student);
+                    return Ok(new { message = "Student has been created successfully." });
                 }
             }
-
-            return BadRequest("Incorrect data input!");
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                // Handle other unexpected exceptions
+                return StatusCode(500, "An error occurred while processing the request.");
+            }
         }
 
         [HttpPost]
@@ -190,14 +188,14 @@ namespace AttendanceTrackingSystem.Controllers
                     {
                         ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
                         int rowCount = worksheet.Dimension.Rows;
-                     
+
                         for (int row = 2; row <= rowCount; row++)
                         {
-                            if (String.IsNullOrEmpty( worksheet.Cells[row, 1].Value?.ToString()))
+                            if (String.IsNullOrEmpty(worksheet.Cells[row, 1].Value?.ToString()))
                             {
                                 break;
                             }
-                           
+
                             string name = worksheet.Cells[row, 1].Value?.ToString();
                             string email = worksheet.Cells[row, 2].Value?.ToString();
                             string phone = worksheet.Cells[row, 3].Value?.ToString();
@@ -245,6 +243,27 @@ namespace AttendanceTrackingSystem.Controllers
                 return BadRequest($"An error occurred while processing the file. Please try again later. \n number of Students Added: {studentAdded}");
             }
         }
+
+        private void SaveImageToDirectory(Student student)
+        {
+            if (student.Image != null && (student.Image.ContentType == "image/png" || student.Image.ContentType == "image/jpg" || student.Image.ContentType == "image/jpeg"))
+            {
+                var uniqueFileName = CreateUniqueFileName(student.Image);
+                student.ImgUrl = uniqueFileName;
+                var filePath = getFileName(uniqueFileName);
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    student.Image.CopyTo(stream);
+                }
+            }
+        }
+
+
+    
+        private string getFileName(string fileName)
+        {
+            return Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "Images", "Profile", fileName);
+        }
         private string CreateUniqueFileName(IFormFile file)
         {
             var uniquePart = Guid.NewGuid().ToString().Substring(0, 8); // Get the first 8 characters of the GUID
@@ -252,16 +271,16 @@ namespace AttendanceTrackingSystem.Controllers
             var extension = Path.GetExtension(file.FileName);
             return $"{fileNameWithoutExtension}_{uniquePart}{extension}";
         }
-        private async Task<IFormFile> GetFileFromPath(string path, string name)
+        private async Task<IFormFile> GetFileFromPath(string name)
         {
             string fullPath = Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "Images", "Profile", name);
-            if (System.IO.File.Exists(path))
+            if (System.IO.File.Exists(fullPath))
             {
-                byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(path);
+                byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
 
                 using (var memoryStream = new MemoryStream(fileBytes))
                 {
-                    return new FormFile(memoryStream, 0, fileBytes.Length, name, Path.GetFileName(path));
+                    return new FormFile(memoryStream, 0, fileBytes.Length, name, Path.GetFileName(fullPath));
                 }
             }
             return null;

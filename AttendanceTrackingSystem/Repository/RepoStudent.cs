@@ -28,13 +28,34 @@ namespace AttendanceTrackingSystem.Repository
         public void Add(Student student)
         {
             // check if email is already in use
+            if (db.Users.Any(u => u.Email == student.Email.ToLower().Trim()))
+            {
+                throw new ValidationException("Email is already in use!");
+            }
+            // check if track is full   
+            else if (IsTrackFull(student.TrackId))
+            {
+                throw new ValidationException("Track is Full!");
+            }
+
             student.Email = student.Email.ToLower().Trim();
+            student.StudentDegree = 250;
             db.Users.Add(student);
             db.SaveChanges();
+        }
+        private bool IsTrackFull(int trackId)
+        {
+            var track = db.Tracks.FirstOrDefault(t => t.TrackId == trackId);
+            return track.Students.Count >= track.Capacity;
         }
 
         public void Update(Student student)
         {
+            // check if email is already in use
+            if (db.Users.Any(u => u.Email == student.Email.ToLower().Trim()))
+            {
+                throw new ValidationException("Email is already in use!");
+            }
             student.Email = student.Email.ToLower().Trim();
             db.Users.Update(student);
             db.SaveChanges();
@@ -48,6 +69,11 @@ namespace AttendanceTrackingSystem.Repository
                 db.Users.Remove(obj);
                 db.SaveChanges();
             }
+        }
+        public bool IsImageExistedBefore(string imageName)
+        {
+            imageName = imageName.Split('_').First();
+            return db.Users.Any(u => u.ImgUrl.StartsWith(imageName + "_"));
         }
         public List<Student> GetPaginatedStudents(int page, int pageSize)
         {

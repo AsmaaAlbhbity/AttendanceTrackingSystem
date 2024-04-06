@@ -126,9 +126,9 @@ aside {
 .searchImg {
     display: none;
 }
-nav {
+/*nav {
     display: none;
-}
+}*/
 nav i{
     color:var(--main-color);
 }

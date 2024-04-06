@@ -101,7 +101,8 @@ namespace AttendanceTrackingSystem.Controllers
      
         public IActionResult MakePermission(Permission permission)
         {
-            ModelState.Remove("User");
+            permission.UserId = 1;
+            ModelState.Remove("UserId");
             if (ModelState.IsValid)
             {
                 try

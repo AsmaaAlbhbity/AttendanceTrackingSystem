@@ -1,6 +1,7 @@
 ﻿@model AttendanceTrackingSystem.Models.Student
 @{
     SelectList Tracks = new SelectList(ViewBag.Tracks, "TrackId", "Name");
+
 }
 
 <div class="modal-header bg-primary text-white">
@@ -16,19 +17,21 @@
                 <label class="font-weight-bold" for="fileInput">Image</label>
             </div>
             <div class="col-md-8 std-img">
-            
+
                 <div id="imageViewer">
                     <img src="@Url.Content("~/Images/Profile/" + Model.ImgUrl)" alt="Student Image" class="img-fluid rounded-circle border" style="max-width: 100px;" />
                     <a type="button" class="fa fa-trash mx-2" style="color: red;" id="removeImageBtn"></a>
                 </div>
 
-                <input  class="form-control" asp-for="Image" style="display: none;">
+                <input class="form-control" asp-for="Image" style="display: none;">
                 <span asp-validation-for="Image" class="text-danger"></span>
 
             </div>
         </div>
 
+        <input asp-for="ImgUrl" hidden />
         <input asp-for="UserId" hidden />
+        <input asp-for="StudentDegree" hidden />
         <div class="row mb-3">
             <div class="col-md-4">
                 <label class="font-weight-bold" asp-for="Name"></label>
@@ -64,16 +67,6 @@
             <div class="col-md-8">
                 <input class="form-control" asp-for="Password">
                 <span asp-validation-for="Password"></span>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col-md-4">
-                <label class="font-weight-bold" asp-for="StudentDegree">Degree</label>
-            </div>
-            <div class="col-md-8">
-                <input class="form-control" asp-for="StudentDegree">
-                <span asp-validation-for="StudentDegree" class="text-danger"></span>
             </div>
         </div>
 
@@ -138,7 +131,7 @@
     </form>
 </div>
 <div id="spinner-container">
-    <div class="spinner-border text-primary"  role="status">
+    <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
 </div>
@@ -177,8 +170,8 @@
         $('#studentForm input, #studentForm select').on('blur', function () {
             $(this).valid();
         });
-    
-       
+
+
         // Image Functionalities
         if ('@Model.ImgUrl' === '') {
             $('#imageViewer').hide();
@@ -200,8 +193,8 @@
         });
 
 
-     
-    
+
+
         $('#submitBtn').click(function (e) {
             e.preventDefault();
 
@@ -220,6 +213,7 @@
                 formData.append('StudentGraduationYear', $('#StudentGraduationYear').val());
                 formData.append('StudentSpecialization', $('#StudentSpecialization').val());
                 formData.append('TrackId', $('#TrackId').val());
+                formData.append('ImgUrl', $('#ImgUrl').val());
                 formData.append('Image', $('#Image')[0].files[0]);
 
                 // Submit form data via AJAX
@@ -234,11 +228,20 @@
                         $('#spinner-container').show();
                     },
                     success: function (result) {
-                        displayMsg(result.message);
+                
                         $('#addStudentModal .btn-close').click();
-                        setTimeout(function () {
-                            window.location.href = '/StudentAffair/Index';
-                        }, 2000);
+                        let redirectUrl;
+                        let activePage = parseInt($('.pagination .page-item.active .page-link').text());
+                        if (!isNaN(activePage)) {
+                            redirectUrl = '@Url.Action("Index", "StudentAffair")' + '?page=' + activePage + '&&message=' + result.message;
+                        }
+                        else {
+                            redirectUrl = '@Url.Action("Index", "StudentAffair")' + '?message=' + result.message;
+                        }
+
+                        window.location.href = redirectUrl;
+
+            
                     },
                     error: function (xhr, status, error) {
                         toastr.error(xhr.responseText);

@@ -10,6 +10,7 @@ namespace AttendanceTrackingSystem.IRepository
         public void Add(Student student);
         public void Update(Student student);
         public void Delete(int id);
+        public bool IsImageExistedBefore(string imageName);
 
         public List<Student> GetPendingStudents();
         public string GetTrackNameByUserId(int userId);
