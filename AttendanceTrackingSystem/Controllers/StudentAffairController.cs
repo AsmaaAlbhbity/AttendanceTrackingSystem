@@ -7,7 +7,6 @@ using System.IO;
 using Microsoft.Extensions.Hosting.Internal;
 using OfficeOpenXml;
 using AttendanceTrackingSystem.ViewModel;
-using AttendanceTrackingSystem.Migrations;
 using System.ComponentModel.DataAnnotations;
 
 namespace AttendanceTrackingSystem.Controllers
