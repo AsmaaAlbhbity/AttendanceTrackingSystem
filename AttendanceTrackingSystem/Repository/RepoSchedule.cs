@@ -73,7 +73,7 @@ namespace AttendanceTrackingSystem.Repository
 		public List<Schedule> CreateNextWeekScheduleTemplate()
 		{
 			DateTime maxDate = DateTime.Today;
-			
+
 			if (db.Schedules.Count() != 0)
 				maxDate = db.Schedules.Max(a => a.Date);
 
@@ -98,19 +98,23 @@ namespace AttendanceTrackingSystem.Repository
 		{
 			return db.Schedules.Any(a => a.TrackId == trackId && a.Date == date);
 		}
-		public void DeleteByIdAndDate(int trackId, DateTime date)
+		
+		public void UpdateByTrackIdAndDate(Schedule schedule)
 		{
-			var obj = db.Schedules.FirstOrDefault(a => a.TrackId == trackId && a.Date == date);
-			db.Schedules.Remove(obj);
+			var obj = db.Schedules.FirstOrDefault(a => a.TrackId == schedule.TrackId && a.Date == schedule.Date);
+			obj.StartPeriod = schedule.StartPeriod;
+			obj.EndPeriod = schedule.EndPeriod;
+			obj.Type = schedule.Type;
 			db.SaveChanges();
 		}
 		public void AddOrReplaceSchedule(Schedule schedule)
 		{
 			if (IsScheduleExist(schedule.TrackId, schedule.Date))
 			{
-				DeleteByIdAndDate(schedule.TrackId, schedule.Date);
+				UpdateByTrackIdAndDate(schedule);
 			}
-			db.Schedules.Add(schedule);
+			else
+				db.Schedules.Add(schedule);
 			db.SaveChanges();
 		}
 	}
