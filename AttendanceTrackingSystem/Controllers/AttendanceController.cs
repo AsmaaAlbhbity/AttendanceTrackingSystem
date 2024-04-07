@@ -50,7 +50,7 @@ namespace AttendanceTrackingSystem.Controllers
             //};
             //repoSchedule.Add(obj2);
 
-
+            
 
             ViewModel.AttendanceViewModel modal = new ViewModel.AttendanceViewModel();
             modal.Students = repoStudent.getAll().Where(a=>a.IsApproved==Approve.Accepted).ToList();
@@ -65,6 +65,12 @@ namespace AttendanceTrackingSystem.Controllers
         }
         public IActionResult GetStudentsByTrack(int id)
         {
+            var scheduleForTrack = repoSchedule.getAll().FirstOrDefault(a => a.TrackId == id && a.Date.Date == DateTime.Now.Date);
+
+            if (scheduleForTrack == null)
+            {
+                ViewBag.CheckSchedleForTrack = "It appears that there is no schedule planned for today."; 
+            }
             var Students = repoStudent.getAll();
             if (id == 0)
             {

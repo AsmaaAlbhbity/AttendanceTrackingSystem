@@ -38,7 +38,8 @@ namespace AttendanceTrackingSystem.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginViewModel model)
 		{
-			if (ModelState.IsValid)
+			
+            if (ModelState.IsValid)
 			{
 				User user = repoAccount.GetUser(model.Email, model.Password);
 				if (user != null)
