@@ -72,21 +72,21 @@
 													<input id="oldPass" asp-for="OldPassword" type="password" class="form-control" placeholder="New Password">
 													<label for="oldPass"> Old Password</label>
 													<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('oldPass')"><i class="fa-solid fa-eye"></i></button>
-													<span asp-validation-for="OldPassword"></span>
+													@* <span asp-validation-for="OldPassword"></span> *@
 												</div>
 												<div class="form-floating d-flex">
 													<input id="newPass" asp-for="NewPassword" type="password" class="form-control" placeholder="New Password">
 													<label for="newPass"> New Password</label>
 													<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('newPass')"><i class="fa-solid fa-eye"></i></button>
-													<span asp-validation-for="NewPassword"></span>
+													@* <span asp-validation-for="NewPassword"></span> *@
 												</div>
 												<div class="form-floating d-flex">
 													<input id="ConfirmPassword" asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password"></input>
 													<label for="ConfirmPassword">Confirm password</label>
 													<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('ConfirmPassword')"><i class="fa-solid fa-eye"></i></button>
-													<span asp-validation-for="ConfirmPassword"></span>
+													@* <span asp-validation-for="ConfirmPassword"></span> *@
 												</div>
-												<div id="Val" asp-validation-summary="ModelOnly"></div>
+												<div id="Val" asp-validation-summary="All"></div>
 												<input type="submit" class="btn" value="Change Password"></input>
 											</form>
 										</div>
@@ -103,15 +103,70 @@
 								<h6>Your Information</h6>
 								<hr class="mt-0 mb-4">
 								<div class="row pt-1">
-									<div class="col-12 mb-3">
+									<div class="col-6 mb-1">
 										<h6>Email</h6>
-										<p class="text-muted">@Model.Email</p>
+										<p class="text-lowercase text-muted">@Model.Email</p>
 									</div>
-									<br />
-									<div class="col-12 mb-3">
+									<div class="col-6 mb-1">
 										<h6>Phone</h6>
 										<p class="text-muted text-nowrap">@Model.Phone</p>
 									</div>
+									@if (Model is StudentEditProfileViewModel std)
+									{
+										<div class="col-6 mb-1">
+											<h6>University</h6>
+											<p class="text-capitalize text-muted">@std.StudentUniversity</p>
+										</div>
+										<div class="col-6 mb-1">
+											<h6>Faculty</h6>
+											<p class="text-capitalize text-muted">@std.StudentFaculity</p>
+										</div>
+										<div class="col-6 mb-1">
+											<h6>Specialization</h6>
+											<p class="text-uppercase text-muted">@std.StudentSpecialization</p>
+										</div>
+										<div class="col-6 mb-1">
+											<h6>Attendance Degree</h6>
+											<p class="text-muted">@std.StudentDegree</p>
+										</div>
+										<div class="col-6 mb-1">
+											<h6>Graduation Year</h6>
+											<p class="text-muted">@std.StudentGraduationYear.Year</p>
+										</div>
+										<div class="col-6 mb-1">
+											<h6>Track</h6>
+											<p class="text-uppercase text-muted">@std.TrackName</p>
+										</div>
+										<div class="col-6 mb-1">
+											<h6>Track Supervisor</h6>
+											<p class="text-capitalize text-muted">@std.TrackSupervisor</p>
+										</div>
+									}
+									else if (Model is EmployeeEditProfileViewModel emp)
+									{
+										<div class="col-12 mb-1">
+											<h6>Salary</h6>
+											<p class="text-uppercase text-muted">@emp.EmployeeSalary</p>
+										</div>
+									}
+									else if (Model is InstructorEditProfileViewModel inst)
+									{
+										<div class="col-6 mb-1">
+											<h6>Salary</h6>
+											<p class="text-uppercase text-muted">@inst.InstructorSalary</p>
+										</div>
+										<div class="col-6 mb-1">
+											<h6>Tracks</h6>
+											<p class="text-uppercase text-muted">@inst.TrackNames</p>
+										</div>
+										if (@inst.SupervisedTrack != null)
+										{
+											<div class="col-6 mb-1">
+												<h6>Supervisor in Track</h6>
+												<p class="text-uppercase text-muted">@inst.SupervisedTrack</p>
+											</div>
+										}
+									}
 								</div>
 							</div>
 						</div>
@@ -120,6 +175,7 @@
 			</div>
 		</div>
 	</div>
+
 </section>
 @section Scripts {
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
