@@ -16,7 +16,13 @@ namespace AttendanceTrackingSystem.Repository
         {
             db.Schedules.Add(schedule);
             db.SaveChanges();
-        }
+
+			if(schedule.Type!=ScheduleType.Funday && schedule.Type != ScheduleType.Holiday)
+			{
+				CreateAttendanceRecords(schedule.ScheduleId, schedule.Date);
+			}
+
+		}
 
         public void Delete(int id)
         {
@@ -51,6 +57,90 @@ namespace AttendanceTrackingSystem.Repository
                 .Where(s => s.TrackId == trackId && s.Date >= saturday && s.Date <= friday)
                 .OrderBy(a=>a.Date).ToList();
             return weeklySchedule;
+        }
+		public int CheckStudentStatus(TimeOnly arriveTime, TimeOnly timeInScedule,int id)
+		{
+            var obj = db.Schedules.FirstOrDefault(a => a.ScheduleId == id);
+
+            if (obj.StartPeriod.AddMinutes(15) < arriveTime)
+            {
+                return 1;
+            }
+            else return 0;
+
+		}
+
+		public void CreateAttendanceRecords(int scheduleId, DateTime date)
+		{
+			
+			var existingStudentAttendances = db.StudentAttendances
+				.Any(sa => sa.SchduleId == scheduleId && sa.Date == date);
+
+			if (!existingStudentAttendances)
+			{
+				CreateStudentAttendanceRecords(scheduleId, date);
+			}
+
+			var existingInstructorAttendance = db.Attendances
+				.Any(a => (a.User.UserType == "Instructor" || a.User.UserType == "Employee") && a.Date.Date == date.Date);
+
+			if (!existingInstructorAttendance)
+			{
+				CreateInstructorAndEmployeeAttendanceRecords(date);
+			}
+		}
+
+		public void CreateStudentAttendanceRecords(int scheduleId, DateTime date)
+		{
+			var schedule = db.Schedules.FirstOrDefault(a => a.ScheduleId == scheduleId);
+			var students = db.Students.Where(s => s.TrackId == schedule.TrackId).ToList();
+
+			foreach (var student in students)
+			{
+				var attendance = new StudentAttendance
+				{
+					Date = date,
+					SchduleId = scheduleId,
+					UserId = student.UserId,
+					Status = AttendaneStatus.Absent 
+				};
+				db.StudentAttendances.Add(attendance);
+			}
+
+			db.SaveChanges();
+		}
+
+		public void CreateInstructorAndEmployeeAttendanceRecords(DateTime date)
+		{
+			var instructorsAndEmployees = db.Users.Where(u => u.UserType =="Instructor" || u.UserType == "Employee").ToList();
+
+			foreach (var user in instructorsAndEmployees)
+			{
+				var attendance = new Attendance
+				{
+					Date = date,
+					UserId = user.UserId,
+					Status = AttendaneStatus.Absent 
+				};
+				db.Attendances.Add(attendance);
+			}
+
+			db.SaveChanges();
+		}
+
+		public bool checkSechduleToday()
+		{
+			var obj = db.Schedules.FirstOrDefault(a=>a.Date.Date==DateTime.Now.Date && (a.Type==ScheduleType.Offline || a.Type==ScheduleType.Online));
+			if(obj!=null)
+				return true;
+			else return false;
+		}
+        public bool checkSechduleTodayFoeTrack(int id)
+        {
+			var obj = db.Schedules.FirstOrDefault(a => a.Date.Date == DateTime.Now.Date && (a.Type == ScheduleType.Offline || a.Type == ScheduleType.Online) && a.TrackId == id);
+            if (obj != null)
+                return true;
+            else return false;
         }
 
 

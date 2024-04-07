@@ -50,6 +50,7 @@ namespace AttendanceTrackingSystem.Controllers
         // for security and studdent affairs and instructor
         public IActionResult Home(int userId, DateTime? endDate)
         {
+            
             try
             {
 				var email = HttpContext.User.FindFirstValue(ClaimTypes.Email);

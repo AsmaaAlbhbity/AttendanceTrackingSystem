@@ -35,7 +35,7 @@ select {
 input[type="text"],
 input[type="password"],
 input[type="email"],
-input[type="datetime-local"],select {
+input[type="datetime-local"] {
     height: 45px;
     border: none;
     border-bottom: 2px solid var(--main-color);

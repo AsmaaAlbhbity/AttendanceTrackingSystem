@@ -72,5 +72,27 @@ namespace AttendanceTrackingSystem.Repository
 
             return attendanceCountsPerUserType;
         }
+
+
+        public List<int> GetInstructorAttendanceForToday()
+        {
+            DateTime today = DateTime.Today.Date;
+            var attendanceIds = db.Attendances
+                .Where(a => a.Date.Date == today && a.Status != 0 && a.User.UserType=="Instructor")
+                .Select(a => a.UserId)
+                .ToList();
+
+            return attendanceIds;
+        }
+        public List<int> GetEmployeeAttendanceForToday()
+        {
+            DateTime today = DateTime.Today.Date;
+            var attendanceIds = db.StudentAttendances
+                .Where(a => a.Date.Date == today && a.Status != 0 && a.User.UserType == "Employee")
+                .Select(a => a.UserId)
+                .ToList();
+
+            return attendanceIds;
+        }
     }
 }

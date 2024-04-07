@@ -21,23 +21,26 @@ namespace AttendanceTrackingSystem.Controllers
         IRepoUser repoUser;
         IRepoEmployee repoEmployee;
         IRepoAttendance repoAttendance;
-        public AdminController(IRepoInstructor _repoInstructor, IRepoTrack _repoTrack,IRepoUser _repoUser,IRepoEmployee _repoEmployee,IRepoAttendance _repoAttendance)
+		IRepoStudentAttendance s;
+        public AdminController(IRepoInstructor _repoInstructor, IRepoTrack _repoTrack,IRepoUser _repoUser,IRepoEmployee _repoEmployee,IRepoAttendance _repoAttendance , IRepoStudentAttendance _s)
         {
             repoInstructor = _repoInstructor;
             repoTrack = _repoTrack;
             repoUser = _repoUser;
              repoEmployee= _repoEmployee;
             repoAttendance = _repoAttendance;
+            s = _s;
         }
 
 
 
-
+        
 
 
         public IActionResult ShowInstructor(int pageNumber = 1, int pageSize = 4)
         {
-            var allInstructors = repoInstructor.getAll().AsQueryable(); // Ensure IQueryable
+
+		var allInstructors = repoInstructor.getAll().AsQueryable(); // Ensure IQueryable
 
             // Count total records
             var totalRecords = allInstructors.Count();
@@ -69,6 +72,8 @@ namespace AttendanceTrackingSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> AddInstructor(Instructor instructor , IFormFile ImgUrl)
         {
+            instructor.UserType = "Instructor";
+
             try
             {
                 if (ModelState.IsValid)

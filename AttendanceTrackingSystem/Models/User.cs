@@ -15,7 +15,8 @@ namespace AttendanceTrackingSystem.Models
     {
         Instructor,
         Admin,
-        Employee
+        Employee,
+        Student
     }
 
     public class User
