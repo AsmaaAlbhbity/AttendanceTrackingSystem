@@ -14,13 +14,18 @@
 #title-container {
     text-align: left;
     padding-right: 5vw;
+    display:flex;
+    justify-content:space-between;
+    width:100%;
+    align-items:center;
 }
 
     #title-container .imgTitle {
-        width: 12vw;
-        height: 20vh;
-        margin-left: 18vw;
+        width: 4vw;
+        height: 4vh;
+        margin-left: 30vw;
     }
+    
 
     #title-container .InsTitle {
         display: inline-block;
@@ -411,7 +416,7 @@
     height: 150px; /* Set the desired height to enable scrolling */
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #ccc; /* Optional: Add border for visibility */
-    color: var(--main-color);
+    
 }
 
 
@@ -427,7 +432,8 @@
     margin-right: 0.5vw;
     border-radius: 0.3vw;
     cursor: pointer;
-    margin-top:0.2vw;
+    margin-top: 0.2vw;
+    color: white;
 }
 
     .attendance-item:hover {

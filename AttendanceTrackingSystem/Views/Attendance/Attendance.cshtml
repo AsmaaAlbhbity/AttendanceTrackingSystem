@@ -1,5 +1,7 @@
 ﻿@model AttendanceViewModel
-
+@{
+    SelectList Tracks = new SelectList(Model.Tracks, "TrackId", "Name");
+}
 <div id="title-container">
     <h1 class="main-title">Attendance</h1>
     <img src="~/images/confirmed attendance.gif" class="imgTitle" />
@@ -7,18 +9,54 @@
 
 
 
-<select id="userType">
-    <option value="">Select User Type ........ </option>
-    <option value="Employee">Employee</option>
-    <option value="Instructor">Instructor</option>
-</select>
+<div class="row">
+   
+
+    <div class="col-md-5">
+        <select id="userType" class="form-control mb-3" style="margin-top:1.5vw; ">
+            <option>Select User Type ........</option>
+            <option value="Employee">Employee</option>
+            <option value="Student">Student</option>
+            <option value="Instructor">Instructor</option>
+        </select>
+    </div>
+    <div class="col-md-5" style="margin-top:1.5vw; display:none;"id="search" >
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
+    </div>
+
+    <div class="col-md-2" style="margin-top:1.5vw; display:none;">
+        <div class="select-container">
+            <div class="styled-select">
+                <select asp-items="Tracks" class="tracksDropdown">
+                    <option>Select Track</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div id="UserContainer">
-
+    <img src="~/images/profiling.gif" height="300vw" style="margin-left:20vw" />
 </div>
 
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/attendance.js"></script>
     <script src="~/js/studentattendance.js"></script>
+    <script src="~/js/EmployeeAttendance.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            console.log("hi");
+            $("#search").hide();
+            $(document).on('change', '.tracksDropdown', function () {
+                console.log("ss");
+                var selectedTrackId = $(this).val();
+                loadStudentsPartial(selectedTrackId);
+            });
+
+           
+        }); // Added the closing parenthesis for the $(document).ready() function
+    </script>
+
 }

@@ -1,0 +1,82 @@
+﻿@model TrackViewModel
+@{
+    SelectList supervisour = new SelectList(Model.Instructors, "UserId", "Name");
+}
+
+<div id="InstructorStyles">
+    <div id="title-container">
+        <h1 class="main-title">Instructor Management</h1>
+        <img src="~/images/teaching.gif" class="imgTitle" />
+    </div>
+    <div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <input type="text" id="searchInput"  placeholder="Search for Tracks..." style="margin-left: auto;">
+        </div>
+    </div>
+    <table id="instructorTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Supervisour</th>
+                <th>Capacity</th>
+                <th>Is Active</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Tracks.Count() > 0)
+            {
+                @foreach (var track in Model.Tracks)
+                {
+                    <tr>
+                        <td>@track.TrackId</td>
+                        <td>@track.Name</td>
+                        <td>
+                            <select class="selectSupervisour" data-trackid="@track.TrackId"  asp-items="supervisour" class="selectStyle" style="width:10vw">
+                                <option value="@Model.Supervisour.FirstOrDefault(a=>a.UserId==track.SupervisorId).UserId">@Model.Supervisour.FirstOrDefault(a => a.UserId == track.SupervisorId).Name</option>
+                            </select>
+                        </td>
+                        <td>@track.Capacity</td>
+                        <td>
+                            <input type="checkbox" data-trackid="@track.TrackId" @(track.IsActive ? "checked" : "") />
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <div class="alert alert-info text-center w-50">No Tracks</div>
+            }
+
+
+        </tbody>
+    </table>
+
+    <!-- Pagination links -->
+    <div id="paginationButtons">
+        <ul class="pagination">
+            @if (Model.TracksPaination.HasPreviousPage)
+            {
+                <li class="page-item custom-pagination-button">
+                    <a class="page-link" href="@Url.Action("Tracks", "Admin", new { pageNumber = Model.TracksPaination.PageIndex - 1 })">Previous</a>
+                </li>
+            }
+            @for (var i = 1; i <= Model.TracksPaination.TotalPages; i++)
+            {
+                <li class="page-item custom-pagination-button @(i == Model.TracksPaination.PageIndex ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Tracks", "Admin", new { pageNumber = i })">@i</a>
+                </li>
+            }
+            @if (Model.TracksPaination.HasNextPage)
+            {
+                <li class="page-item custom-pagination-button">
+                    <a class="page-link" href="@Url.Action("Tracks", "Admin", new { pageNumber = Model.TracksPaination.PageIndex + 1 })">Next</a>
+                </li>
+            }
+        </ul>
+    </div>
+    </div>
+@section scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/js/track.js"></script>
+}

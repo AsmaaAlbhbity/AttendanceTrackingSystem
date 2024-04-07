@@ -68,12 +68,19 @@
 							<i class="fas fa-graduation-cap"></i> Students
 						</a>
 					</li>
-
-					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["InstructorsActive"]" asp-controller="Admin" asp-action="ShowInstructor">
-							<i class="fas fa-chalkboard-teacher"></i> Instructors
-						</a>
-					</li>
+					@if (TempData.Peek("role").ToString() == "Admin")
+					{
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["InstructorsActive"]" asp-controller="Admin" asp-action="ShowInstructor">
+								<i class="fas fa-chalkboard-teacher"></i> Instructors
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["TracksActive"]" asp-controller="Admin" asp-action="Tracks">
+								<i class="fas fa-chalkboard-teacher"></i> Tracks
+							</a>
+						</li>
+					}
 					@if (TempData.Peek("role").ToString() == "Instructor" || TempData.Peek("role").ToString() == "Supervisor")
 					{
 						<li class="nav-item">
@@ -95,6 +102,14 @@
 							</a>
 						</li>
 					}
+					
+						<li class="nav-item">
+						<a class="nav-link hvr-bounce-to-right" asp-controller="Attendance" asp-action="Attendance">
+								<i class="fa-solid fa-calendar-days"></i> Attendance
+							</a>
+						</li>
+						
+					
 					<li class="nav-item">
 						<a class="nav-link hvr-bounce-to-right @ViewData["LogOutActive"]" asp-controller="Account" asp-action="Logout">
 							<i class="fas fa-sign-out-alt"></i> LogOut

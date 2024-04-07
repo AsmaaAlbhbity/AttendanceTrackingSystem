@@ -94,7 +94,7 @@ namespace AttendanceTrackingSystem.Repository
         public List<int> GetEmployeeAttendanceForToday()
         {
             DateTime today = DateTime.Today.Date;
-            var attendanceIds = db.StudentAttendances
+            var attendanceIds = db.Attendances
                 .Where(a => a.Date.Date == today && a.Status != 0 && a.User.UserType == "Employee")
                 .Select(a => a.UserId)
                 .ToList();
@@ -116,6 +116,11 @@ namespace AttendanceTrackingSystem.Repository
                 .ToList();
 
             return lateOrAbsentDates;
+        }
+        public Attendance GetByUserIdAndDate(int id)
+        {
+            var obj = db.Attendances.FirstOrDefault(a => a.UserId == id && a.Date.Date == DateTime.Today.Date);
+            return obj;
         }
 
     }

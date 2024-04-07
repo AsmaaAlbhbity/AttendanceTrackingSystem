@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using NuGet.DependencyResolver;
+using System.Drawing.Printing;
 
 namespace AttendanceTrackingSystem.Controllers
 {
@@ -508,6 +510,49 @@ namespace AttendanceTrackingSystem.Controllers
         repoEmployee.Delete(id);
         return RedirectToAction(nameof(Employee));
     }
+
+    public IActionResult Tracks(int pageNumber = 1, int pageSize = 4)
+        {
+            var allTracks = repoTrack.getAll().AsQueryable(); // Ensure IQueryable
+
+            // Count total records
+            var totalRecords = allTracks.Count();
+
+            // Paginate the instructors
+            var paginatedTracks = PaginatedList<Track>.Create(allTracks, pageNumber, pageSize);
+
+            // Retrieve the instructors for the current page
+            var instructorsForPage = paginatedTracks.ToList();
+
+            
+            var AllTracks = repoTrack.getAll();
+            var AllInstructor = repoInstructor.getAll().Where(instructor => !repoTrack.getAll().Any(track => track.Instructor.UserId == instructor.UserId)).ToList();
+
+            TrackViewModel model = new TrackViewModel()
+            {
+                Tracks = AllTracks,
+                Instructors = AllInstructor,
+                Supervisour = repoInstructor.getAll(),
+                TracksPaination = new PaginatedList<Track>(instructorsForPage, totalRecords, pageNumber, pageSize)
+            };
+            return View(model);
+        }
+        public IActionResult ChangeSupervisourForTrack(int id , int Trackid)
+        {
+            var track = repoTrack.getById(Trackid);
+            track.SupervisorId = id;
+            repoTrack.Update(track);
+
+            return Ok();
+        }
+        public IActionResult ChangeStateForTrack(int id)
+        {
+            var track = repoTrack.getById(id);
+            track.IsActive = !track.IsActive;
+            repoTrack.Update(track);
+
+            return Ok();
+        }
 
     }
 }
