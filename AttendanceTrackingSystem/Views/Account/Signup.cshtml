@@ -85,7 +85,7 @@
 
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="TrackId"></label>
-                        <select id="trackId" class="custome-input" name="TrackId" onchange="checkCapacity()">
+                        <select id="trackId" class="custome-input"  asp-for="TrackId" onchange="checkCapacity()">
                             <option value="">Select Track</option>
                             @foreach (var track in ViewBag.ActiveTracks)
                             {
