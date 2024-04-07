@@ -17,7 +17,8 @@ namespace AttendanceTrackingSystem.Models
         public DateTime StudentGraduationYear { get; set; }
         [StringLength(50, MinimumLength = 2, ErrorMessage = $"{nameof(StudentSpecialization)} must be at least 2 characters long.")]
         public string StudentSpecialization { get; set; }
-        [Required]
+      
+        [Required(ErrorMessage = "Please select a track.")]
         public int TrackId { get; set; }
         public virtual Track Track { get; set; }
         public virtual List<StudentAttendance> StudentAttendances { get; set; } = new List<StudentAttendance>();

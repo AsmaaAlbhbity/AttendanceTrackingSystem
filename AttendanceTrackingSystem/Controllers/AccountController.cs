@@ -218,7 +218,8 @@ namespace AttendanceTrackingSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> Signup(Student newStudent, IFormFile ImgUrl)
         {
-			
+            var activeTracksWithStudentCount = repoTrack.GetActiveTracksWithStudentCount();
+
             try
             {
                 if (ImgUrl == null)
@@ -236,44 +237,66 @@ namespace AttendanceTrackingSystem.Controllers
                 {
                     if (ImgUrl != null)
                     {
-                        string ImgeName = newStudent.Name + newStudent.Name + "." + ImgUrl.FileName.Split(".").Last();
+                        // get unique will be a 32-character long string composed of hexadecimal characters (0-9 and a-f)
+                        string uniqueFileName = Guid.NewGuid().ToString("N");
 
-                        using (var fs = new FileStream("wwwroot/Images/" + ImgeName, FileMode.Create))
+                        
+                        string fileExtension = Path.GetExtension(ImgUrl.FileName);
+
+                       
+                        string imageName = uniqueFileName + fileExtension;
+
+                        string imagePath = Path.Combine("wwwroot/Images/Profile", imageName);
+
+                        using (var fs = new FileStream(imagePath, FileMode.Create))
                         {
                             await ImgUrl.CopyToAsync(fs);
                         }
 
-                        newStudent.ImgUrl = ImgeName;
-                    }
                    
+                        newStudent.ImgUrl = imageName;
+                    }
+
 
 
                     repoStudent.Add(newStudent);
                     return RedirectToAction("Login");
                 }
-              
-                var activeTracksWithStudentCount = repoTrack.GetActiveTracksWithStudentCount();
-                ViewBag.ActiveTracks = activeTracksWithStudentCount;
+
+              ViewBag.ActiveTracks = activeTracksWithStudentCount;
 
 
 
 
-                return RedirectToAction("login");
+                return View(newStudent);
 
             }
-            catch (DbUpdateException ex)
+            catch (Exception ex)
             {
-                if (ex.InnerException is SqlException sqlException && sqlException.Number == 2601)
+                if (ex.InnerException is SqlException sqlException)
                 {
-                    ModelState.AddModelError("Email", "The email address is already in use.");
-                    return View(newStudent);
+                    if (sqlException.Number == 2601) 
+                    {
+                        ModelState.AddModelError("Email", "The email address is already in use.");
+                      
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", ex.Message);
+                        
+                    }
+                 
+                   
                 }
                 else
                 {
-                    throw;
+                    ModelState.AddModelError("", ex.Message);
+                    
                 }
-
+                ViewBag.ActiveTracks = activeTracksWithStudentCount;
+                return View(newStudent);
             }
+        
         }
 
     }
