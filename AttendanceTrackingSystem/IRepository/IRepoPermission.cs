@@ -11,5 +11,6 @@ namespace AttendanceTrackingSystem.IRepository
         public void Delete(int id);
 
         public List<Permission> getAllById(int userId);
-    }
+		public bool CheckPermission(int studentId, DateTime date);
+	}
 }

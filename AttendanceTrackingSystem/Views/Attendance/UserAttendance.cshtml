@@ -1,0 +1,80 @@
+﻿@model AttendanceViewModel
+
+
+<div id="studentListContainer">
+    <div class="attendance-list" id="attendanceList">
+        <h3>Attendance List</h3>
+        @foreach (var Emp in Model.Users)
+        {
+            if (Model.UserId.Contains(Emp.UserId))
+            {
+                <div class="attendance-item" data-id="@Emp.UserId" style="background-color:getDynamicColor();">
+                    <span>@Emp.UserId - @Emp.Name</span>
+                    <span>@Model.Attendances?.FirstOrDefault(a => a.Date.Date == DateTime.Now.Date && a.UserId == Emp.UserId)?.CheckIn</span>
+                    <span class="remove-btn" onclick="removeAttendanceInstructor(this)">x</span>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<div id="InstructorStyles">
+    <table id="instructorTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Checkin</th>
+                <th>Checkout</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Emp in Model.Users)
+            {
+                <tr>
+                    <td>@Emp.UserId</td>
+                    <td data-id="@Emp.UserId">@Emp.Name</td>
+                    <td>
+                        <input type="checkbox" class="present-checkbox"
+                               name="presentCheck" value="@Emp.UserId"
+                               onchange="markAttendanceInstructor(this)"
+                        @(Model.UserId.Contains(Emp.UserId) ? "checked" : "")
+                        @(Model.UserId.Contains(Emp.UserId) ? "disabled" : "") />
+                    </td>
+                    <td>
+                        <input type="checkbox" class="checkout-input"
+                               onchange="UpdateAttendanceInstructor(this)"
+                        @(Model.UserId.Contains(Emp.UserId) ? "" : "disabled") />
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="f:\mvcproject\attendancetask\attendancetrackingsystem\wwwroot\js\studentattendance.js"></script>
+<script>
+    $(document).ready(function () {
+        setRandomColors();
+    });
+
+    function setRandomColors() {
+        $('.attendance-item').each(function () {
+            var randomColor = getRandomColor();
+            $(this).css('background-color', randomColor);
+        });
+    }
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+
+</script>

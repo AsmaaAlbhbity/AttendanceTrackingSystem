@@ -17,7 +17,12 @@ namespace AttendanceTrackingSystem.Repository
             db.SaveChanges();
         }
 
-        public void Delete(int id)
+		public bool CheckPermission(int studentId, DateTime date)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Delete(int id)
         {
             var obj = db.Permissions.FirstOrDefault(a => a.PermissionId == id);
             db.Permissions.Remove(obj);
