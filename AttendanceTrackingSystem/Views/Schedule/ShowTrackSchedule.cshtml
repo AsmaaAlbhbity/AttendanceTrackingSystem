@@ -44,11 +44,11 @@
 		</form>
 	</div>
 </div>
-<p class="text-center fs-2 alert alert-primary">@ViewBag.SelectedTrackName</p>
+<p class="custome-title">@ViewBag.SelectedTrackName</p>
 
 @if (Model.Count > 0)
 {
-	<table class="table">
+	<table class="table table-bordered border-2" style="border-color:#6c5ddc">
 		<thead>
 			<tr class="text-center">
 				<th style="width: 100px;">Date</th>
@@ -66,7 +66,7 @@
 					<td style="width: 150px;">@schedule.Date.DayOfWeek</td>
 					@if (schedule.Type == ScheduleType.Holiday || schedule.Type == ScheduleType.Funday)
 					{
-						<td colspan="3" style="letter-spacing:10px" class="text-center fw-bolder fst-italic fs-6">@schedule.Type.ToString()</td>
+						<td colspan="3" style="letter-spacing:15px" class="text-center fw-bolder fst-italic fs-6">@schedule.Type.ToString()</td>
 					}
 					else
 					{
@@ -84,19 +84,19 @@
 			}
 		</tbody>
 	</table>
-	if (ViewBag.IsSupervisor)
-	{
-		<div class="row">
-			<div class="col">
-				<a asp-action="ViewAllSchedule" id="ViewWholeScheduleBtn" asp-route-trackId="@ViewBag.SelectedTrackId" style="background-color:#6c5ddc" class="text-white btn">View whole schedule</a>
-			</div>
-		</div>
-	}
 }
 else
 {
 	<p class="alert alert-info text-center">No schedule assigned.</p>
 }
+@if (ViewBag.IsSupervisor)
+	{
+<div class="row">
+	<div class="col">
+		<a asp-action="ViewAllSchedule" id="ViewWholeScheduleBtn" asp-route-trackId="@ViewBag.SelectedTrackId" style="background-color:#6c5ddc" class="text-white btn">View whole schedule</a>
+	</div>
+</div>
+	}
 @section Scripts {
 	<script>
 		$("#trackId").change(function () {
