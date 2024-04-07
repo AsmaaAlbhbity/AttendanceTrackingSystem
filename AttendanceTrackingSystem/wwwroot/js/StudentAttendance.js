@@ -22,7 +22,7 @@ function markAttendance(checkbox) {
     if (checkbox.checked) {
         $.ajax({
             url: '/Attendance/AddAttendanceRecourd',
-            type: 'POST',
+            type: 'Post',
             data: { id: id, time: formattedTime },
             success: function (response) {
                 console.log('Attendance added successfully');

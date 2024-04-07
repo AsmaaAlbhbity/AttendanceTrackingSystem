@@ -52,10 +52,10 @@ namespace AttendanceTrackingSystem.Repository
         public void Update(Student student)
         {
             // check if email is already in use
-            if (db.Users.Any(u => u.Email == student.Email.ToLower().Trim()))
-            {
-                throw new ValidationException("Email is already in use!");
-            }
+            //if (db.Users.Any(u => u.Email == student.Email.ToLower().Trim()))
+            //{
+            //    throw new ValidationException("Email is already in use!");
+            //}
             student.Email = student.Email.ToLower().Trim();
             db.Users.Update(student);
             db.SaveChanges();

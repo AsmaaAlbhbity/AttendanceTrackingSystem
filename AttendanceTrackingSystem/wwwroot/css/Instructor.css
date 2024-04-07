@@ -408,7 +408,12 @@
     padding: 10px;
     border-radius: 5px;
     margin-top: 20px;
+    height: 150px; /* Set the desired height to enable scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: Add border for visibility */
+    color: var(--main-color);
 }
+
 
 
     .attendance-list h3 {

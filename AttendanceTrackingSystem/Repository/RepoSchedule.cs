@@ -74,12 +74,14 @@ namespace AttendanceTrackingSystem.Repository
 				.Where(s => s.TrackId == trackId && s.Date >= saturday)
 				.OrderBy(a => a.Date).ToList();
 			return WholeSchedule;
+
+			//var weeklySchedule = db.Schedules
+			//    .Where(s => s.TrackId == trackId && s.Date >= saturday && s.Date <= friday)
+			//    .OrderBy(a => a.Date).ToList();
+			//return weeklySchedule;
 		}
-            var weeklySchedule = db.Schedules
-                .Where(s => s.TrackId == trackId && s.Date >= saturday && s.Date <= friday)
-                .OrderBy(a=>a.Date).ToList();
-            return weeklySchedule;
-        }
+            
+        
 		public int CheckStudentStatus(TimeOnly arriveTime, TimeOnly timeInScedule,int id)
 		{
             var obj = db.Schedules.FirstOrDefault(a => a.ScheduleId == id);

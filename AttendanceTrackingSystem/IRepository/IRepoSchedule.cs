@@ -1,4 +1,5 @@
 ﻿using AttendanceTrackingSystem.Models;
+using NuGet.DependencyResolver;
 
 namespace AttendanceTrackingSystem.IRepository
 {
@@ -16,7 +17,7 @@ namespace AttendanceTrackingSystem.IRepository
 		public void CreateAttendanceRecords(int scheduleId, DateTime date);
 		public bool checkSechduleToday();
 		public bool checkSechduleTodayFoeTrack(int id);
-
-
+		public List<Schedule> GetAllScheduleForTrack(int trackId);
+		public List<Schedule> CreateNextWeekScheduleTemplate();  public void AddOrReplaceSchedule(Schedule schedule);
     }
 }

@@ -20,7 +20,7 @@ namespace AttendanceTrackingSystem.IRepository
         public bool IsLate(int id, int? scheduleId);
 		public bool HavePermission(int id);
         public void SendWarningMsg(int id, int degree);
-	}
+	
 
         public List<StudentAttendance> GetStudentAttendance(int studentId, DateTime startDate, DateTime endDate);
 
