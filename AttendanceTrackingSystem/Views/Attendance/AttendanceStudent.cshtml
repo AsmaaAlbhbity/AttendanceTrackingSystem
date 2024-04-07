@@ -13,7 +13,6 @@
         <div class="styled-select">
             <select asp-items="Tracks" class="tracksDropdown">
                 <option>Select Track</option>
-                <option value="0">All</option>
             </select>
         </div>
     </div>
@@ -25,7 +24,7 @@
 
     <div id="studentListContainer">
 
-        @Html.Partial("_AttendanceStudentPartialView", Model)
+        <img src="~/images/college students.gif" height="300vw" style="margin-left:20vw" />
     </div>
 }
 else

@@ -1,6 +1,6 @@
 ﻿@model AttendanceViewModel
 
-
+@if (ViewBag.CheckSchedleForTrack==null){
 <div id="studentListContainer">
     <div class="attendance-list" id="attendanceList">
         <h3>Attendance List</h3>
@@ -51,8 +51,12 @@
             }
         </tbody>
     </table>
-</div>
-
+    </div>
+}
+else
+{
+    <div class="alert-danger"> @ViewBag.CheckSchedleForTrack</div>
+}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
