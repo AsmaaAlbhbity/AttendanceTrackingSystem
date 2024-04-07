@@ -26,7 +26,10 @@ namespace AttendanceTrackingSystem.Controllers
         }
         public IActionResult Attendance()
         {
-            return View();
+            ViewModel.AttendanceViewModel modal = new ViewModel.AttendanceViewModel();
+            modal.Students = repoStudent.getAll();
+            modal.Tracks = repoTrack.getAll();
+            return View(modal);
         }
         public IActionResult AttendanceStudent()
         {
@@ -50,7 +53,7 @@ namespace AttendanceTrackingSystem.Controllers
 
 
             ViewModel.AttendanceViewModel modal = new ViewModel.AttendanceViewModel();
-            modal.Students = repoStudent.getAll();
+            modal.Students = repoStudent.getAll().Where(a=>a.IsApproved==Approve.Accepted).ToList();
             modal.Tracks = repoTrack.getAll();
             modal.UserId = repoStudentAttendance.GetAttendanceForToday();
             modal.Attendances = repoAttendance.getAll();
@@ -58,12 +61,20 @@ namespace AttendanceTrackingSystem.Controllers
             {
                 ViewBag.CheckSchedule = "It appears that there is no schedule planned for today.";
             }
-
-            return View (modal);
+            return PartialView("AttendanceStudent", modal);
         }
         public IActionResult GetStudentsByTrack(int id)
         {
-            var Students = repoStudent.getAll().Where(a=>a.TrackId == id).ToList();
+            var Students = repoStudent.getAll();
+            if (id == 0)
+            {
+                 Students = repoStudent.getAll();
+            }
+            else
+            {
+                 Students = repoStudent.getAll().Where(a => a.TrackId == id).ToList();
+            }
+            
             var studentId = repoStudentAttendance.GetAttendanceForToday();
 
             ViewModel.AttendanceViewModel obj = new ViewModel.AttendanceViewModel();
@@ -142,8 +153,9 @@ namespace AttendanceTrackingSystem.Controllers
             {
 				recourd.currentDegree = std.StudentDegree + recourd.minDegree;
 				std.StudentDegree = std.StudentDegree + ((int?)recourd.minDegree ?? 0);
-
-				recourd.minDegree = 0;
+                recourd.CheckIn = TimeOnly.FromDateTime(DateTime.Parse("0:00"));
+                recourd.CheckOut = TimeOnly.FromDateTime(DateTime.Parse("0:00"));
+                recourd.minDegree = 0;
 			}
 
             recourd.Status = AttendaneStatus.Absent;
@@ -163,16 +175,78 @@ namespace AttendanceTrackingSystem.Controllers
         //==============================================================================
         /*User*/
         //==============================================================================
-        public IActionResult Attendance(string Type)
+        public IActionResult UserAttendance(string Type)
         {
             ViewModel.AttendanceViewModel modal = new ViewModel.AttendanceViewModel();
-            modal.UserId = repoAttendance.GetEmployeeAttendanceForToday();
+            
             modal.Attendances = repoAttendance.getAll();
-            modal.Users = repoUser.getAll().Where( a=>a.UserType == Type).ToList();
+            if (Type == "Instructor")
+            {
+                modal.UserId = repoAttendance.GetInstructorAttendanceForToday();
+                modal.Users = repoUser.getAll().Where(a => a.UserType == "Instructor").ToList();
+            }
+            else
+            {
+                modal.UserId = repoAttendance.GetEmployeeAttendanceForToday();
+                modal.Users = repoUser.getAll().Where(a => a.UserType == "Employee").ToList();
+            }
+           
+
+            if (repoSchedule.checkSechduleToday() != true)
+            {
+                ViewBag.CheckSchedule = "It appears that there is no schedule planned for today.";
+            }
 
             return PartialView("UserAttendance", modal);
         }
+        public IActionResult AddEmployeeAttendance(int id)
+        {
+            var emp = repoUser.getById(id);
+            var recourd = repoAttendance.getAll().FirstOrDefault(a => a.UserId == id && a.Date.Date == (DateTime.Now.Date));
+           
+            if(TimeOnly.FromDateTime(DateTime.Now).AddMinutes(15)< TimeOnly.FromDateTime(DateTime.Parse("9:00")))
+            {
+                recourd.Status = AttendaneStatus.onTime;
+            }else if (TimeOnly.FromDateTime(DateTime.Now).AddMinutes(15) > TimeOnly.FromDateTime(DateTime.Parse("9:00")))
+            {
+                recourd.Status = AttendaneStatus.Late;
+            }
+            
 
+            recourd.CheckIn = TimeOnly.FromDateTime(DateTime.Now);
+           
+            repoAttendance.Update(recourd);
+            repoUser.Update(emp);
+
+            return Ok();
+
+        }
+        public IActionResult UpdateUserAttendanceRecourd(int id)
+        {
+            var obj = repoAttendance.GetByUserIdAndDate(id);
+            obj.CheckOut = TimeOnly.FromDateTime(DateTime.Now);
+
+            repoStudentAttendance.UpdateByUserIdAndDate(id);
+            return Ok();
+        }
+        public IActionResult DeleteUserAttendanceRecord(int id)
+        {
+            var emp = repoUser.getById(id);
+            var recourd = repoAttendance.getAll().FirstOrDefault(a => a.UserId == id && a.Date.Date == (DateTime.Now.Date));
+            
+
+            if (recourd != null)
+            {
+                
+                recourd.CheckIn = TimeOnly.FromDateTime(DateTime.Parse("0:00"));
+                recourd.CheckOut = TimeOnly.FromDateTime(DateTime.Parse("0:00"));
+              
+            }
+
+            recourd.Status = AttendaneStatus.Absent;
+            repoAttendance.Update(recourd);
+            return Ok();
+        }
 
 
 

@@ -2,24 +2,23 @@
 @{
     SelectList Tracks = new SelectList(Model.Tracks, "TrackId", "Name");
 }
-<div id="title-container">
+@* <div id="title-container">
     <h1 class="main-title">Student Attendance</h1>
     <img src="~/images/confirmed attendance.gif" class="imgTitle" />
-</div>
+</div> *@
 
-<div class="row">
-    <div class="col-md-6" style="margin-top:1.5vw;">
-        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
-    </div>
 
-    <div class="select-container">
+
+    <div class="select-container" >
         <div class="styled-select">
-            <select asp-items="Tracks" id="tracksDropdown">
+            <select asp-items="Tracks" class="tracksDropdown">
                 <option>Select Track</option>
+                <option value="0">All</option>
             </select>
         </div>
     </div>
-</div>
+
+
 @if (ViewBag.CheckSchedule == null)
 {
 
@@ -36,7 +35,18 @@ else
 @section scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/studentattendance.js"></script>
+    <script src="~/js/EmployeeAttendance.js"></script>
+
+
+  <script>
+        $(document).ready(function () {
+            setRandomColors();
+            $("#search").show();
+            $('.tracksDropdown').on('change', function () {
+                var selectedTrackId = $(this).val(); // Get the value of the selected option
+                loadStudentsPartial(selectedTrackId); // Call the function with the selected ID
+            });
+        });
+  </script>
     
-     
- 
 }

@@ -23,5 +23,6 @@ namespace AttendanceTrackingSystem.IRepository
         public List<AttendanceCountPerUserType> GetAttendanceCountsPerUserType();
         public List<int> GetEmployeeAttendanceForToday();
         public List<int> GetInstructorAttendanceForToday();
+        public Attendance GetByUserIdAndDate(int id);
     }
 }

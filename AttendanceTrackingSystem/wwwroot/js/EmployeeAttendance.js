@@ -1,8 +1,8 @@
-﻿
+﻿markAttendanceInstructor
 /*==========================================================*/
 /* Add */
 /*==========================================================*/
-function markAttendance(checkbox) {
+function markAttendanceInstructor(checkbox) {
     var row = checkbox.parentNode.parentNode;
     var id = row.cells[0].innerText.trim();
     var name = row.cells[1].innerText.trim();
@@ -21,9 +21,9 @@ function markAttendance(checkbox) {
 
     if (checkbox.checked) {
         $.ajax({
-            url: '/Attendance/AddAttendanceRecourd',
+            url: '/Attendance/AddEmployeeAttendance',
             type: 'Post',
-            data: { id: id, time: formattedTime },
+            data: { id: id },
             success: function (response) {
                 console.log('Attendance added successfully');
                 Swal.fire('Success!', 'Attendance recorded successfully.', 'success');
@@ -38,7 +38,7 @@ function markAttendance(checkbox) {
                 badge.innerText = id + ' - ' + name;
 
                 attendanceItem.appendChild(badge);
-                attendanceItem.innerHTML += ' ' + formattedTime + ' <span class="remove-btn" onclick="removeAttendance(this)">x</span>';
+                attendanceItem.innerHTML += ' ' + formattedTime + ' <span class="remove-btn" onclick="removeUserAttendance(this)">x</span>';
                 document.getElementById('attendanceList').appendChild(attendanceItem);
 
                 checkbox.disabled = true;
@@ -58,7 +58,7 @@ function markAttendance(checkbox) {
 /*==========================================================*/
 /* Update */
 /*==========================================================*/
-function UpdateAttendance(checkbox) {
+function UpdateUserAttendance(checkbox) {
     var row = checkbox.parentNode.parentNode;
     var id = row.cells[0].innerText.trim();
     var name = row.cells[1].innerText.trim();
@@ -66,7 +66,7 @@ function UpdateAttendance(checkbox) {
 
     if (checkbox.checked) {
         $.ajax({
-            url: '/Attendance/UpdateAttendanceRecourd',
+            url: '/Attendance/UpdateUserAttendanceRecourd',
             type: 'POST',
             data: { id: id },
             success: function (response) {
@@ -90,11 +90,10 @@ function toggleCheckout(checkbox) {
 
     checkinCheckbox.disabled = checkbox.checked; // Disable Check In if Check Out is checked
 }
-
 /*==========================================================*/
 /* delete */
 /*==========================================================*/
-function removeAttendance(removeBtn) {
+function removeUserAttendance(removeBtn) {
     var item = removeBtn.parentNode;
     var id = item.getAttribute('data-id');
     console.log(id, item);
@@ -110,7 +109,7 @@ function removeAttendance(removeBtn) {
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
-                url: '/Attendance/DeleteAttendanceRecord',
+                url: '/Attendance/DeleteUserAttendanceRecord',
                 type: 'GET',
                 data: { id: id },
                 success: function (response) {
@@ -144,50 +143,4 @@ function removeAttendance(removeBtn) {
         }
     });
 }
-
-/*==========================================================*/
-/* partial track */
-/*==========================================================*/
-function loadStudentsPartial(trackId) {
-    $.ajax({
-        url: '/Attendance/GetStudentsByTrack/' + trackId,
-        type: 'GET',
-        success: function (result) {
-            $("#studentListContainer").empty();
-            $("#studentListContainer").html(result);
-        },
-        error: function (xhr, status, error) {
-            console.error('AJAX Error:', status, error);
-            alert('Error occurred while fetching data.');
-        }
-    });
-}
-
-function getRandomLightColor() {
-    var letters = '89ABCDEF'; // Light colors range
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * letters.length)];
-    }
-    return color;
-}
-
-function setRandomColors() {
-    $('.attendance-item').each(function () {
-        var randomColor = getRandomLightColor();
-        console.log(randomColor);
-        $(this).css('background-color', randomColor);
-    });
-}
-
-
-$(document).ready(function () {
-    setRandomColors(); // Assuming this function works correctly
-    $("#searchInput").show();
-    $('.tracksDropdown').on('change', function () {
-        var selectedTrackId = $(this).val(); // Get the value of the selected option
-        loadStudentsPartial(selectedTrackId); // Call the function with the selected ID
-    });
-});
-
 

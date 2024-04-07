@@ -117,7 +117,7 @@ namespace AttendanceTrackingSystem.Repository
 		public void CreateStudentAttendanceRecords(int scheduleId, DateTime date)
 		{
 			var schedule = db.Schedules.FirstOrDefault(a => a.ScheduleId == scheduleId);
-			var students = db.Students.Where(s => s.TrackId == schedule.TrackId).ToList();
+			var students = db.Students.Where(s => s.TrackId == schedule.TrackId && s.IsApproved == Approve.Accepted).ToList();
 
 			foreach (var student in students)
 			{

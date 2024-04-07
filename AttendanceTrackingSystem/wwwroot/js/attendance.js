@@ -9,7 +9,7 @@ function loadStudentsAttendancePartial() {
         success: function (result) {
             $("#UserContainer").empty();
             $("#UserContainer").html(result);
-            alert(result);
+           
         },
         error: function (xhr, status, error) {
             console.error('AJAX Error:', status, error);
@@ -17,14 +17,15 @@ function loadStudentsAttendancePartial() {
         }
     });
 }
-function loadUserAttendancePartial(type) {
+function loadUserAttendancePartial(Type) {
     $.ajax({
-        url: '/Attendance/UserAttendance/' + type,
+        url: '/Attendance/UserAttendance/',
         type: 'GET',
+        data: { Type: Type },
         success: function (result) {
             $("#UserContainer").empty();
             $("#UserContainer").html(result);
-            alert(result);
+           
         },
         error: function (xhr, status, error) {
             console.error('AJAX Error:', status, error);
@@ -60,7 +61,12 @@ function setRandomColors() {
 // Search functionality
 $(document).ready(function () {
     setRandomColors();
-    
+    $("#searchInput").hide();
+    $('.tracksDropdown').on('change', function () {
+        var selectedTrackId = $(this).val(); // Get the value of the selected option
+        loadStudentsPartial(selectedTrackId); // Call the function with the selected ID
+    });
+
     $("#searchInput").on("keyup", function () {
         var value = $(this).val().toLowerCase();
         $("#instructorTable tbody tr").filter(function () {
@@ -73,15 +79,22 @@ $(document).ready(function () {
 
    
 
+
     document.getElementById('userType').addEventListener('change', function () {
-        alert("Dropdown changed");
         var selectedType = $(this).val();
-        alert(selectedType);
-        if (selectedType != "Student") {
+        if (selectedType == "Instructor") {
             loadUserAttendancePartial(selectedType);
-       } else if (selectedType == "Student") {
-           loadStudentsAttendancePartial();
+
+        } else if (selectedType == "Student") {
             
-        }
+
+            loadStudentsAttendancePartial();   
+
+        }else if (selectedType == "Employee") {
+            loadUserAttendancePartial(selectedType);
+
+        }else if (selectedType == "0") {
+        loadStudentsAttendancePartial();
+    }
     });
 });

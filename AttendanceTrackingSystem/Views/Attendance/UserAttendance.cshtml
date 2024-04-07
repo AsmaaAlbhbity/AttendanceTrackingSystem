@@ -1,6 +1,9 @@
 ﻿@model AttendanceViewModel
-
-
+@{
+    SelectList Tracks = new SelectList(Model.Tracks, "TrackId", "Name");
+}
+@if (ViewBag.CheckSchedule == null)
+{
 <div id="studentListContainer">
     <div class="attendance-list" id="attendanceList">
         <h3>Attendance List</h3>
@@ -11,53 +14,60 @@
                 <div class="attendance-item" data-id="@Emp.UserId" style="background-color:getDynamicColor();">
                     <span>@Emp.UserId - @Emp.Name</span>
                     <span>@Model.Attendances?.FirstOrDefault(a => a.Date.Date == DateTime.Now.Date && a.UserId == Emp.UserId)?.CheckIn</span>
-                    <span class="remove-btn" onclick="removeAttendanceInstructor(this)">x</span>
+                    <span class="remove-btn" onclick="removeUserAttendance(this)">x</span>
                 </div>
             }
         }
     </div>
 </div>
 
-<div id="InstructorStyles">
-    <table id="instructorTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Checkin</th>
-                <th>Checkout</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var Emp in Model.Users)
-            {
+    <div id="InstructorStyles">
+        <table id="instructorTable">
+            <thead>
                 <tr>
-                    <td>@Emp.UserId</td>
-                    <td data-id="@Emp.UserId">@Emp.Name</td>
-                    <td>
-                        <input type="checkbox" class="present-checkbox"
-                               name="presentCheck" value="@Emp.UserId"
-                               onchange="markAttendanceInstructor(this)"
-                        @(Model.UserId.Contains(Emp.UserId) ? "checked" : "")
-                        @(Model.UserId.Contains(Emp.UserId) ? "disabled" : "") />
-                    </td>
-                    <td>
-                        <input type="checkbox" class="checkout-input"
-                               onchange="UpdateAttendanceInstructor(this)"
-                        @(Model.UserId.Contains(Emp.UserId) ? "" : "disabled") />
-
-                    </td>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Checkin</th>
+                    <th>Checkout</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var Emp in Model.Users)
+                {
+                    <tr>
+                        <td>@Emp.UserId</td>
+                        <td data-id="@Emp.UserId">@Emp.Name</td>
+                        <td>
+                            <input type="checkbox" class="present-checkbox"
+                            name="presentCheck" value="@Emp.UserId"
+                            onchange="markAttendanceInstructor(this)"
+                            @(Model.UserId.Contains(Emp.UserId) ? "checked" : "")
+                            @(Model.UserId.Contains(Emp.UserId) ? "disabled" : "") />
+                        </td>
+                        <td>
+                            <input type="checkbox" class="checkout-input"
+                            onchange="UpdateUserAttendance(this)"
+                            @(Model.UserId.Contains(Emp.UserId) ? "" : "disabled") />
 
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert-danger">@ViewBag.CheckSchedule</div>
+}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="f:\mvcproject\attendancetask\attendancetrackingsystem\wwwroot\js\studentattendance.js"></script>
+<script src="~/js/studentattendance.js"></script>
+<script src="~/js/EmployeeAttendance.js"></script>
 <script>
     $(document).ready(function () {
         setRandomColors();
+        $("#search").show();
+           
     });
 
     function setRandomColors() {
