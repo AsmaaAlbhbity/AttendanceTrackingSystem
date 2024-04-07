@@ -15,6 +15,11 @@
 
     @Html.Partial("_StudentChartPartialView.cshtml", Model)
 
+<div>
+
+    @Html.Partial("~/Views/Shared/_LateOrAbsentDatesPartialView.cshtml", Model)
+</div>
+
     <div class="Schedule">
         <h2 class="custome-title">Show Your Schedule</h2>
         @Html.Partial("_StudentScudlePartialView.cshtml", Model)

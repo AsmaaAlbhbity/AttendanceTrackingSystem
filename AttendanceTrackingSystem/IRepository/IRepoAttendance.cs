@@ -1,4 +1,6 @@
 ﻿using AttendanceTrackingSystem.Models;
+using AttendanceTrackingSystem.Repository;
+using AttendanceTrackingSystem.ViewModel;
 
 namespace AttendanceTrackingSystem.IRepository
 {
@@ -16,6 +18,7 @@ namespace AttendanceTrackingSystem.IRepository
         public void Update(Attendance attendance);
         public void Delete(int id);
 
+        public List<AttendanceRecordViewModel> GetLateOrAbsentDates(int userId);
         public List<Attendance> GetUserAttendance(int userId, DateTime startDate, DateTime endDate);
         public List<AttendanceCountPerUserType> GetAttendanceCountsPerUserType();
         public List<int> GetEmployeeAttendanceForToday();

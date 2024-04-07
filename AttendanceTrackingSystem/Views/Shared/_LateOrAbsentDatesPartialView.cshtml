@@ -1,0 +1,42 @@
+﻿@model AttendanceSummaryViewModel
+
+@if (ViewBag.LateOrAbsentDates != null && ViewBag.LateOrAbsentDates.Count > 0)
+{
+    <h2 class="custome-title"> Attendance Calendar</h2>
+
+      <div id="calendar" style="width: 95%; margin:40px auto;"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+        @foreach (var attendanceRecord in ViewBag.LateOrAbsentDates)
+        {
+            @if (attendanceRecord.Status == AttendaneStatus.Late)
+            {
+                <text>{
+                                title: 'Late - @attendanceRecord.Date.ToString("yyyy-MM-dd")',
+                                start: '@attendanceRecord.Date.ToString("yyyy-MM-dd")'
+                            }, </text>
+            }
+            else if (attendanceRecord.Status == AttendaneStatus.Absent)
+            {
+                <text>{
+                                title: 'Absent - @attendanceRecord.Date.ToString("yyyy-MM-dd")',
+                                start: '@attendanceRecord.Date.ToString("yyyy-MM-dd")'
+                            }, </text>
+            }
+        }
+                        ]
+            });
+
+            calendar.render();
+        });
+    </script>
+}
+else
+{
+    <p>No late or absent dates found.</p>
+}

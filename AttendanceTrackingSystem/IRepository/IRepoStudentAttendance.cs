@@ -8,6 +8,8 @@ namespace AttendanceTrackingSystem.IRepository
         public StudentAttendance getById(int id);
         public void Add(StudentAttendance studentAttendance);
         public void Update(StudentAttendance studentAttendance);
+
+
         public void Delete(int id);
         public List<int> GetAttendanceForToday();
         public void DeleteByUserIdAndDate(int id);
@@ -19,4 +21,11 @@ namespace AttendanceTrackingSystem.IRepository
 		public bool HavePermission(int id);
         public void SendWarningMsg(int id, int degree);
 	}
+
+        public List<StudentAttendance> GetStudentAttendance(int studentId, DateTime startDate, DateTime endDate);
+
+        public List<DateTime> GetStudentScheduleDates(int studentId, DateTime startDate, DateTime endDate);
+
+
+    }
 }

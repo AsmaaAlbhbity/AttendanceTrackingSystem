@@ -127,3 +127,30 @@
     #pendingStudentsNotification {
         background-color: #e8f7d4;
     }
+
+
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: #e5f77a;
+}
+
+.fc .fc-button-primary {
+    background-color: #6c5ddc;
+}
+    .fc .fc-button-primary:disabled {
+        background-color: #137ff3;
+    }
+
+a.fc-col-header-cell-cushion, a.fc-daygrid-day-number {
+    text-decoration: none;
+    color: var(--main-text-color)
+}
+
+.fc-event-title-container {
+    background-color: #b7ce29;
+    padding: 7px 2px;
+}
+
+.fc-h-event {
+
+    border: 1px solid #a5a5a5;
+}
