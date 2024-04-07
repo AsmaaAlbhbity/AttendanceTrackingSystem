@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace AttendanceTrackingSystem.Controllers
 {
     [Authorize]
-    [Authorize(Roles = "Security,StudentAffairs,Instructor,Admin,Supervisor")]
+    [Authorize(Roles = "Security,StudentAffairs,Instructor,Admin,Supervisor,Student")]
     public class HomeController : Controller
     {
      
@@ -52,16 +52,14 @@ namespace AttendanceTrackingSystem.Controllers
         // for security and studdent affairs and instructor
         public IActionResult Home(int userId, DateTime? endDate)
         {
+            
             try
             {
 		
                  userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
                 var startDate = DateTime.Today.AddMonths(-1);
                 endDate ??= DateTime.Today;
-
-
                 var userAttendance = repoAttendance.GetUserAttendance(userId, startDate, endDate.Value);
-
                 List<Msg> userMessages = repoMsg.getAll(userId);
 
                 int lateCount = userAttendance.Count(a => a.CheckIn > new TimeOnly(9, 0));
@@ -84,7 +82,8 @@ namespace AttendanceTrackingSystem.Controllers
                 // for studen affairs to change state
                 var pendingStudents = repoStudent.GetPendingStudents();
                 ViewBag.PendingStudents = pendingStudents;
-
+                var lateOrAbsentDates = repoAttendance.GetLateOrAbsentDates(userId);
+                ViewBag.LateOrAbsentDates = lateOrAbsentDates;
 
                 return View(attendanceSummaryViewModel);
             }
@@ -94,6 +93,7 @@ namespace AttendanceTrackingSystem.Controllers
                 return View("Error");
             }
         }
+
 
         public IActionResult FetchAttendanceData(int userId, DateTime startDate)
         {

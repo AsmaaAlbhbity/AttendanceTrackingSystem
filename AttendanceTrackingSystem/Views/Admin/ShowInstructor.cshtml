@@ -41,7 +41,7 @@
                             <a class="Action" asp-action="ManageTrack" asp-controller="Admin" asp-route-id="@instructor.UserId">
                                 <img src="~/images/ManageTrack.png" class="Actionimg" />
                             </a>
-                            <a class="Action" data-toggle="modal" data-target="#instructorDetailsModal" onclick="populateModal('@instructor.UserId', '@instructor.Name', '@instructor.ImgUrl', '@instructor.Email', '@instructor.InstructorSalary', '@Model.Tracks.FirstOrDefault(a => a.SupervisorId == instructor.UserId)?.Name')">
+                            <a class="Action" data-toggle="modal" data-bs-target="#instructorDetailsModal" onclick="populateModal('@instructor.UserId', '@instructor.Name', '@instructor.ImgUrl', '@instructor.Email', '@instructor.InstructorSalary', '@Model.Tracks.FirstOrDefault(a => a.SupervisorId == instructor.UserId)?.Name')">
                                 <img src="~/images/information.png" class="Actionimg" />
                             </a>
                             <a class="Action">
@@ -90,7 +90,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="detailsModalLabel">Instructor Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -114,6 +114,6 @@
 
     @section scripts {
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="~/js/instrouctor.js"></script>
+    <script src="~/js/instrouctor.js"></script>
     }
 </div>

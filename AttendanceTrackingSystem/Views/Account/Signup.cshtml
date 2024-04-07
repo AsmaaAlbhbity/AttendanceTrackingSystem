@@ -3,42 +3,42 @@
     ViewData["Title"] = "Signup";
     Layout = null;
 
-     
-            
-       
+
+
+
 }
 
 
 <html>
-    <head>
-        <title>Student Signup</title>
+<head>
+    <title>Student Signup</title>
     <link href="~/css/genralStylesForForms.css" rel="stylesheet" />
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-    </head>
-    <body class="for-signup">
+</head>
+<body class="for-signup">
 
     <div class="main-signup-container">
         <div class="signup-img">
-            <img src="~/Images/sign up.gif" alt="signup" />	
+            <img src="~/Images/sign up.gif" alt="signup" />
         </div>
 
         <div class="signup-form">
-         
+
             <h2 class="text-center">Attendance System</h2>
             <h3>New Student</h3>
             <form asp-action="Signup" method="post" asp-controller="account" enctype="multipart/form-data">
-              
+
                 <div class="display-two-per-row">
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="Name"></label>
                         <input class="custome-input" asp-for="Name" />
-                 
+
                     </div>
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="Email"></label>
                         <input class="custome-input" asp-for="Email" />
-                      
+
                     </div>
                 </div>
                 <div class="display-two-per-row">
@@ -46,77 +46,77 @@
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="Password"></label>
                         <input class="custome-input" type="password" asp-for="Password" />
-                      
+
                     </div>
 
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="Phone"></label>
                         <input class="custome-input" asp-for="Phone" />
-                     
+
                     </div>
 
-                 
+
                 </div>
 
                 <div class="display-two-per-row">
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="StudentUniversity">University</label>
                         <input class="custome-input" asp-for="StudentUniversity" />
-                     
+
                     </div>
 
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="StudentFaculity"> Faculity</label>
                         <input class="custome-input" asp-for="StudentFaculity" />
-            
+
                     </div>
 
-               
+
                 </div>
 
                 <div class="display-two-per-row">
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="StudentSpecialization"> Specialization</label>
                         <input class="custome-input" asp-for="StudentSpecialization" />
-              
+
                     </div>
 
-            
 
-                  <div class="custom-form-control">
-                    <label class="custome-label" asp-for="TrackId"></label>
-                    <select id="trackId" class="custome-input" name="TrackId" onchange="checkCapacity()">
-                    <option value="">Select Track</option>
+
+                    <div class="custom-form-control">
+                        <label class="custome-label" asp-for="TrackId"></label>
+                        <select id="trackId" class="custome-input" name="TrackId" onchange="checkCapacity()">
+                            <option value="">Select Track</option>
                             @foreach (var track in ViewBag.ActiveTracks)
-                    {
+                            {
                                 <option value="@track.TrackId" data-studentCount="@track.StudentCount" data-capacity="@track.TrackCapacity">@track.TrackName</option>
-                    }
-                    </select>
+                            }
+                        </select>
 
-                      
-                  </div>
+
+                    </div>
 
                 </div>
                 <div class="display-two-per-row">
 
                     <div class="custom-form-control">
                         <label class="custome-label" asp-for="StudentGraduationYear">Graduation Year</label>
-                        <input class="custome-input" asp-for="StudentGraduationYear"  />
-                       
+                        <input class="custome-input" asp-for="StudentGraduationYear" />
+
                     </div>
 
 
-                <div class="custom-form-control">
-                    <label class="custome-label" asp-for="ImgUrl" >Img Url</label>
-                    <input type="file" class="custome-input" name="ImgUrl"/>
-                  
-                </div>
+                    <div class="custom-form-control">
+                        <label class="custome-label" asp-for="ImgUrl">Img Url</label>
+                        <input type="file" class="custome-input" name="ImgUrl" />
+
+                    </div>
 
 
                 </div>
                 <input type="hidden" asp-for="IsApproved" value="@Approve.pending" />
                 <input type="hidden" asp-for="UserType" value="@UserType.Student" />
-                <input type="hidden" asp-for="StudentDegree" value="255" /> 
+                <input type="hidden" asp-for="StudentDegree" value="255" />
 
                 <div asp-validation-summary="All" class="text-danger alert-danger"></div>
                 <span id="capacityErrorMessage" class="text-danger alert-danger"></span>
@@ -128,10 +128,10 @@
     </div>
 
 
-        <script src="~/js/Signup.js">
-       
+    <script src="~/js/Signup.js">
+
     </script>
-   
-    </body>
+
+</body>
 </html>
 

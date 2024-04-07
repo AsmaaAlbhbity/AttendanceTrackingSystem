@@ -1,1 +1,42 @@
-﻿
+﻿@model AttendanceViewModel
+@{
+    SelectList Tracks = new SelectList(Model.Tracks, "TrackId", "Name");
+}
+<div id="title-container">
+    <h1 class="main-title">Student Attendance</h1>
+    <img src="~/images/confirmed attendance.gif" class="imgTitle" />
+</div>
+
+<div class="row">
+    <div class="col-md-6" style="margin-top:1.5vw;">
+        <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search...">
+    </div>
+
+    <div class="select-container">
+        <div class="styled-select">
+            <select asp-items="Tracks" id="tracksDropdown">
+                <option>Select Track</option>
+            </select>
+        </div>
+    </div>
+</div>
+@if (ViewBag.CheckSchedule == null)
+{
+
+
+    <div id="studentListContainer">
+
+        @Html.Partial("_AttendanceStudentPartialView", Model)
+    </div>
+}
+else
+{
+    <div class="alert-danger">@ViewBag.CheckSchedule</div>
+}
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/studentattendance.js"></script>
+    
+     
+ 
+}

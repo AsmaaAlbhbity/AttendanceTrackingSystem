@@ -1,0 +1,24 @@
+﻿@model AttendanceViewModel
+
+<div id="title-container">
+    <h1 class="main-title">Attendance</h1>
+    <img src="~/images/confirmed attendance.gif" class="imgTitle" />
+</div>
+
+
+
+<select id="userType">
+    <option value="">Select User Type ........ </option>
+    <option value="Employee">Employee</option>
+    <option value="Instructor">Instructor</option>
+</select>
+
+<div id="UserContainer">
+
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/attendance.js"></script>
+    <script src="~/js/studentattendance.js"></script>
+}

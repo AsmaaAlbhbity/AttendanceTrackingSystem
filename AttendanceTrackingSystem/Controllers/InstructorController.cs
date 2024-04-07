@@ -11,7 +11,7 @@ namespace AttendanceTrackingSystem.Controllers
 
     public class AttendanceViewModel
     {
-        public List<Attendance> AttendanceData { get; set; }
+        public List<AttendanceController> AttendanceData { get; set; }
         public int LateCount { get; set; }
         public int OnTimeCount { get; set; }
         public int AbsentCount { get; set; }

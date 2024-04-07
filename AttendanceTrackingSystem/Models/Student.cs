@@ -15,7 +15,7 @@ namespace AttendanceTrackingSystem.Models
         public string StudentFaculity { get; set; }
         //[GraduationYear(10)]
         public DateTime StudentGraduationYear { get; set; }
-        [StringLength(50, MinimumLength = 3, ErrorMessage = $"{nameof(StudentSpecialization)} must be at least 3 characters long.")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = $"{nameof(StudentSpecialization)} must be at least 2 characters long.")]
         public string StudentSpecialization { get; set; }
         [Required]
         public int TrackId { get; set; }

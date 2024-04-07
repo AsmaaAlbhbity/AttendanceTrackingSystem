@@ -17,14 +17,14 @@
                 data: { permissionId: permissionId },
                 success: function (response) {
                     if (response.success) {
-                        window.location.reload();
+                        window.location.href = '/Student/Home';
                     } else {
 
-                        //Swal.fire({
-                        //    icon: 'error',
-                        //    title: 'Oops...',
-                        //    text: response.message
-                        //});
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: response.message
+                        });
                     }
                 },
                 error: function (xhr, status, error) {
