@@ -12,12 +12,12 @@ namespace AttendanceTrackingSystem.Repository
 			db = _db;
 		}
 
-        public void Add(Schedule schedule)
-        {
-            db.Schedules.Add(schedule);
-            db.SaveChanges();
+		public void Add(Schedule schedule)
+		{
+			db.Schedules.Add(schedule);
+			db.SaveChanges();
 
-			if(schedule.Type!=ScheduleType.Funday && schedule.Type != ScheduleType.Holiday)
+			if (schedule.Type != ScheduleType.Funday && schedule.Type != ScheduleType.Holiday)
 			{
 				CreateAttendanceRecords(schedule.ScheduleId, schedule.Date);
 			}
@@ -74,29 +74,24 @@ namespace AttendanceTrackingSystem.Repository
 				.Where(s => s.TrackId == trackId && s.Date >= saturday)
 				.OrderBy(a => a.Date).ToList();
 			return WholeSchedule;
-
-			//var weeklySchedule = db.Schedules
-			//    .Where(s => s.TrackId == trackId && s.Date >= saturday && s.Date <= friday)
-			//    .OrderBy(a => a.Date).ToList();
-			//return weeklySchedule;
 		}
-            
-        
-		public int CheckStudentStatus(TimeOnly arriveTime, TimeOnly timeInScedule,int id)
-		{
-            var obj = db.Schedules.FirstOrDefault(a => a.ScheduleId == id);
 
-            if (obj.StartPeriod.AddMinutes(15) < arriveTime)
-            {
-                return 1;
-            }
-            else return 0;
+
+		public int CheckStudentStatus(TimeOnly arriveTime, TimeOnly timeInScedule, int id)
+		{
+			var obj = db.Schedules.FirstOrDefault(a => a.ScheduleId == id);
+
+			if (obj.StartPeriod.AddMinutes(15) < arriveTime)
+			{
+				return 1;
+			}
+			else return 0;
 
 		}
 
 		public void CreateAttendanceRecords(int scheduleId, DateTime date)
 		{
-			
+
 			var existingStudentAttendances = db.StudentAttendances
 				.Any(sa => sa.SchduleId == scheduleId && sa.Date == date);
 
@@ -126,7 +121,7 @@ namespace AttendanceTrackingSystem.Repository
 					Date = date,
 					SchduleId = scheduleId,
 					UserId = student.UserId,
-					Status = AttendaneStatus.Absent 
+					Status = AttendaneStatus.Absent
 				};
 				db.StudentAttendances.Add(attendance);
 			}
@@ -136,7 +131,7 @@ namespace AttendanceTrackingSystem.Repository
 
 		public void CreateInstructorAndEmployeeAttendanceRecords(DateTime date)
 		{
-			var instructorsAndEmployees = db.Users.Where(u => u.UserType =="Instructor" || u.UserType == "Employee").ToList();
+			var instructorsAndEmployees = db.Users.Where(u => u.UserType == "Instructor" || u.UserType == "Employee").ToList();
 
 			foreach (var user in instructorsAndEmployees)
 			{
@@ -144,7 +139,7 @@ namespace AttendanceTrackingSystem.Repository
 				{
 					Date = date,
 					UserId = user.UserId,
-					Status = AttendaneStatus.Absent 
+					Status = AttendaneStatus.Absent
 				};
 				db.Attendances.Add(attendance);
 			}
@@ -154,25 +149,25 @@ namespace AttendanceTrackingSystem.Repository
 
 		public bool checkSechduleToday()
 		{
-			var obj = db.Schedules.FirstOrDefault(a=>a.Date.Date==DateTime.Now.Date && (a.Type==ScheduleType.Offline || a.Type==ScheduleType.Online));
-			if(obj!=null)
+			var obj = db.Schedules.FirstOrDefault(a => a.Date.Date == DateTime.Now.Date && (a.Type == ScheduleType.Offline || a.Type == ScheduleType.Online));
+			if (obj != null)
 				return true;
 			else return false;
 		}
-        public bool checkSechduleTodayFoeTrack(int id)
-        {
+		public bool checkSechduleTodayFoeTrack(int id)
+		{
 			var obj = db.Schedules.FirstOrDefault(a => a.Date.Date == DateTime.Now.Date && (a.Type == ScheduleType.Offline || a.Type == ScheduleType.Online) && a.TrackId == id);
-            if (obj != null)
-                return true;
-            else return false;
-        }
+			if (obj != null)
+				return true;
+			else return false;
+		}
 
-		public List<Schedule> CreateNextWeekScheduleTemplate()
+		public List<Schedule> CreateNextWeekScheduleTemplate(int trackId)
 		{
 			DateTime maxDate = DateTime.Today;
-
-			if (db.Schedules.Count() != 0)
-				maxDate = db.Schedules.Max(a => a.Date);
+			List<Schedule> schedules = db.Schedules.Where(a => a.TrackId == trackId).ToList();
+			if (schedules.Count() != 0)
+				maxDate = schedules.Max(a => a.Date);
 
 			DateTime startDate = maxDate.AddDays(6 - (int)maxDate.DayOfWeek);
 
@@ -182,7 +177,7 @@ namespace AttendanceTrackingSystem.Repository
 				DateTime currentDate = startDate.AddDays(i);
 				Schedule schedule = new Schedule
 				{
-					TrackId = 3,
+					TrackId = trackId,
 					Date = currentDate,
 					StartPeriod = TimeOnly.MinValue,
 					EndPeriod = TimeOnly.MinValue
@@ -195,7 +190,7 @@ namespace AttendanceTrackingSystem.Repository
 		{
 			return db.Schedules.Any(a => a.TrackId == trackId && a.Date == date);
 		}
-		
+
 		public void UpdateByTrackIdAndDate(Schedule schedule)
 		{
 			var obj = db.Schedules.FirstOrDefault(a => a.TrackId == schedule.TrackId && a.Date == schedule.Date);

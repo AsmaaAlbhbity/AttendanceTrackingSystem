@@ -84,19 +84,19 @@
 			}
 		</tbody>
 	</table>
-	if (ViewBag.IsSupervisor)
-	{
-		<div class="row">
-			<div class="col">
-				<a asp-action="ViewAllSchedule" id="ViewWholeScheduleBtn" asp-route-trackId="@ViewBag.SelectedTrackId" style="background-color:#6c5ddc" class="text-white btn">View whole schedule</a>
-			</div>
-		</div>
-	}
 }
 else
 {
 	<p class="alert alert-info text-center">No schedule assigned.</p>
 }
+@if (ViewBag.IsSupervisor)
+	{
+<div class="row">
+	<div class="col">
+		<a asp-action="ViewAllSchedule" id="ViewWholeScheduleBtn" asp-route-trackId="@ViewBag.SelectedTrackId" style="background-color:#6c5ddc" class="text-white btn">View whole schedule</a>
+	</div>
+</div>
+	}
 @section Scripts {
 	<script>
 		$("#trackId").change(function () {
