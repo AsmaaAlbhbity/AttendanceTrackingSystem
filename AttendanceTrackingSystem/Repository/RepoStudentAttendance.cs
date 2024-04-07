@@ -125,7 +125,7 @@ namespace AttendanceTrackingSystem.Repository
 			}
             
         }
-	}
+	
 
         //for only students
 
