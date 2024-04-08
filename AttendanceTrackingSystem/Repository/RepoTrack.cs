@@ -42,7 +42,8 @@ namespace AttendanceTrackingSystem.Repository
 
         public List<Track> GetActiveTracks()
         {
-            return db.Tracks.Where(track => track.IsActive==true).ToList();
+            return db.Tracks.Where(track => track.IsActive == true).ToList();
         }
+       
     }
 }

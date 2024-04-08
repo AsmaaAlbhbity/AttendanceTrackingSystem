@@ -1,1 +1,44 @@
 ﻿
+table {
+    color: #fff;
+}
+
+p.not {
+    color: red;
+    font-size: 20px;
+}
+
+.accordion button.btn-link {
+    text-decoration: none;
+}
+
+#track, #date {
+    color: var(--main-color);
+}
+
+.status-0 {
+    color: lightcoral;
+}
+
+.status-1 {
+    color: lightgreen;
+}
+
+table.table {
+    text-align: center;
+}
+
+    /* Center the content of table header cells */
+    table.table th {
+        text-align: center;
+        background-color: var(--main-color);
+        color: #fff;
+    }
+
+    /* Center the content of table body cells */
+    table.table td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+

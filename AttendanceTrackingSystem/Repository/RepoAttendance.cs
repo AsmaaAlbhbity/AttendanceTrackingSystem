@@ -72,5 +72,7 @@ namespace AttendanceTrackingSystem.Repository
 
             return attendanceCountsPerUserType;
         }
+
+       
     }
 }

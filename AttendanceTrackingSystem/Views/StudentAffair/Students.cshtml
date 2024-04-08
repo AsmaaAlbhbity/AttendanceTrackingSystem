@@ -2,50 +2,7 @@
 @{
     var firstDayOfMonth = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
 }
-<style>
-    table {
-        background-color: var(--main-color);
-        color: #fff;
-    }
-    p.not {
-        color:red;
-        
-        font-size : 20px;
 
-    }
-
-    .accordion button.btn-link {
-        text-decoration: none;
-    }
-    #track , #date{
-        color: var(--main-color);
-    }  .status-0 {
-        color:lightcoral;
-    }
-
-    .status-1 {
-        color: lightgreen;
-    }
-
-    table.table {
-        text-align: center;
-    }
-
-        /* Center the content of table header cells */
-        table.table th {
-            text-align: center;
-            background-color: var(--main-color);
-            color : #fff;
-        }
-
-        /* Center the content of table body cells */
-        table.table td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-    /* Add more status colors as needed */
-</style>
 
 <form asp-action="Students" method="post" class="form-horizontal">
     <div class="form-group row">
@@ -58,7 +15,7 @@
         <label id="track" for="SelectedTrackId" class="col-sm-2 col-form-label">Select Track:</label>
         <div class="col-sm-10">
             <select class="form-control" id="SelectedTrackId" name="SelectedTrackId">
-                <option value="">All Tracks</option>
+               
                 @foreach (var track in Model.Tracks)
                 {
                     <option value="@track.TrackId">@track.Name</option>
