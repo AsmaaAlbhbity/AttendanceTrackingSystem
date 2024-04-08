@@ -50,7 +50,9 @@ namespace AttendanceTrackingSystem.Controllers
             //};
             //repoSchedule.Add(obj2);
 
-            
+            //var s = repoSchedule.getById(43);
+            //s.Type = ScheduleType.Holiday;
+            //repoSchedule.Update(s);
 
             ViewModel.AttendanceViewModel modal = new ViewModel.AttendanceViewModel();
             modal.Students = repoStudent.getAll().Where(a=>a.IsApproved==Approve.Accepted).ToList();
@@ -65,7 +67,7 @@ namespace AttendanceTrackingSystem.Controllers
         }
         public IActionResult GetStudentsByTrack(int id)
         {
-            var scheduleForTrack = repoSchedule.getAll().FirstOrDefault(a => a.TrackId == id && a.Date.Date == DateTime.Now.Date);
+            var scheduleForTrack = repoSchedule.getAll().FirstOrDefault(a => a.TrackId == id && a.Date.Date == DateTime.Now.Date && (a.Type != ScheduleType.Funday&&a.Type!=ScheduleType.Holiday));
 
             if (scheduleForTrack == null)
             {
@@ -252,6 +254,63 @@ namespace AttendanceTrackingSystem.Controllers
             recourd.Status = AttendaneStatus.Absent;
             repoAttendance.Update(recourd);
             return Ok();
+        }
+        public IActionResult AbsentForAll()
+        {
+            var attendances = repoStudentAttendance.getAll()
+                .Where(a => a.Date.Date == DateTime.Now.Date)
+                .ToList();
+
+            foreach (var attendance in attendances)
+            {
+                var id = attendance.UserId;
+                var std = repoStudent.getById(id);
+                var count = repoStudentAttendance.CheckCountOfAbsentAndLateDays(id);
+                var permission = repoStudentAttendance.HavePermission(id);
+
+                if (count <= 1)
+                {
+                    attendance.currentDegree = std.StudentDegree;
+                    attendance.minDegree = 0;
+
+                }
+                else if (count > 1 && count < 5 && permission)
+                {
+                    attendance.currentDegree = std.StudentDegree - 5;
+                    std.StudentDegree = std.StudentDegree - 5;
+                    attendance.minDegree = 5;
+
+                }
+                else if (count >= 5 && count < 8 && permission)
+                {
+                    attendance.currentDegree = std.StudentDegree - 10;
+                    std.StudentDegree = std.StudentDegree - 10;
+                    attendance.minDegree = 10;
+
+                }
+                else if (count >= 8 && count < 11 && permission)
+                {
+                    attendance.currentDegree = std.StudentDegree - 15;
+                    std.StudentDegree = std.StudentDegree - 15;
+                    attendance.minDegree = 15;
+                }
+                else
+                {
+                    attendance.currentDegree = std.StudentDegree - 25;
+                    std.StudentDegree = std.StudentDegree - 25;
+                    attendance.minDegree = 25;
+                }
+
+
+                attendance.CheckIn = TimeOnly.FromDateTime(DateTime.Now);
+                repoStudentAttendance.SendWarningMsg(std.UserId, std.StudentDegree);
+                repoStudentAttendance.Update(attendance);
+                repoStudent.Update(std);
+            }
+            return Ok();
+
+
+
         }
 
 
