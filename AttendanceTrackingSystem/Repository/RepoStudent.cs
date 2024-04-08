@@ -86,11 +86,27 @@ namespace AttendanceTrackingSystem.Repository
                 var track = db.Tracks.FirstOrDefault(t => t.TrackId == student.TrackId);
                 if (track != null)
                 {
-                    return db.Instructors.FirstOrDefault(i=>i.UserId==track.SupervisorId).Name;
+                    return db.Instructors.FirstOrDefault(i => i.UserId == track.SupervisorId).Name;
                 }
             }
             return null;
         }
+        public List<Attendance> GetStudentAttendance(DateTime selectedDate, int selectedTrackId)
+        {
+            var attendanceRecords = db.Attendances
+                .Where(a => a.User is Student && ((Student)a.User).TrackId == selectedTrackId && a.Date.Date == selectedDate.Date)
+                .ToList();
+
+            return attendanceRecords;
+        }
+
+
+
+
+
+
+
+
     }
 }
 

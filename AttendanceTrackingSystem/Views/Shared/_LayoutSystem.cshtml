@@ -29,6 +29,7 @@
 	<link href="~/css/genralStylesForForms.css" rel="stylesheet" />
 	<link href="~/css/notifications.css" rel="stylesheet" />
 	<link href="~/css/PermissionForm.css" rel="stylesheet" />
+    <link href="~/css/studentattendance.css" rel="stylesheet" />
 	<link href="~/css/site.css" rel="stylesheet" />
 
     <link href="~/css/instructor.css" rel="stylesheet" /> 
@@ -69,10 +70,11 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" href="#">
+						<a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" asp-controller="StudentAffair" asp-action="Students">
 							<i class="fas fa-graduation-cap"></i> Students
 						</a>
 					</li>
+
 					
 					<li class="nav-item">
 						<a class="nav-link hvr-bounce-to-right @ViewData["InstructorsActive"]" asp-controller="Admin" asp-action="ShowInstructor">
