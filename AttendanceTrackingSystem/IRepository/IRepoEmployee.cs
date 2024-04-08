@@ -11,5 +11,6 @@ namespace AttendanceTrackingSystem.IRepository
         public void Delete(int id);
 
         public int getEmpCount(EmployeeType employeeType);
+        Employee GetByEmail(string email);
     }
 }

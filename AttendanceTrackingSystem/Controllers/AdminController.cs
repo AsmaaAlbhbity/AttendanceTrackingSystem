@@ -349,13 +349,30 @@ namespace AttendanceTrackingSystem.Controllers
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Create(EmployeeViewModel viewModel)
+    public async Task<ActionResult> Create(EmployeeViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
+            // Check if the email already exists
+            var existingEmployee = _repoEmployee.GetByEmail(viewModel.Email);
+            if (existingEmployee != null)
+            {
+                ModelState.AddModelError("Email", "Email address already exists.");
+                return View(viewModel);
+            }
+
+            // Process the uploaded file if one exists
+            if (viewModel.Photo != null && viewModel.Photo.Length > 0)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await viewModel.Photo.CopyToAsync(stream);
+                    viewModel.ImgUrl = $"data:{viewModel.Photo.ContentType};base64,{Convert.ToBase64String(stream.ToArray())}";
+                }
+            }
+
             var employee = new Employee
             {
-
                 Name = viewModel.Name,
                 Email = viewModel.Email,
                 Phone = viewModel.Phone,
@@ -376,21 +393,15 @@ namespace AttendanceTrackingSystem.Controllers
             {
                 ModelState.AddModelError("", $"Unable to save changes due to an error: {ex.Message}");
             }
-
-        }
-        else
-        {
-            foreach (var modelState in ViewData.ModelState.Values)
-            {
-                foreach (var error in modelState.Errors)
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
-            }
         }
 
         return View(viewModel);
     }
+
+
+
+
+
 
 
 
@@ -423,17 +434,33 @@ namespace AttendanceTrackingSystem.Controllers
         return View(viewModel);
     }
 
-    // POST: Admin/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(EmployeeViewModel viewModel)
+    public async Task<ActionResult> Edit(EmployeeViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
-            var employee = repoEmployee.getById(viewModel.UserId);
+            var existingEmployeeWithEmail = _repoEmployee.GetByEmail(viewModel.Email);
+            if (existingEmployeeWithEmail != null && existingEmployeeWithEmail.UserId != viewModel.UserId)
+            {
+                ModelState.AddModelError("Email", "Email address already exists.");
+                return View(viewModel);
+            }
+
+            var employee = _repoEmployee.getById(viewModel.UserId);
             if (employee == null)
             {
                 return NotFound();
+            }
+
+            // Process the uploaded file if one exists
+            if (viewModel.Photo != null && viewModel.Photo.Length > 0)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await viewModel.Photo.CopyToAsync(stream);
+                    viewModel.ImgUrl = $"data:{viewModel.Photo.ContentType};base64,{Convert.ToBase64String(stream.ToArray())}";
+                }
             }
 
             employee.Name = viewModel.Name;
@@ -454,16 +481,6 @@ namespace AttendanceTrackingSystem.Controllers
             catch
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-            }
-        }
-        else
-        {
-            foreach (var modelState in ViewData.ModelState.Values)
-            {
-                foreach (var error in modelState.Errors)
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
             }
         }
 
@@ -496,20 +513,32 @@ namespace AttendanceTrackingSystem.Controllers
             UserType = employee.UserType,
             IsApproved = employee.IsApproved
         };
-        
 
         return View(viewModel);
     }
 
-    // POST: Admin/Delete/5
-    [HttpPost, ActionName("DeleteConfirmed")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult DeleteConfirmed(int id)
     {
        
-        repoEmployee.Delete(id);
-        return RedirectToAction(nameof(Employee));
+        var employeeToDelete = _repoEmployee.getById(id);
+        if (employeeToDelete == null)
+        {
+            return NotFound();
+        }
+
+        try
+        {
+            _repoEmployee.Delete(id); 
+            return RedirectToAction(nameof(Employee));
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", $"Unable to delete employee due to an error: {ex.Message}");
+            return RedirectToAction(nameof(Employee));         }
     }
+    
 
     public IActionResult Tracks(int pageNumber = 1, int pageSize = 4)
         {
@@ -556,3 +585,9 @@ namespace AttendanceTrackingSystem.Controllers
 
     }
 }
+
+
+
+
+
+
