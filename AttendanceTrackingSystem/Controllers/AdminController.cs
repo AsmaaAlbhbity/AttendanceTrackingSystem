@@ -82,6 +82,14 @@ public class AdminController : Controller
     {
         if (ModelState.IsValid)
         {
+            // Check if the email already exists
+            var existingEmployee = _repoEmployee.GetByEmail(viewModel.Email);
+            if (existingEmployee != null)
+            {
+                ModelState.AddModelError("Email", "Email address already exists.");
+                return View(viewModel);
+            }
+
             // Process the uploaded file if one exists
             if (viewModel.Photo != null && viewModel.Photo.Length > 0)
             {
@@ -114,78 +122,13 @@ public class AdminController : Controller
             {
                 ModelState.AddModelError("", $"Unable to save changes due to an error: {ex.Message}");
             }
-           
-
-        }
-        else
-        {
-            foreach (var modelState in ViewData.ModelState.Values)
-            {
-                foreach (var error in modelState.Errors)
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
-            }
         }
 
         return View(viewModel);
     }
 
-    //[HttpPost]
-    //[ValidateAntiForgeryToken]
-    //public async Task<ActionResult> Edit(EmployeeViewModel viewModel)
-    //{
-    //    if (ModelState.IsValid)
-    //    {
-    //        var employee = _repoEmployee.getById(viewModel.UserId);
-    //        if (employee == null)
-    //        {
-    //            return NotFound();
-    //        }
 
-    //        // Process the uploaded file if one exists
-    //        if (viewModel.Photo != null && viewModel.Photo.Length > 0)
-    //        {
-    //            using (var stream = new MemoryStream())
-    //            {
-    //                await viewModel.Photo.CopyToAsync(stream);
-    //                viewModel.ImgUrl = $"data:{viewModel.Photo.ContentType};base64,{Convert.ToBase64String(stream.ToArray())}";
-    //            }
-    //        }
 
-    //        employee.Name = viewModel.Name;
-    //        employee.Email = viewModel.Email;
-    //        employee.Phone = viewModel.Phone;
-    //        employee.Password = viewModel.Password;
-    //        employee.ImgUrl = viewModel.ImgUrl;
-    //        employee.EmployeeSalary = viewModel.EmployeeSalary;
-    //        employee.EmployeeType = viewModel.EmployeeType;
-    //        employee.UserType = "Employee";
-    //        employee.IsApproved = Approve.Accepted;
-
-    //        try
-    //        {
-    //            _repoEmployee.Update(employee);
-    //            return RedirectToAction("Employee");
-    //        }
-    //        catch
-    //        {
-    //            ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-    //        }
-    //    }
-    //    else
-    //    {
-    //        foreach (var modelState in ViewData.ModelState.Values)
-    //        {
-    //            foreach (var error in modelState.Errors)
-    //            {
-    //                Console.WriteLine(error.ErrorMessage);
-    //            }
-    //        }
-    //    }
-
-    //    return View(viewModel);
-    //}
 
 
 
@@ -220,10 +163,9 @@ public class AdminController : Controller
         return View(viewModel);
     }
 
-    // POST: Admin/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public ActionResult Edit(EmployeeViewModel viewModel)
+    public async Task<ActionResult> Edit(EmployeeViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
@@ -231,6 +173,16 @@ public class AdminController : Controller
             if (employee == null)
             {
                 return NotFound();
+            }
+
+            // Process the uploaded file if one exists
+            if (viewModel.Photo != null && viewModel.Photo.Length > 0)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await viewModel.Photo.CopyToAsync(stream);
+                    viewModel.ImgUrl = $"data:{viewModel.Photo.ContentType};base64,{Convert.ToBase64String(stream.ToArray())}";
+                }
             }
 
             employee.Name = viewModel.Name;

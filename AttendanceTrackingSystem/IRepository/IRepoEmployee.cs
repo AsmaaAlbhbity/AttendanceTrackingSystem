@@ -9,5 +9,6 @@ namespace AttendanceTrackingSystem.IRepository
         public void Add(Employee employee);
         public void Update(Employee employee);
         public void Delete(int id);
+        Employee GetByEmail(string email);
     }
 }

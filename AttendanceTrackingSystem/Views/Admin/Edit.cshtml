@@ -1,9 +1,9 @@
-﻿@model EmployeeViewModel
+﻿@model AttendanceTrackingSystem.ViewModel.EmployeeViewModel
 
 <div id="EmployeeEditContainer">
     <h2 class="EmployeeEditTitle">Edit Employee</h2>
 
-    <form asp-action="Edit" asp-controller="Admin" id="EmployeeEditForm">
+    <form asp-action="Edit" asp-controller="Admin" id="EmployeeEditForm" enctype="multipart/form-data">
 
         <input asp-for="UserId" type="hidden" value="@Model.UserId" />
         <input asp-for="UserType" type="hidden" value="Employee" />
@@ -33,14 +33,20 @@
         </div>
 
         <div class="form-group">
+            <label asp-for="Photo" class="EmployeeEditLabel"></label>
+            <input asp-for="Photo" type="file" class="EmployeeEditInput" />
+            <span asp-validation-for="Photo" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
             <label asp-for="ImgUrl" class="EmployeeEditLabel"></label>
-            <input asp-for="ImgUrl" class="EmployeeEditInput"  />
+            <input asp-for="ImgUrl" class="EmployeeEditInput" />
             <span asp-validation-for="ImgUrl" class="text-danger"></span>
         </div>
 
         <div class="form-group">
             <label asp-for="EmployeeSalary" class="EmployeeEditLabel"></label>
-            <input asp-for="EmployeeSalary" class="EmployeeEditInput"  />
+            <input asp-for="EmployeeSalary" class="EmployeeEditInput" />
             <span asp-validation-for="EmployeeSalary" class="text-danger"></span>
         </div>
 

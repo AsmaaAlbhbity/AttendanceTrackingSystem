@@ -1,5 +1,6 @@
 ﻿using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AttendanceTrackingSystem.Repository
 {
@@ -45,8 +46,12 @@ namespace AttendanceTrackingSystem.Repository
 
         public void Update(Employee employee)
         {
-           db.Employees.Update(employee);
+            db.Employees.Update(employee);
             db.SaveChanges();
+        }
+        public Employee GetByEmail(string email)
+        {
+            return db.Employees.FirstOrDefault(e => e.Email == email);
         }
     }
 }

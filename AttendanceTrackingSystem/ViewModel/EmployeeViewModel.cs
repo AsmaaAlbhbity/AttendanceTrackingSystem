@@ -12,6 +12,7 @@ namespace AttendanceTrackingSystem.ViewModel
         [StringLength(100)]
         public string Name { get; set; }
 
+
         [RegularExpression(@"^([\w-\.]{3,20})+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Invalid email")]
         public string Email { get; set; }
 
