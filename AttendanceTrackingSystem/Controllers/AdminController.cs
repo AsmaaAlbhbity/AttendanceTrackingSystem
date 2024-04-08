@@ -243,19 +243,33 @@ public class AdminController : Controller
             UserType = employee.UserType,
             IsApproved = employee.IsApproved
         };
-        
 
         return View(viewModel);
     }
 
-    // POST: Admin/Delete/5
-    [HttpPost, ActionName("DeleteConfirmed")]
+    [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult DeleteConfirmed(int id)
     {
-       
-        _repoEmployee.Delete(id);
-        return RedirectToAction(nameof(Employee));
+        try
+        {
+            // Attempt to delete the employee from the database
+            _repoEmployee.Delete(id);
+
+            // Return JSON indicating successful deletion
+            return Json(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            // Log the exception for debugging
+            Console.WriteLine($"Error deleting employee with ID {id}: {ex.Message}");
+
+            // Return JSON indicating failure with error message
+            return Json(new { success = false, errorMessage = "Failed to delete the employee." });
+        }
     }
+
+
+
 
 }

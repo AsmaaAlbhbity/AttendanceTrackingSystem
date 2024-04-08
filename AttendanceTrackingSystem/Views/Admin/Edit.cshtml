@@ -38,11 +38,7 @@
             <span asp-validation-for="Photo" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="ImgUrl" class="EmployeeEditLabel"></label>
-            <input asp-for="ImgUrl" class="EmployeeEditInput" />
-            <span asp-validation-for="ImgUrl" class="text-danger"></span>
-        </div>
+       
 
         <div class="form-group">
             <label asp-for="EmployeeSalary" class="EmployeeEditLabel"></label>
@@ -59,3 +55,5 @@
         <button type="submit" class="EmployeeEditButton">Save</button>
     </form>
 </div>
+
+<a asp-action="Index" class="EmployeeEditButton" style="width:250px">Back to Employee List</a>
