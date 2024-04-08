@@ -354,7 +354,7 @@ namespace AttendanceTrackingSystem.Controllers
         if (ModelState.IsValid)
         {
             // Check if the email already exists
-            var existingEmployee = _repoEmployee.GetByEmail(viewModel.Email);
+            var existingEmployee = repoEmployee.GetByEmail(viewModel.Email);
             if (existingEmployee != null)
             {
                 ModelState.AddModelError("Email", "Email address already exists.");
@@ -440,14 +440,14 @@ namespace AttendanceTrackingSystem.Controllers
     {
         if (ModelState.IsValid)
         {
-            var existingEmployeeWithEmail = _repoEmployee.GetByEmail(viewModel.Email);
+            var existingEmployeeWithEmail = repoEmployee.GetByEmail(viewModel.Email);
             if (existingEmployeeWithEmail != null && existingEmployeeWithEmail.UserId != viewModel.UserId)
             {
                 ModelState.AddModelError("Email", "Email address already exists.");
                 return View(viewModel);
             }
 
-            var employee = _repoEmployee.getById(viewModel.UserId);
+            var employee = repoEmployee.getById(viewModel.UserId);
             if (employee == null)
             {
                 return NotFound();
@@ -522,7 +522,7 @@ namespace AttendanceTrackingSystem.Controllers
     public ActionResult DeleteConfirmed(int id)
     {
        
-        var employeeToDelete = _repoEmployee.getById(id);
+        var employeeToDelete = repoEmployee.getById(id);
         if (employeeToDelete == null)
         {
             return NotFound();
@@ -530,7 +530,7 @@ namespace AttendanceTrackingSystem.Controllers
 
         try
         {
-            _repoEmployee.Delete(id); 
+            repoEmployee.Delete(id); 
             return RedirectToAction(nameof(Employee));
         }
         catch (Exception ex)

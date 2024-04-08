@@ -57,7 +57,7 @@ namespace AttendanceTrackingSystem.Repository
             int employeeCount = db.Users.OfType<Employee>()
                                       .Count(e => e.EmployeeType == employeeType);
             return employeeCount;
-
+        }
         public Employee GetByEmail(string email)
         {
             return db.Employees.FirstOrDefault(e => e.Email == email);
