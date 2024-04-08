@@ -7,7 +7,7 @@
     <img src="~/images/confirmed attendance.gif" class="imgTitle" />
 </div>
 
-
+<button id="endOfDayBtn" type="button" class="btn btn-outline-danger">End Of The Day</button>
 
 <div class="row">
    
@@ -54,7 +54,25 @@
                 var selectedTrackId = $(this).val();
                 loadStudentsPartial(selectedTrackId);
             });
+            $('#endOfDayBtn').on('click', function () {
+                console.log("Button clicked");
 
+                $.ajax({
+                    url: '/Attendance/AbsentForAll/',
+                    method: 'POST',
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Task Completed',
+                            text: "At day's end, may fulfillment find you.",
+                            confirmButtonText: 'OK',
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('AJAX request error:', error);
+                    }
+                });
+            });
            
         }); // Added the closing parenthesis for the $(document).ready() function
     </script>

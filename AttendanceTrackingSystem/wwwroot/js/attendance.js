@@ -78,8 +78,6 @@ $(document).ready(function () {
     });
 
    
-
-
     document.getElementById('userType').addEventListener('change', function () {
         var selectedType = $(this).val();
         if (selectedType == "Instructor") {
