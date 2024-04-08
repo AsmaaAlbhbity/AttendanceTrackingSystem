@@ -246,14 +246,27 @@ public class AdminController : Controller
         return View(viewModel);
     }
 
-    // POST: Admin/DeleteConfirmed/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult DeleteConfirmed(int id)
     {
-        _repoEmployee.Delete(id);
-        return RedirectToAction(nameof(Employee));
+        var employeeToDelete = _repoEmployee.getById(id);
+        if (employeeToDelete == null)
+        {
+            return NotFound();
+        }
+
+        try
+        {
+            _repoEmployee.Delete(id); 
+            return RedirectToAction(nameof(Employee));
+        }
+        catch (Exception ex)
+        {
+            ModelState.AddModelError("", $"Unable to delete employee due to an error: {ex.Message}");
+            return RedirectToAction(nameof(Employee));         }
     }
+
 
 
 

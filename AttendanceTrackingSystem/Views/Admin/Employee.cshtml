@@ -34,7 +34,7 @@
                         <i class="fa fa-edit"></i> Edit
                     </a>
 
-                    <button type="button" class="btn btn-primary btn-sm viewDetailsButton"
+                    <button type="button" class="btn btn-primary btn-sm viewDetailsButton  employee-actions"
                             data-name="@item.Name"
                             data-email="@item.Email"
                             data-phone="@item.Phone"
@@ -48,13 +48,15 @@
                         <i class="fa fa-info">  </i> Details
                     </button>
 
-                    <form asp-action="Delete" method="post">
+                    <form method="post" action="@Url.Action("DeleteConfirmed", "Admin")" class="deleteForm">
                         <input type="hidden" name="id" value="@item.UserId" />
+                        @Html.AntiForgeryToken()
 
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                       
+                        <div class="form-group">
+                            <button type="button" class="btn btn-danger" onclick="confirmDelete(this)">Delete</button>
+                            @Html.ActionLink("Cancel", "Employee", null, new { @class = "btn btn-default" })
+                        </div>
                     </form>
-
                 </div>
             </td>
         </tr>
@@ -143,5 +145,12 @@
                 $('#employeeDetailsModal').modal('show'); // Show the modal
             });
         });
+
+        function confirmDelete(button) {
+            if (confirm("Are you sure you want to delete this employee?")) {
+                var form = $(button).closest('form'); // Find the closest form
+                form.submit(); // Submit the form
+            }
+        }
     </script>
 }
