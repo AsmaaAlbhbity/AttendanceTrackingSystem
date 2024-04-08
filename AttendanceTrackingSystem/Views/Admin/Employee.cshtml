@@ -1,7 +1,7 @@
 ﻿@using AttendanceTrackingSystem.Pagination
 @model PaginatedList<Employee>
 <style>
-    
+
 </style>
 
 <h2 class="employee-title">Employees</h2>
@@ -48,9 +48,12 @@
                         <i class="fa fa-info">  </i> Details
                     </button>
 
-                    <button class="btn btn-danger btn-sm employee-actions deleteButton" data-id="@item.UserId">
-                        <i class="fa fa-trash"></i> Delete
-                    </button>
+                    <form asp-action="Delete" method="post">
+                        <input type="hidden" name="id" value="@item.UserId" />
+
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                       
+                    </form>
 
                 </div>
             </td>

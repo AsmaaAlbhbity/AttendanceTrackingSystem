@@ -220,7 +220,6 @@ public class AdminController : Controller
 
 
 
-
     // GET: Admin/Delete/5
     public ActionResult Delete(int id)
     {
@@ -247,29 +246,22 @@ public class AdminController : Controller
         return View(viewModel);
     }
 
+    // POST: Admin/DeleteConfirmed/5
     [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult DeleteConfirmed(int id)
     {
-        try
-        {
-            // Attempt to delete the employee from the database
-            _repoEmployee.Delete(id);
-
-            // Return JSON indicating successful deletion
-            return Json(new { success = true });
-        }
-        catch (Exception ex)
-        {
-            // Log the exception for debugging
-            Console.WriteLine($"Error deleting employee with ID {id}: {ex.Message}");
-
-            // Return JSON indicating failure with error message
-            return Json(new { success = false, errorMessage = "Failed to delete the employee." });
-        }
+        _repoEmployee.Delete(id);
+        return RedirectToAction(nameof(Employee));
     }
 
 
 
 
 }
+
+
+
+
+
+

@@ -1,13 +1,11 @@
-﻿@* @model AttendanceTrackingSystem.ViewModel.EmployeeViewModel
+﻿@model AttendanceTrackingSystem.ViewModel.EmployeeViewModel
 
-@{
-    ViewData["Title"] = "Delete";
-}
+<h2>Delete Employee</h2>
 
-<h2>Delete</h2>
+<p>Are you sure you want to delete @Model.Name?</p>
 
 <div>
-    <h4>Employee</h4>
+    <h4>Employee Details</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -16,55 +14,29 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <!-- Display other fields here -->
+        <!-- Display other employee details similarly -->
     </dl>
-    <div>
-        <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
-    </div>
 </div>
 
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <script>
-        // Call SweetAlert for confirmation
-        function confirmDelete() {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // If confirmed, proceed with deletion
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("Delete", "Admin", new { id = Model.UserId })',
-                        success: function () {
-                            // Show success message
-                            Swal.fire(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
-                            ).then(() => {
-                                // Redirect to the desired page after deletion
-                                window.location.href = '@Url.Action("Employee", "Admin")';
-                            });
-                        },
-                        error: function () {
-                            // Show error message if deletion fails
-                            Swal.fire(
-                                'Error!',
-                                'Failed to delete the employee.',
-                                'error'
-                            );
-                        }
-                    });
-                }
-            });
-        }
-    </script>
+@using (Html.BeginForm("DeleteConfirmed", "Admin", new { id = Model.UserId }, FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirmDelete();" />
+        @Html.ActionLink("Cancel", "Employee", null, new { @class = "btn btn-default" })
+    </div>
 }
- *@
+
+
+<script>
+    function confirmDelete() {
+        if (confirm("Are you sure you want to delete this employee?")) {
+            // If user confirms, submit the form
+            return true;
+        } else {
+            // If user cancels, prevent the form submission
+            return false;
+        }
+    }
+</script>
