@@ -169,6 +169,13 @@ public class AdminController : Controller
     {
         if (ModelState.IsValid)
         {
+            var existingEmployeeWithEmail = _repoEmployee.GetByEmail(viewModel.Email);
+            if (existingEmployeeWithEmail != null && existingEmployeeWithEmail.UserId != viewModel.UserId)
+            {
+                ModelState.AddModelError("Email", "Email address already exists.");
+                return View(viewModel);
+            }
+
             var employee = _repoEmployee.getById(viewModel.UserId);
             if (employee == null)
             {
@@ -205,19 +212,10 @@ public class AdminController : Controller
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
             }
         }
-        else
-        {
-            foreach (var modelState in ViewData.ModelState.Values)
-            {
-                foreach (var error in modelState.Errors)
-                {
-                    Console.WriteLine(error.ErrorMessage);
-                }
-            }
-        }
 
         return View(viewModel);
     }
+
 
 
 
