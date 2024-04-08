@@ -1,4 +1,5 @@
 ﻿using AttendanceTrackingSystem.Models;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace AttendanceTrackingSystem.ViewModel
@@ -11,16 +12,17 @@ namespace AttendanceTrackingSystem.ViewModel
         [StringLength(100)]
         public string Name { get; set; }
 
-        [RegularExpression(@"^([\w-\.]{3,20})+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "invalid email")]
+        [RegularExpression(@"^([\w-\.]{3,20})+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Invalid email")]
         public string Email { get; set; }
 
         [Required]
         [RegularExpression(@"^(010|011|012|015)\d{8}$", ErrorMessage = "Phone number must start with 010, 011, 012, or 015 and be followed by 8 digits.")]
         public string Phone { get; set; }
 
-
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$%])[A-Za-z\d@$%_]{8,}$", ErrorMessage = "Must be 8 characters or more.\r\nMust contain at least one uppercase letter.\r\nMust contain at least one lowercase letter.\r\nMust contain at least one digit.\r\nMust contain at least one special character from @$%_")]
+       // [RegularExpression(@"^(?=.[A-Z])(?=.[a-z])(?=.\d)(?=.[@$%])[A-Za-z\d@$%]{8,}$", ErrorMessage = "Must be 8 characters or more.\r\nMust contain at least one uppercase letter.\r\nMust contain at least one lowercase letter.\r\nMust contain at least one digit.\r\nMust contain at least one special character from @$%")]
         public string Password { get; set; }
+
+        public IFormFile Photo { get; set; } // New property for uploading photo
 
         public string? ImgUrl { get; set; }
 
