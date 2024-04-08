@@ -3,10 +3,9 @@
     var firstDayOfMonth = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
 }
 
-
 <form asp-action="Students" method="post" class="form-horizontal">
     <div class="form-group row">
-        <label id ="date" for="SelectedDate" class="col-sm-2 col-form-label">Select Date:</label>
+        <label id="date" for="SelectedDate" class="col-sm-2 col-form-label">Select Date:</label>
         <div class="col-sm-10">
             <input type="date" class="form-control" id="SelectedDate" name="SelectedDate" value="@Model.SelectedDate.ToString("yyyy-MM-dd")">
         </div>
@@ -15,7 +14,6 @@
         <label id="track" for="SelectedTrackId" class="col-sm-2 col-form-label">Select Track:</label>
         <div class="col-sm-10">
             <select class="form-control" id="SelectedTrackId" name="SelectedTrackId">
-               
                 @foreach (var track in Model.Tracks)
                 {
                     <option value="@track.TrackId">@track.Name</option>
@@ -38,13 +36,13 @@
             <div class="card">
                 <div class="card-header" id="heading@(statusGroup.Key)">
                     <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse@(statusGroup.Key)" aria-expanded="true" aria-controls="collapse@(statusGroup.Key)">
+                        <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#collapse@(statusGroup.Key)" aria-expanded="true" aria-controls="collapse@(statusGroup.Key)">
                             @statusGroup.Key (<span>@statusGroup.Value.Count</span>)
                         </button>
                     </h2>
                 </div>
 
-                <div id="collapse@(statusGroup.Key)" class="collapse" aria-labelledby="heading@(statusGroup.Key)" data-parent="#accordion@(statusGroup.Key)">
+                <div id="collapse@(statusGroup.Key)" class="collapse" aria-labelledby="heading@(statusGroup.Key)" data-bs-parent="#accordion@(statusGroup.Key)">
                     <div class="card-body">
                         <table class="table">
                             <thead>
@@ -110,5 +108,3 @@ else
 {
     <p class="not text-center ">No attendance records found.</p>
 }
-
-
