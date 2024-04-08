@@ -18,11 +18,12 @@ namespace AttendanceTrackingSystem.Controllers
         private readonly IRepoTrack repoTrack;
         private readonly IRepoMsg repoMsg;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        public StudentAffairController(IRepoStudent _repoStudent,IRepoMsg _repoMsg, IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment)
+         private readonly IRepoPermission repoPermission;
+        public StudentAffairController(IRepoStudent _repoStudent,IRepoMsg _repoMsg,IRepoPermission _repopermission , IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment)
         {
             repoStudent = _repoStudent;
             repoTrack = _repoTrack;
-
+             repoPermission = _repopermission;
             repoMsg = _repoMsg;
             _hostingEnvironment = hostingEnvironment;
 
@@ -285,6 +286,75 @@ namespace AttendanceTrackingSystem.Controllers
             return null;
         }
 
+        [HttpGet]
+        public IActionResult Students()
+        {
+            var model = new StudentAttendanceViewModel
+            {
+                SelectedDate = DateTime.Today,
+                Tracks = repoTrack.getAll(),
+                StudentAttendances = new List<Models.Attendance>(),
+                Permissions = repoPermission.getAll() 
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult Students(StudentAttendanceViewModel model)
+        {
+            try
+            {
+                Console.WriteLine("Entered Students action method.");
+
+                if (model == null)
+                {
+                    Console.WriteLine("Model is null. Initializing with default values.");
+                    model = new StudentAttendanceViewModel
+                    {
+                        SelectedDate = DateTime.Today,
+                        Tracks = repoTrack.getAll(),
+                        Permissions = repoPermission.getAll() // Fetch permissions here
+                    };
+                }
+                else
+                {
+                    Console.WriteLine("Model is not null.");
+                    model.Tracks = repoTrack.getAll();
+                    model.Permissions = repoPermission.getAll(); // Fetch permissions here
+                }
+
+                if (ModelState.IsValid)
+                {
+                    Console.WriteLine("ModelState is valid. Fetching student attendances.");
+                    var studentAttendances = repoStudent.GetStudentAttendance(model.SelectedDate, model.SelectedTrackId);
+                    model.StudentAttendances = studentAttendances;
+
+                    // Grouping attendances by status
+                    model.StudentAttendanceDictionary = model.StudentAttendances.GroupBy(a => a.Status)
+                        .ToDictionary(g => g.Key, g => g.ToList());
+                }
+                else
+                {
+                    // Output ModelState errors to the console
+                    foreach (var state in ModelState)
+                    {
+                        foreach (var error in state.Value.Errors)
+                        {
+                            Console.WriteLine($"Error in {state.Key}: {error.ErrorMessage}");
+                        }
+                    }
+                }
+
+                Console.WriteLine("Returning the view with the model.");
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+                throw; // Rethrow the exception
+            }
+        }
+
 
 
 
@@ -337,4 +407,14 @@ namespace AttendanceTrackingSystem.Controllers
 
     }
 }
+
+
+
+
+
+
+
+
+
+
 

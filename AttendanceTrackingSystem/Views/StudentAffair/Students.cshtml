@@ -1,0 +1,112 @@
+﻿@model AttendanceTrackingSystem.ViewModels.StudentAttendanceViewModel
+@{
+    var firstDayOfMonth = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
+}
+
+
+<form asp-action="Students" method="post" class="form-horizontal">
+    <div class="form-group row">
+        <label id ="date" for="SelectedDate" class="col-sm-2 col-form-label">Select Date:</label>
+        <div class="col-sm-10">
+            <input type="date" class="form-control" id="SelectedDate" name="SelectedDate" value="@Model.SelectedDate.ToString("yyyy-MM-dd")">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label id="track" for="SelectedTrackId" class="col-sm-2 col-form-label">Select Track:</label>
+        <div class="col-sm-10">
+            <select class="form-control" id="SelectedTrackId" name="SelectedTrackId">
+               
+                @foreach (var track in Model.Tracks)
+                {
+                    <option value="@track.TrackId">@track.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+            <button type="submit" class="btn btn-primary">Show Attendance</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.StudentAttendanceDictionary != null && Model.StudentAttendanceDictionary.Any())
+{
+    @foreach (var statusGroup in Model.StudentAttendanceDictionary)
+    {
+        <div class="accordion" id="accordion@(statusGroup.Key)">
+            <div class="card">
+                <div class="card-header" id="heading@(statusGroup.Key)">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse@(statusGroup.Key)" aria-expanded="true" aria-controls="collapse@(statusGroup.Key)">
+                            @statusGroup.Key (<span>@statusGroup.Value.Count</span>)
+                        </button>
+                    </h2>
+                </div>
+
+                <div id="collapse@(statusGroup.Key)" class="collapse" aria-labelledby="heading@(statusGroup.Key)" data-parent="#accordion@(statusGroup.Key)">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Track Name</th>
+                                    <th>Check In</th>
+                                    <th>Check Out</th>
+                                    <th>Status</th>
+                                    <th>Permission</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in statusGroup.Value)
+                                {
+                                    <tr>
+                                        <td>@attendance.User.Name</td>
+                                        <td>
+                                            @if (attendance.User is Student student && student.Track != null)
+                                            {
+                                                @student.Track.Name
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (attendance.Status == 0)
+                                            {
+                                                @:"-"
+                                            }
+                                            else
+                                            {
+                                                @attendance.CheckIn
+                                            }
+                                        </td>
+                                        <td>
+                                            @if (attendance.Status == 0)
+                                            {
+                                                @:"-"
+                                            }
+                                            else
+                                            {
+                                                @attendance.CheckOut
+                                            }
+                                        </td>
+                                        <td class="status-@attendance.Status">@attendance.Status</td>
+                                        <td>
+                                            @foreach (var permission in Model.Permissions.Where(p => p.UserId == attendance.UserId))
+                                            {
+                                                @permission.Text
+                                                <br />
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p class="not text-center ">No attendance records found.</p>
+}

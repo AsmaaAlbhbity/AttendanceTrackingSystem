@@ -131,6 +131,18 @@ namespace AttendanceTrackingSystem.Repository
         {
             db.Students.FirstOrDefault(std => std.UserId == studentId).IsApproved = Approve.Rejected;
         }
+        public List<Attendance> GetStudentAttendance(DateTime selectedDate, int selectedTrackId)
+        {
+            var attendanceRecords = db.Attendances
+                .Where(a => a.User is Student && ((Student)a.User).TrackId == selectedTrackId && a.Date.Date == selectedDate.Date)
+                .ToList();
+
+            return attendanceRecords;
+        }
+       
+
+
+
 
 
 

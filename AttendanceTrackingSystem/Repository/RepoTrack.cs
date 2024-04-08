@@ -66,4 +66,10 @@ namespace AttendanceTrackingSystem.Repository
 			return db.Instructors.FirstOrDefault(a => a.UserId == SuperID);
 		}
 	}
+        public List<Track> GetActiveTracks()
+        {
+            return db.Tracks.Where(track => track.IsActive == true).ToList();
+        }
+       
+    }
 }
