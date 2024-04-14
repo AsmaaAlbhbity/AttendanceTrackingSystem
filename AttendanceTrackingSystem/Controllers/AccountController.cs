@@ -100,6 +100,8 @@ namespace AttendanceTrackingSystem.Controllers
                                 {
                                     case "Admin":
                                         return RedirectToAction("Home", "Admin");
+                                        //return Redirect("~/Admin/Home");
+
                                     case "Security":
                                     case "StudentAffairs":
 

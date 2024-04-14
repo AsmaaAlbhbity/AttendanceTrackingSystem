@@ -28,6 +28,7 @@
     <link href="~/css/instructor.css" rel="stylesheet" /> 
     <link href="~/css/studentAffair.css" rel="stylesheet" />
     <link href="~/css/studentattendance.css" rel="stylesheet" />
+    <link href="~/css/userprofile.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
 
@@ -59,18 +60,28 @@
 							<i class="fas fa-user-edit"></i> View Profile
 						</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" href="#">
-							<i class="fas fa-home"></i> Home
-						</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" asp-controller="StudentAffair" asp-action="Students">
-							<i class="fas fa-graduation-cap"></i> Students
-						</a>
-					</li>
+					@if (TempData.Peek("role").ToString() == "Student")
+					{
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" asp-controller="Student" asp-action="Home">
+								<i class="fas fa-home"></i> Home
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" asp-controller="Student" asp-action="">
+								<i class="fas fa-home"></i> Permission
+							</a>
+						</li>
+					}
+
+
 					@if (TempData.Peek("role").ToString() == "Admin")
 					{
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" asp-controller="Admin" asp-action="Home">
+								<i class="fas fa-home"></i> Home
+							</a>
+						</li>
 						<li class="nav-item">
 							<a class="nav-link hvr-bounce-to-right @ViewData["InstructorsActive"]" asp-controller="Admin" asp-action="ShowInstructor">
 								<i class="fas fa-chalkboard-teacher"></i> Instructors
@@ -81,9 +92,20 @@
 								<i class="fas fa-chalkboard-teacher"></i> Tracks
 							</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" asp-controller="Admin" asp-action="Employee">
+								<i class="fas fa-graduation-cap"></i> Employee
+							</a>
+						</li>
 					}
 					@if (TempData.Peek("role").ToString() == "Instructor" || TempData.Peek("role").ToString() == "Supervisor")
 					{
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" asp-controller="Home" asp-action="Home">
+								<i class="fas fa-home"></i> Home
+							</a>
+						</li>
+
 						<li class="nav-item">
 							<a class="nav-link hvr-bounce-to-right" asp-controller="Schedule" asp-action="ShowTrackSchedule">
 								<i class="fas fa-chalkboard-teacher"></i> Tracks Schedules
@@ -103,12 +125,35 @@
 							</a>
 						</li>
 					}
-					
+					@if (TempData.Peek("role").ToString() == "Security")
+					{
 						<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right" asp-controller="Attendance" asp-action="Attendance">
+							<a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" asp-controller="Home" asp-action="Home">
+								<i class="fas fa-home"></i> Home
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right" asp-controller="Attendance" asp-action="Attendance">
 								<i class="fa-solid fa-calendar-days"></i> Attendance
 							</a>
 						</li>
+					}
+					@if (TempData.Peek("role").ToString() == "StudentAffairs")
+					{
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" asp-controller="Home" asp-action="Home">
+								<i class="fas fa-home"></i> Home
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" asp-controller="StudentAffair" asp-action="Students">
+								<i class="fas fa-graduation-cap"></i> Students
+							</a>
+						</li>
+
+					}
+					
 						
 					
 					<li class="nav-item">

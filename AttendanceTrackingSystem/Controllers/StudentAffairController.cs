@@ -9,29 +9,32 @@ using OfficeOpenXml;
 using AttendanceTrackingSystem.ViewModel;
 using System.ComponentModel.DataAnnotations;
 using AttendanceTrackingSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AttendanceTrackingSystem.Controllers
 {
-	public class StudentAffairController : Controller
-	{
-		int pageSize = 5;
-		private readonly IRepoStudent repoStudent;
-		private readonly IRepoTrack repoTrack;
-		private readonly IRepoAttendance repoAttendance;
-		private readonly IRepoStudentAttendance repoStdAttendance;
-		private readonly IRepoMsg repoMsg;
-		private readonly IWebHostEnvironment _hostingEnvironment;
-		private readonly IRepoPermission repoPermission;
-		public StudentAffairController(IRepoStudent _repoStudent, IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment,
-			IRepoAttendance _repoAttendance, IRepoStudentAttendance _repoStdAttendance, IRepoPermission _repopermission, IRepoMsg _repoMsg)
-		{
-			repoStudent = _repoStudent;
-			repoTrack = _repoTrack;
-			repoPermission = _repopermission;
-			repoMsg = _repoMsg;
-			_hostingEnvironment = hostingEnvironment;
-			repoAttendance = _repoAttendance;
-			repoStdAttendance = _repoStdAttendance;
+    [Authorize]
+    [Authorize(Roles = "StudentAffairs")]
+    public class StudentAffairController : Controller
+    {
+        int pageSize = 5;
+        private readonly IRepoStudent repoStudent;
+        private readonly IRepoTrack repoTrack;
+        private readonly IRepoAttendance repoAttendance;
+        private readonly IRepoStudentAttendance repoStdAttendance;
+        private readonly IRepoMsg repoMsg;
+        private readonly IWebHostEnvironment _hostingEnvironment;
+         private readonly IRepoPermission repoPermission;
+        public StudentAffairController(IRepoStudent _repoStudent, IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment,
+            IRepoAttendance _repoAttendance,IRepoStudentAttendance _repoStdAttendance,IRepoPermission _repopermission , IRepoMsg _repoMsg)
+        {
+            repoStudent = _repoStudent;
+            repoTrack = _repoTrack;
+             repoPermission = _repopermission;
+            repoMsg = _repoMsg;
+            _hostingEnvironment = hostingEnvironment;
+            repoAttendance = _repoAttendance;
+            repoStdAttendance = _repoStdAttendance;
 
 		}
 		#region StudentsCrud

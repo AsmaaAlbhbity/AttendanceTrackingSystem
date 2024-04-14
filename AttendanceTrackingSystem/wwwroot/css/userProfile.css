@@ -1,0 +1,85 @@
+﻿
+.user-profile-section {
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin: 70px auto;
+}
+
+    .user-profile-section .card {
+        border: none
+    }
+
+.card-user-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px #ddd;
+    border-radius: 25%
+}
+
+.user-top-section-img {
+    background: linear-gradient(120deg, rgba(108, 93, 208, 1) 0%, rgba(185, 172, 244, 1) 100%);
+    ;
+    width: 100%;
+    text-align: center;
+    border-radius: 25px 25px 0px 0px;
+    height: 290px;
+    display: flex;
+    flex-direction: column;
+    padding: 45px 40px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: #f3f3f7;
+}
+
+    .user-top-section-img .name-role {
+        margin-top: 15px
+    }
+
+    .user-top-section-img img {
+        width: 120px;
+        height: 120px;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        padding: 3px;
+        margin-top: 45px;
+    }
+
+    .user-top-section-img h5.name {
+        font-size: 26px;
+    }
+
+    .user-top-section-img p.role {
+        font-size: 24px;
+    }
+
+.user-data-card-body {
+    background-color: #efedff;
+    border-radius: 0px 0px 25px 25px;
+    margin: 0px auto;
+    padding: 20px 40px 20px;
+}
+
+.change-img-icon {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background-color: #fff
+}
+
+.form-floating {
+    margin: 20px auto;
+}
+
+    .form-floating input {
+        padding: 0px 15px !important
+    }
+
+.modal-content {
+    margin-top: 120px
+}
