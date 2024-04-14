@@ -43,33 +43,33 @@ namespace AttendanceTrackingSystem.Repository
 
 		public void Update(Schedule schedule)
 		{
-            
-            db.Schedules.Update(schedule);
+
+			db.Schedules.Update(schedule);
 			db.SaveChanges();
 
-            if (schedule.Type == ScheduleType.Funday || schedule.Type == ScheduleType.Holiday)
-            {
-                var ids = db.Students
-                    .Where(a => a.TrackId == schedule.TrackId).Select(a => a.UserId).ToList();
+			if (schedule.Type == ScheduleType.Funday || schedule.Type == ScheduleType.Holiday)
+			{
+				var ids = db.Students
+					.Where(a => a.TrackId == schedule.TrackId).Select(a => a.UserId).ToList();
 
-                if (ids.Count() > 0)
-                {
-                    var attendanceRecordsToDelete = db.StudentAttendances
-                   .Where(a => ids.Contains(a.UserId) && a.Date.Date == schedule.Date.Date)
-                   .ToList();
-                    if (attendanceRecordsToDelete.Count() > 0)
-                    {
-                        db.StudentAttendances.RemoveRange(attendanceRecordsToDelete);
-                        db.SaveChanges();
+				if (ids.Count() > 0)
+				{
+					var attendanceRecordsToDelete = db.StudentAttendances
+				   .Where(a => ids.Contains(a.UserId) && a.Date.Date == schedule.Date.Date)
+				   .ToList();
+					if (attendanceRecordsToDelete.Count() > 0)
+					{
+						db.StudentAttendances.RemoveRange(attendanceRecordsToDelete);
+						db.SaveChanges();
 
-                    }
+					}
 
-                }
+				}
 
-            }
+			}
 
 
-        }
+		}
 		// Abdullah
 		public List<Schedule> GetWeeklyScheduleForTrack(int trackId)
 		{
@@ -86,11 +86,12 @@ namespace AttendanceTrackingSystem.Repository
 				.OrderBy(a => a.Date).ToList();
 			return weeklySchedule;
 		}
-		public List<Schedule> GetAllScheduleForTrack(int trackId)
+		public List<Schedule> GetAllScheduleForTrack(int trackId, bool FromToday)
 		{
 			var today = DateTime.Today;
 			var saturday = today;
-			if (today.DayOfWeek != DayOfWeek.Saturday)
+
+			if (today.DayOfWeek != DayOfWeek.Saturday && !FromToday)
 			{
 				saturday = today.AddDays(-1 - (int)today.DayOfWeek);
 			}
