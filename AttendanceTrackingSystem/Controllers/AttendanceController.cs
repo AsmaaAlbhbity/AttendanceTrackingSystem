@@ -2,11 +2,14 @@
 using AttendanceTrackingSystem.Models;
 using AttendanceTrackingSystem.Repository;
 using AttendanceTrackingSystem.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics.Metrics;
 
 namespace AttendanceTrackingSystem.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "Security")]
     public class AttendanceController : Controller
     {
         IRepoAttendance repoAttendance;

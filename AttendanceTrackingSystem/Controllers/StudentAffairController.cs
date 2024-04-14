@@ -9,9 +9,12 @@ using OfficeOpenXml;
 using AttendanceTrackingSystem.ViewModel;
 using System.ComponentModel.DataAnnotations;
 using AttendanceTrackingSystem.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AttendanceTrackingSystem.Controllers
 {
+    [Authorize]
+    [Authorize(Roles = "StudentAffairs")]
     public class StudentAffairController : Controller
     {
         int pageSize = 5;
@@ -23,7 +26,7 @@ namespace AttendanceTrackingSystem.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
          private readonly IRepoPermission repoPermission;
         public StudentAffairController(IRepoStudent _repoStudent, IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment,
-            IRepoAttendance _repoAttendance,IRepoStudentAttendance _repoStdAttendance)
+            IRepoAttendance _repoAttendance,IRepoStudentAttendance _repoStdAttendance,IRepoPermission _repopermission , IRepoMsg _repoMsg)
         {
             repoStudent = _repoStudent;
             repoTrack = _repoTrack;

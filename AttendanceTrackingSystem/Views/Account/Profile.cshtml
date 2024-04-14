@@ -3,165 +3,165 @@
 @{
 	TempData["role"] = User.FindFirst(ClaimTypes.Role).Value;
 
-	ViewData["Title"] = "Profile";
 	Layout = "~/Views/Shared/_LayoutSystem.cshtml";
 }
-<section style="font-size:20px ;height:89vh">
-	<div class="container py-5 h-100">
-		<div class="row d-flex justify-content-center align-items-center h-100">
-			<div class="col col-lg-8 ">
-				<div class="card" style="border-radius: .5rem;">
-					<div class="row g-0">
-						<div class="col-md-4 text-center text-white"
-							 style="background-color:#AD88C6; border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+<section class="user-profile-section">
+	<div>
+		<div>
+			<div>
+				<div class="card">
+					<div class="card-user-container">
+						<div class="user-top-section-img">
 
 							<img src="@Model.ImgUrl?_=@DateTime.UtcNow.Ticks"
-								 alt="ProfilePhoto" class="img-fluid mt-5" style="width: 180px;height:230px" />
+								 alt="ProfilePhoto" />
+							<div class="name-role">
+								<h5 class="name">@Model.Name</h5>
+								<p class="role">@TempData["role"]</p>
 
-							<h5 class="mt-3">@Model.Name</h5>
-							<p>@TempData["role"]</p>
-							@* Edit *@
-							@* ---------------------- Modal For Image ------------------------ *@
-							<i data-toggle="modal" data-target="#ChangeImageModal" style="color:#AD18C1;font-size:25px" class="btn fa-solid fa-image mb-3"></i>
-							<div class="modal fade" id="ChangeImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								<div class="modal-dialog modal-lg" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title text-dark" id="exampleModalLabel">Change Profile photo</h5>
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div style="font-size:medium;" class="modal-body col-12 text-dark">
-											<form method="post" asp-action="updateImage" enctype="multipart/form-data">
-												<input asp-for="@Model.Name" hidden />
-												<input asp-for="@Model.Email" hidden />
-												<input asp-for="@Model.Phone" hidden />
-												<div>
-													<label for="MyImg">Change Image: </label>
-													<input class="mt-3" id="MyImg" type="file" name="ImgUrl" />
-												</div>
-												<input type="submit" class="btn align-bottom btn-primary my-3" value="Update Image"></input>
-											</form>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								@* Edit *@
+								@* ---------------------- Modal For Image ------------------------ *@
+								<i data-toggle="modal" data-target="#ChangeImageModal"></i>
+								<div class="modal fade" id="ChangeImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 id="exampleModalLabel">Change Profile photo</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div>
+												<form method="post" asp-action="updateImage" enctype="multipart/form-data">
+													<input asp-for="@Model.Name" hidden />
+													<input asp-for="@Model.Email" hidden />
+													<input asp-for="@Model.Phone" hidden />
+													<div>
+														<label for="MyImg">Change Image: </label>
+														<input id="MyImg" type="file" name="ImgUrl" />
+													</div>
+													<input type="submit" value="Update Image"></input>
+												</form>
+											</div>
+											<div class="modal-footer">
+												<button type="button" data-dismiss="modal">Close</button>
+											</div>
 										</div>
 									</div>
 								</div>
-							</div>
 
 
-							@* ----------------- Modal -----------------*@
-							<i data-toggle="modal" data-target="#PassworModal" style="color:#AD18C1;font-size:25px" class="btn fa-solid fa-key mb-3"></i>
-							<div class="modal fade" id="PassworModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								<div class="modal-dialog modal-lg" role="document">
-									<div class="modal-content">
-										<div class="modal-header">
-											<h5 class="modal-title text-dark" id="exampleModalLabel">Change Password</h5>
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div style="font-size:small" class="modal-body col-12 text-dark ">
-											<form class="text-dark" method="post" enctype="multipart/form-data">
-												<input asp-for="@Model.Name" hidden />
-												<input asp-for="@Model.Email" hidden />
-												<input asp-for="@Model.Phone" hidden />
-												<div class="form-floating d-flex">
-													<input id="oldPass" asp-for="OldPassword" type="password" class="form-control" placeholder="New Password">
-													<label for="oldPass"> Old Password</label>
-													<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('oldPass')"><i class="fa-solid fa-eye"></i></button>
-													@* <span asp-validation-for="OldPassword"></span> *@
-												</div>
-												<div class="form-floating d-flex">
-													<input id="newPass" asp-for="NewPassword" type="password" class="form-control" placeholder="New Password">
-													<label for="newPass"> New Password</label>
-													<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('newPass')"><i class="fa-solid fa-eye"></i></button>
-													@* <span asp-validation-for="NewPassword"></span> *@
-												</div>
-												<div class="form-floating d-flex">
-													<input id="ConfirmPassword" asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password"></input>
-													<label for="ConfirmPassword">Confirm password</label>
-													<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('ConfirmPassword')"><i class="fa-solid fa-eye"></i></button>
-													@* <span asp-validation-for="ConfirmPassword"></span> *@
-												</div>
-												<div id="Val" asp-validation-summary="All"></div>
-												<input type="submit" class="btn" value="Change Password"></input>
-											</form>
-										</div>
-										<div class="modal-footer">
+								@* ----------------- Modal -----------------*@
+								<i data-toggle="modal" data-target="#PassworModal" style="color:rgb(108, 93, 220);font-size:18px" class="btn fa-solid fa-key change-img-icon"></i>
+								<div class="modal fade" id="PassworModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title text-dark" id="exampleModalLabel">Change Password</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div style="font-size:small" class="modal-body col-12 text-dark ">
+												<form class="text-dark" method="post" enctype="multipart/form-data">
+													<input asp-for="@Model.Name" hidden />
+													<input asp-for="@Model.Email" hidden />
+													<input asp-for="@Model.Phone" hidden />
+													<div class="form-floating d-flex">
+														<input id="oldPass" asp-for="OldPassword" type="password" class="form-control" placeholder="New Password">
+														<label for="oldPass"> Old Password</label>
+														<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('oldPass')"><i class="fa-solid fa-eye"></i></button>
+														@* <span asp-validation-for="OldPassword"></span> *@
+													</div>
+													<div class="form-floating d-flex">
+														<input id="newPass" asp-for="NewPassword" type="password" class="form-control" placeholder="New Password">
+														<label for="newPass"> New Password</label>
+														<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('newPass')"><i class="fa-solid fa-eye"></i></button>
+														@* <span asp-validation-for="NewPassword"></span> *@
+													</div>
+													<div class="form-floating d-flex">
+														<input id="ConfirmPassword" asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password"></input>
+														<label for="ConfirmPassword">Confirm password</label>
+														<button type="button" class="btn float-end btn-sm btn-outline-secondary" onclick="togglePasswordVisibility('ConfirmPassword')"><i class="fa-solid fa-eye"></i></button>
+														@* <span asp-validation-for="ConfirmPassword"></span> *@
+													</div>
+													<div id="Val" asp-validation-summary="All"></div>
+													<input type="submit" class="btn" value="Change Password"></input>
+												</form>
+											</div>
+											@* 	<div class="modal-footer">
 											<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											</div> *@
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 						@* User Data *@
-						<div style="background-color:#FFE6E6" class="text-dark col-md-8">
-							<div class="card-body p-4">
+						<div class="w-100">
+							<div class="card-body  user-data-card-body">
 								<h6>Your Information</h6>
-								<hr class="mt-0 mb-4">
-								<div class="row pt-1">
-									<div class="col-6 mb-1">
+								<hr>
+								<div>
+									<div>
 										<h6>Email</h6>
 										<p class="text-lowercase text-muted">@Model.Email</p>
 									</div>
-									<div class="col-6 mb-1">
+									<div>
 										<h6>Phone</h6>
 										<p class="text-muted text-nowrap">@Model.Phone</p>
 									</div>
 									@if (Model is StudentEditProfileViewModel std)
 									{
-										<div class="col-6 mb-1">
+										<div>
 											<h6>University</h6>
 											<p class="text-capitalize text-muted">@std.StudentUniversity</p>
 										</div>
-										<div class="col-6 mb-1">
+										<div>
 											<h6>Faculty</h6>
 											<p class="text-capitalize text-muted">@std.StudentFaculity</p>
 										</div>
-										<div class="col-6 mb-1">
+										<div>
 											<h6>Specialization</h6>
 											<p class="text-uppercase text-muted">@std.StudentSpecialization</p>
 										</div>
-										<div class="col-6 mb-1">
+										<div>
 											<h6>Attendance Degree</h6>
 											<p class="text-muted">@std.StudentDegree</p>
 										</div>
-										<div class="col-6 mb-1">
+										<div>
 											<h6>Graduation Year</h6>
 											<p class="text-muted">@std.StudentGraduationYear.Year</p>
 										</div>
-										<div class="col-6 mb-1">
+										<div>
 											<h6>Track</h6>
 											<p class="text-uppercase text-muted">@std.TrackName</p>
 										</div>
-										<div class="col-6 mb-1">
+										<div>
 											<h6>Track Supervisor</h6>
 											<p class="text-capitalize text-muted">@std.TrackSupervisor</p>
 										</div>
 									}
 									else if (Model is EmployeeEditProfileViewModel emp)
 									{
-										<div class="col-12 mb-1">
+										<div>
 											<h6>Salary</h6>
 											<p class="text-uppercase text-muted">@emp.EmployeeSalary</p>
 										</div>
 									}
 									else if (Model is InstructorEditProfileViewModel inst)
 									{
-										<div class="col-6 mb-1">
+										<div>
 											<h6>Salary</h6>
 											<p class="text-uppercase text-muted">@inst.InstructorSalary</p>
 										</div>
-										<div class="col-6 mb-1">
+										<div>
 											<h6>Tracks</h6>
 											<p class="text-uppercase text-muted">@inst.TrackNames</p>
 										</div>
 										if (@inst.SupervisedTrack != null)
 										{
-											<div class="col-6 mb-1">
+											<div>
 												<h6>Supervisor in Track</h6>
 												<p class="text-uppercase text-muted">@inst.SupervisedTrack</p>
 											</div>
