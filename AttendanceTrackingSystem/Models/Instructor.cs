@@ -8,6 +8,5 @@ namespace AttendanceTrackingSystem.Models
         public decimal InstructorSalary {  get; set; } 
         public virtual List<Track> Tracks { get; set; }= new List<Track>();
         public virtual List<Attendance> InstructorAttendances { get; set; } = new List<Attendance>();
-
     }
 }

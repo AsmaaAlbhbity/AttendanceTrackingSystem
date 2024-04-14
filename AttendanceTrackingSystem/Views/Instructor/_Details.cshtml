@@ -1,0 +1,59 @@
+﻿@model AttendanceTrackingSystem.Models.Permission
+
+
+@{
+
+}
+
+<div class="col-md-8">
+
+
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="fw-bold" asp-for="@Model.PermissionId"></label>
+        </div>
+        <div class="col-md-8">
+            @Model.PermissionId
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="fw-bold" asp-for="@Model.Text">Reason</label>
+        </div>
+        <div class="col-md-8">
+            @Model.Text
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="fw-bold" asp-for="@Model.State"></label>
+        </div>
+        <div class="col-md-8">
+            @Model.State
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="fw-bold" asp-for="@Model.Type"></label>
+        </div>
+        <div class="col-md-8">
+            @Model.Type
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="fw-bold" asp-for="@Model.User.Email"></label>
+        </div>
+        <div class="col-md-8">
+            @Model.?User.Email
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <label class="fw-bold" asp-for="@Model.Date"></label>
+        </div>
+        <div class="col-md-8">
+            @Model.Date
+        </div>
+    </div>
+</div>

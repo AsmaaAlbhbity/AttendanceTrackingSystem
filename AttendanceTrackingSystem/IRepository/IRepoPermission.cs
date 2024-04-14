@@ -9,7 +9,7 @@ namespace AttendanceTrackingSystem.IRepository
         public void Add(Permission permission);
         public void Update(Permission permission);
         public void Delete(int id);
-
+        public List<Permission> GetAllBySupervisorId(int supervisorId);
         public List<Permission> getAllById(int userId);
     }
 }

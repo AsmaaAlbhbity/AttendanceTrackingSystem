@@ -1,0 +1,212 @@
+﻿@model IEnumerable<StudentAttendance>
+@{
+    SelectList TrackList = new SelectList(ViewBag.TrackList, "TrackId", "Name");
+
+}
+
+<div id="InstructorStyles">
+    <div id="title-container">
+        <h1 class="main-title">Student Degrees</h1>
+        <img src="~/images/Buffer.gif" class="imgTitle" />
+    </div>
+
+    <div class="container mt-3">
+        <div class="row align-items-center">
+            <div class="col-md-auto">
+                <label for="trackFilter" class="form-label">Tracks:</label>
+            </div>
+            <div class="col-md-auto">
+                <select class="form-select form-select-sm" asp-items="@TrackList" id="trackFilter">
+                    <option value="">All Tracks</option>
+                </select>
+            </div>
+            <div class="col-md-auto">
+                <label for="dateFilter" class="form-label">Date:</label>
+            </div>
+            <div class="col-md-auto">
+                <input type="date" class="form-control" id="dateFilter" value="@ViewBag.Date?.ToString("yyyy-MM-dd")">
+            </div>
+          
+            <!--
+            <div class="col-md-auto">
+                <label for="searchInput" class="form-label">Search:</label>
+            </div>
+            <div class="col-md-auto">
+                <input type="text" id="searchInput" class="form-control" placeholder="Search for Students By Email...">
+            </div>
+            -->
+        </div>
+    </div>
+
+
+
+
+    <table id="instructorTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Student Name</th>
+                <th>Date</th>
+                <th>Student Degree</th>
+              @*   <th>Action</th> *@
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() > 0)
+            {
+                @foreach (var attendance in Model)
+                {
+                    <tr>
+                        <td>@attendance.AttendanceId</td>
+                        <td>@attendance.User.Name</td>
+                        <td>@attendance.Date.ToString("MM/dd/yyyy")</td>
+                        <td>@attendance.currentDegree</td>
+                       @*  <td>
+
+                            <a class="btn btn-sm btn-outline-secondary mx-1 details-btn" data-student-id="@attendance.AttendanceId" data-bs-toggle="modal" data-bs-target="#instructorDetailsModal"><i class="fas fa-circle-info"></i> See Detail</a>
+                        </td> *@
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr >
+                    <td class="text-center ">No students </td>
+                    
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item @(ViewBag.Page == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="ViewStudentPermissions" asp-route-page="@(ViewBag.Page - 1)">Previous</a>
+            </li>
+
+
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(ViewBag.Page == i ? "active" : "")">
+                    <a class="page-link" asp-action="ViewStudentPermissions" asp-route-page="@i">@i</a>
+                </li>
+            }
+            <li class="page-item @(ViewBag.Page == ViewBag.TotalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="ViewStudentPermissions" asp-route-page="@(ViewBag.Page + 1)">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="instructorDetailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel">Instructor Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        
+                    </button>
+                </div>
+                <div class="modal-body" id="studentDetailsBody">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            let trackId;
+            let date;
+
+            if ('@TempData["SuccessMessage"]' !== '') {
+                toastr.success('@TempData["SuccessMessage"]');
+
+            }
+            if ('@TempData["ErrorMessage"]' !== '') {
+                toastr.success('@TempData["ErrorMessage"]');
+
+            }
+            $(document).ready(function () {
+                if ('@ViewBag.TrackId' !== '') {
+                    $('#trackFilter').val(parseInt('@ViewBag.TrackId'));
+                }
+            });
+
+            function filterTable() {
+                let type = $('#typeFilter').val();
+                let status = $('#statusFilter').val();
+                $('#instructorTable tbody tr').each(function () {
+                    let rowType = $(this).find('td:eq(3)').text().trim();
+                    let rowStatus = $(this).find('td:eq(2)').text().trim();
+                    if ((type === '' || rowType === type) && (status === '' || rowStatus === status)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                // Update pagination links based on filtered rows
+                updatePagination();
+            }
+
+            function updatePagination() {
+                var totalPages = $('#TotalPages').val();
+                var currentPage = $('#Page').val();
+                $('.pagination li').removeClass('disabled');
+
+                if (currentPage == 1) {
+                    $('.pagination li:first-child').addClass('disabled');
+                }
+
+                if (currentPage == totalPages) {
+                    $('.pagination li:last-child').addClass('disabled');
+                }
+            }
+
+            $('.details-btn').click(function () {
+                var studentId = $(this).data('student-id');
+                $.ajax({
+                    url: '/Instructor/Details/' + studentId,
+                    type: 'GET',
+                    success: function (result) {
+                        $('#studentDetailsBody').html(result);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+     
+            $('#trackFilter').on('change', function () {
+
+                trackId = $(this).val();
+                if (trackId != null) {
+                    FilterPage();
+                }
+
+            });
+            $('#dateFilter').on('input', function () {
+                FilterPage();
+            });
+
+            function FilterPage() {
+                trackId= $('#trackFilter').val();
+                date = $('#dateFilter').val();
+                debugger;
+                var url = '/StudentAffair/ViewStudentsDegrees?';
+                if (trackId != null) {
+                    url += 'trackid=' + trackId + '&';
+                }
+
+                if (date != null && date !== '') {
+                    url += 'date=' + date + '&';
+                }
+                window.location.href = url;
+            }
+        </script>
+    }
+</div>

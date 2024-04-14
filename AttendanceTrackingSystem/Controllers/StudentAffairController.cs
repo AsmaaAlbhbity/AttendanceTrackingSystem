@@ -15,14 +15,21 @@ namespace AttendanceTrackingSystem.Controllers
         int pageSize = 5;
         private readonly IRepoStudent repoStudent;
         private readonly IRepoTrack repoTrack;
+        private readonly IRepoAttendance repoAttendance;
+        private readonly IRepoStudentAttendance repoStdAttendance;
         private readonly IWebHostEnvironment _hostingEnvironment;
-        public StudentAffairController(IRepoStudent _repoStudent, IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment)
+        public StudentAffairController(IRepoStudent _repoStudent, IRepoTrack _repoTrack, IWebHostEnvironment hostingEnvironment,
+            IRepoAttendance _repoAttendance,IRepoStudentAttendance _repoStdAttendance)
         {
             repoStudent = _repoStudent;
             repoTrack = _repoTrack;
             _hostingEnvironment = hostingEnvironment;
+            repoAttendance = _repoAttendance;
+            repoStdAttendance = _repoStdAttendance;
 
         }
+        #region StudentsCrud
+
         public IActionResult Index(string? message, int? page, string? searchTerm)
         {
             TempData["SuccessMessage"] = message;
@@ -252,9 +259,49 @@ namespace AttendanceTrackingSystem.Controllers
                 }
             }
         }
+        #endregion
+
+        #region Student Degrees
+        [HttpGet]
+        public IActionResult ViewStudentsDegrees(int? page, int? trackid, DateTime? date)
+        {
+
+            if (!page.HasValue || page < 1)
+            {
+                page = 1;
+            }
+            var studentAttendances = repoStdAttendance.getAll();
+            if (trackid != null)
+            {
+                studentAttendances = studentAttendances.Where(s => s.StudentSchdule.Track.TrackId == trackid).ToList();
+            }
+            if (date != null)
+            {
+                studentAttendances = studentAttendances.Where(s => s.Date.Date == date.Value.Date).ToList();
+            }
 
 
-    
+            int totalAttendances = studentAttendances.Count();
+            int totalPages = (int)Math.Ceiling((double)totalAttendances / pageSize);
+
+            if (page > totalPages)
+            {
+                page = totalPages;
+            }
+
+            var _studentAttendances = studentAttendances.Skip((page.Value - 1) * pageSize).Take(pageSize).ToList();
+
+            ViewBag.TotalPages = totalPages;
+            ViewBag.Page = page;
+            ViewBag.TrackId = trackid;
+            ViewBag.Date= date;
+            ViewBag.TrackList = repoTrack.getAll();
+            return View(_studentAttendances);
+        }
+        #endregion
+
+
+
         private string getFileName(string fileName)
         {
             return Path.Combine(_hostingEnvironment.ContentRootPath, "wwwroot", "Images", "Profile", fileName);
