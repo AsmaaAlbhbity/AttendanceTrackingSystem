@@ -9,6 +9,7 @@ namespace AttendanceTrackingSystem.Configration
         public void Configure(EntityTypeBuilder<Permission> builder)
         {
             builder.HasIndex(a => new {a.UserId,a.Date }).IsUnique();
+           
         }
     }
 }

@@ -4,6 +4,7 @@ using AttendanceTrackingSystem.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace AttendanceTrackingSystem.Repository
 {
@@ -56,6 +57,10 @@ namespace AttendanceTrackingSystem.Repository
             //{
             //    throw new ValidationException("Email is already in use!");
             //}
+            if (db.Users.Except(new List<Student>() { student }).Any(u => u.Email == student.Email.ToLower().Trim()))
+            {
+                throw new ValidationException("Email is already in use!");
+            }
             student.Email = student.Email.ToLower().Trim();
             db.Users.Update(student);
             db.SaveChanges();

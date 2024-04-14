@@ -38,6 +38,15 @@ namespace AttendanceTrackingSystem.Repository
         {
             return db.Permissions.Where(p=>p.UserId==userId).ToList();
         }
+        public List<Permission> GetAllBySupervisorId(int supervisorId)
+        {
+            var track = db.Tracks.FirstOrDefault(t => t.SupervisorId == supervisorId);
+
+            var studentIds = track.Students.Select(s => s.UserId).ToList();
+
+            return db.Permissions.Where(p => studentIds.Contains(p.UserId)).ToList();
+        }
+
         public Permission getById(int id)
         {
             return db.Permissions.FirstOrDefault(a => a.PermissionId == id);
@@ -45,8 +54,52 @@ namespace AttendanceTrackingSystem.Repository
 
         public void Update(Permission permission)
         {
-            db.Permissions.Update(permission);
-            db.SaveChanges();
+            try
+            {
+                if (permission == null)
+                {
+                    throw new ArgumentNullException(nameof(permission), "Permission cannot be null.");
+                }
+
+                var student = db.Students.FirstOrDefault(u => u.UserId == permission.UserId);
+                var attendance = db.Attendances.FirstOrDefault(a => a.UserId == permission.UserId && a.Date == permission.Date);
+
+                if (student == null)
+                {
+                    throw new InvalidOperationException($"Student with UserId '{permission.UserId}' does not exist.");
+                }
+
+                if (permission.State == PermissionState.Approved)
+                {
+                    if (attendance != null)
+                    {
+                        attendance.Status = permission.Type == PermissionType.Late ? AttendaneStatus.LateWithPermission : AttendaneStatus.AbsentWithPermission;
+                        db.Attendances.Update(attendance);
+                    }
+                    else
+                    {
+
+                        throw new InvalidOperationException($"Attendance record for UserId '{permission.UserId}' on date '{permission.Date}' does not exist.");
+                    }
+                }
+
+                db.Permissions.Update(permission);
+
+                db.SaveChanges();
+            }
+            catch (ArgumentNullException)
+            {
+                throw; 
+            }
+            catch (InvalidOperationException)
+            {
+                throw; 
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while updating permission.", ex);
+            }
         }
+
     }
 }

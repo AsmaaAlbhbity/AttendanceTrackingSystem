@@ -4,7 +4,9 @@
     {
         Absent,
         Late,
-        onTime
+        onTime,
+        AbsentWithPermission,
+        LateWithPermission
     }
     public class Attendance
     {
