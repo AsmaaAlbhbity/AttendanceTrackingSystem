@@ -57,10 +57,6 @@ namespace AttendanceTrackingSystem.Controllers
 					{
 						trackId = InstTracks.First().TrackId;
 					}
-					else
-					{
-						return View("Error", "Home");
-					}
 				}
 
 				ViewBag.InstructorTracks = InstTracks;
@@ -69,17 +65,13 @@ namespace AttendanceTrackingSystem.Controllers
 					ViewBag.IsSupervisor = true;
 				else
 					ViewBag.IsSupervisor = false;
-
+				List<Schedule> WeekSchedule = new List<Schedule>();
 				if (InstTracks.Any(t => t.TrackId == trackId))
 				{
-					List<Schedule> WeekSchedule = repoSchedule.GetWeeklyScheduleForTrack(trackId.Value);
+					WeekSchedule = repoSchedule.GetWeeklyScheduleForTrack(trackId.Value);
 					ViewBag.SelectedTrackName = InstTracks.FirstOrDefault(a => a.TrackId == trackId).Name;
-					return View(WeekSchedule);
 				}
-				else
-				{
-					return View("Error", "Home");
-				}
+				return View(WeekSchedule);
 			}
 			catch (Exception ex)
 			{

@@ -28,17 +28,25 @@
 		<form method="post" asp-action="ProcessTrackSchedule">
 			<label for="trackId" class="form-label">Select Track:</label>
 			<select id="trackId" name="trackId" class="form-select">
-				@foreach (var track in ViewBag.InstructorTracks)
+				@if (ViewBag.InstructorTracks.Count == 0)
 				{
-					if (ViewBag.SelectedTrackId == track.TrackId)
-					{
-						<option value="@track.TrackId" selected>@track.Name</option>
-					}
-					else
-					{
-						<option value="@track.TrackId">@track.Name</option>
-					}
+					<option value="">No track available</option>
 				}
+				else
+				{
+					<option value="">Select Track</option>
+
+					@foreach (var track in ViewBag.InstructorTracks)
+					{
+						if (ViewBag.SelectedTrackId == track.TrackId)
+						{
+							<option value="@track.TrackId" selected>@track.Name</option>
+						}
+						else
+						{
+							<option value="@track.TrackId">@track.Name</option>
+						}
+					}}
 			</select>
 			@* <button type="submit" class="btn btn-primary mt-3">Show Schedule</button> *@
 		</form>
@@ -90,13 +98,13 @@ else
 	<p class="alert alert-info text-center">No schedule assigned.</p>
 }
 @if (ViewBag.IsSupervisor)
-	{
-<div class="row">
-	<div class="col">
-		<a asp-action="ViewAllSchedule" id="ViewWholeScheduleBtn" asp-route-trackId="@ViewBag.SelectedTrackId" style="background-color:#6c5ddc" class="text-white btn">View whole schedule</a>
+{
+	<div class="row">
+		<div class="col">
+			<a asp-action="ViewAllSchedule" id="ViewWholeScheduleBtn" asp-route-trackId="@ViewBag.SelectedTrackId" style="background-color:#6c5ddc" class="text-white btn">View whole schedule</a>
+		</div>
 	</div>
-</div>
-	}
+}
 @section Scripts {
 	<script>
 		$("#trackId").change(function () {
