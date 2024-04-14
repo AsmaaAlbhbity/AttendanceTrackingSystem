@@ -94,7 +94,7 @@ namespace AttendanceTrackingSystem.Controllers
 			{
 				int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 				int trackId = repoInstructor.GetTrackBySupervisor(userId);
-				List<Schedule> WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId);
+				List<Schedule> WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId, false);
 				return View(WholeSchedule);
 			}
 			catch (Exception ex)
@@ -105,6 +105,7 @@ namespace AttendanceTrackingSystem.Controllers
 		}
 		public IActionResult AddSchedule()
 		{
+			ViewData["Title"] = "Create Schedules";
 			int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 			int trackId = repoInstructor.GetTrackBySupervisor(userId);
 			ViewBag.TrackId = trackId;
@@ -115,6 +116,7 @@ namespace AttendanceTrackingSystem.Controllers
 		[HttpPost]
 		public IActionResult AddSchedule(List<Schedule> schedules)
 		{
+			ViewData["Title"] = "Create Schedules";
 			try
 			{
 				int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
@@ -125,7 +127,7 @@ namespace AttendanceTrackingSystem.Controllers
 					repoSchedule.AddOrReplaceSchedule(schedule);
 				}
 
-				var WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId); // Retrieve the updated schedule list
+				var WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId, false); // Retrieve the updated schedule list
 				return View("ViewAllSchedule", WholeSchedule);
 			}
 			catch (Exception ex)
@@ -136,12 +138,13 @@ namespace AttendanceTrackingSystem.Controllers
 		}
 		public IActionResult EditSchedule()
 		{
+			ViewData["Title"] = "Edit Schedules";
 			try
 			{
 				int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 				int trackId = repoInstructor.GetTrackBySupervisor(userId);
 				ViewBag.TrackId = trackId;
-				List<Schedule> WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId);
+				List<Schedule> WholeSchedule = repoSchedule.GetAllScheduleForTrack(trackId, true);
 				return View("AddSchedule", WholeSchedule);
 			}
 			catch (Exception ex)

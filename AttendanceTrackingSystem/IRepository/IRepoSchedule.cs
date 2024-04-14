@@ -17,7 +17,7 @@ namespace AttendanceTrackingSystem.IRepository
 		public void CreateAttendanceRecords(int scheduleId, DateTime date);
 		public bool checkSechduleToday();
 		public bool checkSechduleTodayFoeTrack(int id);
-		public List<Schedule> GetAllScheduleForTrack(int trackId);
+		public List<Schedule> GetAllScheduleForTrack(int trackId, bool FromToday);
 		public List<Schedule> CreateNextWeekScheduleTemplate(int trackId);
 		public void AddOrReplaceSchedule(Schedule schedule);
 		public void UpdateByTrackIdAndDate(Schedule schedule);
