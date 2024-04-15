@@ -16,8 +16,8 @@ namespace AttendanceTrackingSystem.Controllers
         public int OnTimeCount { get; set; }
         public int AbsentCount { get; set; }
     }
-    [Authorize]
-    [Authorize(Roles = "Instructor")]
+
+    [Authorize(Roles = "Supervisor")]
     public class InstructorController : Controller
     {
         const int supervisorId = 3;
@@ -36,6 +36,7 @@ namespace AttendanceTrackingSystem.Controllers
             return View();
         }
         //[Authorize(Roles = "Supervisor")]
+        //[Authorize(Roles = "Instructor,Supervisor")]
         [HttpGet]
         public IActionResult ViewStudentPermissions(int? page)
         {

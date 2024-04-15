@@ -1,19 +1,27 @@
 ﻿@model Permission
 @{
-  
+
     Layout = "~/Views/Shared/_LayoutSystem.cshtml";
 
-    var userId = Context.Request.RouteValues["Id"];
+     var userId = Context.Request.RouteValues["Id"];
+    //var userId = 34;
 
-}
-
-@{
-    ViewData["Title"] = "Student | Make Permission";
     ViewData["ProfileActive"] = "";
-    ViewData["HomeActive"] = "active";
+    ViewData["HomeActive"] = "";
     ViewData["StudentsActive"] = "";
     ViewData["InstructorsActive"] = "";
     ViewData["LogOutActive"] = "";
+    ViewData["PermissionActive"] = "active";
+    ViewData["TracksActive"] = "";
+    ViewData["EmployeesActive"] = "";
+    ViewData["TracksSchedulesActive"] = "";
+    ViewData["AllScheduleActive"] = "";
+    ViewData["AddNewScheduleActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["AttendanceActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["TraceAddendanceActive"] = "";
+    ViewData["StudentDegreeActive"] = "";
 }
 
 

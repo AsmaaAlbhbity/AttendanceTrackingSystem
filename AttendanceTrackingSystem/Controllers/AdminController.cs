@@ -35,9 +35,9 @@ namespace AttendanceTrackingSystem.Controllers
 
 
 
-        
 
 
+        #region crud Instructor
         public IActionResult ShowInstructor(int pageNumber = 1, int pageSize = 4)
         {
 
@@ -267,7 +267,10 @@ namespace AttendanceTrackingSystem.Controllers
             return Json(new { success = true, redirectUrl = Url.Action("ShowInstructor") });
         }
 
-     public IActionResult Home()
+        #endregion
+
+        #region crud Employee
+        public IActionResult Home()
         {
 
             ViewBag.stdAffCount = repoEmployee.getEmpCount(Models.EmployeeType.StudentAffairs);
@@ -515,8 +518,8 @@ namespace AttendanceTrackingSystem.Controllers
 
         return View(viewModel);
     }
-
-    [HttpPost]
+        #endregion
+        [HttpPost]
     [ValidateAntiForgeryToken]
     public ActionResult DeleteConfirmed(int id)
     {
@@ -537,9 +540,9 @@ namespace AttendanceTrackingSystem.Controllers
             ModelState.AddModelError("", $"Unable to delete employee due to an error: {ex.Message}");
             return RedirectToAction(nameof(Employee));         }
     }
-    
+        #region Track
 
-    public IActionResult Tracks(int pageNumber = 1, int pageSize = 4)
+        public IActionResult Tracks(int pageNumber = 1, int pageSize = 4)
         {
             var allTracks = repoTrack.getAll().AsQueryable(); // Ensure IQueryable
 
@@ -581,7 +584,7 @@ namespace AttendanceTrackingSystem.Controllers
 
             return Ok();
         }
-
+        #endregion
     }
 }
 

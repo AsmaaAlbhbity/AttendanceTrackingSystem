@@ -1,5 +1,23 @@
 ﻿ @model AttendanceSummaryViewModel
+ @{
 
+    ViewData["ProfileActive"] = "";
+    ViewData["HomeActive"] = "active";
+    ViewData["StudentsActive"] = "";
+    ViewData["InstructorsActive"] = "";
+    ViewData["LogOutActive"] = "";
+    ViewData["PermissionActive"] = "";
+    ViewData["TracksActive"] = "";
+    ViewData["EmployeesActive"] = "";
+    ViewData["TracksSchedulesActive"] = "";
+    ViewData["AllScheduleActive"] = "";
+    ViewData["AddNewScheduleActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["AttendanceActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["TraceAddendanceActive"] = "";
+    ViewData["StudentDegreeActive"] = "";
+ }
 
     <!-- Display attendance summary -->
     @Html.Partial("_UserNotificationsPartialView", Model)

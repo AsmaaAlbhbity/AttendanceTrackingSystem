@@ -2,10 +2,28 @@
 @{
     SelectList supervisour = new SelectList(Model.Instructors, "UserId", "Name");
 }
+@{
 
+    ViewData["ProfileActive"] = "";
+    ViewData["HomeActive"] = "";
+    ViewData["StudentsActive"] = "";
+    ViewData["InstructorsActive"] = "";
+    ViewData["LogOutActive"] = "";
+    ViewData["PermissionActive"] = "";
+    ViewData["TracksActive"] = "active";
+    ViewData["EmployeesActive"] = "";
+    ViewData["TracksSchedulesActive"] = "";
+    ViewData["AllScheduleActive"] = "";
+    ViewData["AddNewScheduleActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["AttendanceActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["TraceAddendanceActive"] = "";
+    ViewData["StudentDegreeActive"] = "";
+}
 <div id="InstructorStyles">
     <div id="title-container">
-        <h1 class="main-title">Instructor Management</h1>
+        <h1 class="main-title">Track Management</h1>
         <img src="~/images/teaching.gif" class="imgTitle" />
     </div>
     <div>

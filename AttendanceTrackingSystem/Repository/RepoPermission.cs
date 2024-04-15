@@ -17,12 +17,13 @@ namespace AttendanceTrackingSystem.Repository
             db.SaveChanges();
         }
 
-		public bool CheckPermission(int studentId, DateTime date)
-		{
-			throw new NotImplementedException();
-		}
+        public bool CheckPermission(int studentId, DateTime date)
+        {
+            return db.Permissions.Any(p => p.UserId == studentId && p.Date.Date == date.Date);
 
-		public void Delete(int id)
+        }
+
+        public void Delete(int id)
         {
             var obj = db.Permissions.FirstOrDefault(a => a.PermissionId == id);
             db.Permissions.Remove(obj);
@@ -100,6 +101,6 @@ namespace AttendanceTrackingSystem.Repository
                 throw new Exception("An error occurred while updating permission.", ex);
             }
         }
-
+       
     }
 }

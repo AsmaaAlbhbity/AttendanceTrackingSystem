@@ -1,8 +1,24 @@
 ﻿@using AttendanceTrackingSystem.Pagination
 @model PaginatedList<Employee>
-<style>
+@{
 
-</style>
+    ViewData["ProfileActive"] = "";
+    ViewData["HomeActive"] = "";
+    ViewData["StudentsActive"] = "";
+    ViewData["InstructorsActive"] = "";
+    ViewData["LogOutActive"] = "";
+    ViewData["PermissionActive"] = "";
+    ViewData["TracksActive"] = "";
+    ViewData["EmployeesActive"] = "active";
+    ViewData["TracksSchedulesActive"] = "";
+    ViewData["AllScheduleActive"] = "";
+    ViewData["AddNewScheduleActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["AttendanceActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["TraceAddendanceActive"] = "";
+    ViewData["StudentDegreeActive"] = "";
+}
 
 <h2 class="employee-title">Employees</h2>
 <form asp-action="Employee" asp-controller="Admin" method="get" class="employee-search-form">

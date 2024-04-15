@@ -1,6 +1,23 @@
 ﻿@model AttendanceTrackingSystem.ViewModels.StudentAttendanceViewModel
 @{
     var firstDayOfMonth = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
+
+    ViewData["ProfileActive"] = "";
+    ViewData["HomeActive"] = "";
+    ViewData["StudentsActive"] = "";
+    ViewData["InstructorsActive"] = "";
+    ViewData["LogOutActive"] = "";
+    ViewData["PermissionActive"] = "";
+    ViewData["TracksActive"] = "";
+    ViewData["EmployeesActive"] = "";
+    ViewData["TracksSchedulesActive"] = "";
+    ViewData["AllScheduleActive"] = "";
+    ViewData["AddNewScheduleActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["AttendanceActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["TraceAddendanceActive"] = "active";
+    ViewData["StudentDegreeActive"] = "";
 }
 
 <form asp-action="Students" method="post" class="form-horizontal">

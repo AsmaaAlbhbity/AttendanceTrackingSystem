@@ -12,7 +12,25 @@
     else
         role = "Student Affair";
 
-    ViewData["Title"] = "Choose Supervisor";
+    
+
+    ViewData["ProfileActive"] = "";
+    ViewData["HomeActive"] = "";
+    ViewData["StudentsActive"] = "";
+    ViewData["InstructorsActive"] = "active";
+    ViewData["LogOutActive"] = "";
+    ViewData["PermissionActive"] = "";
+    ViewData["TracksActive"] = "";
+    ViewData["EmployeesActive"] = "";
+    ViewData["TracksSchedulesActive"] = "";
+    ViewData["AllScheduleActive"] = "";
+    ViewData["AddNewScheduleActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["AttendanceActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["TraceAddendanceActive"] = "";
+    ViewData["StudentDegreeActive"] = "";
+
 
     SelectList Instructors = new SelectList(Model.Instructors, "UserId", "Name");
 }

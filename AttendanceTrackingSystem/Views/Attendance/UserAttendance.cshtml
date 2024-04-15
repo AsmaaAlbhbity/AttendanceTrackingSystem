@@ -1,6 +1,23 @@
 ﻿@model AttendanceViewModel
 @{
     SelectList Tracks = new SelectList(Model.Tracks, "TrackId", "Name");
+
+    ViewData["ProfileActive"] = "";
+    ViewData["HomeActive"] = "";
+    ViewData["StudentsActive"] = "";
+    ViewData["InstructorsActive"] = "";
+    ViewData["LogOutActive"] = "";
+    ViewData["PermissionActive"] = "";
+    ViewData["TracksActive"] = "";
+    ViewData["EmployeesActive"] = "";
+    ViewData["TracksSchedulesActive"] = "";
+    ViewData["AllScheduleActive"] = "";
+    ViewData["AddNewScheduleActive"] = "";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["AttendanceActive"] = "active";
+    ViewData["StudentPermissionActive"] = "";
+    ViewData["TraceAddendanceActive"] = "";
+    ViewData["StudentDegreeActive"] = "";
 }
 @if (ViewBag.CheckSchedule == null)
 {

@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace AttendanceTrackingSystem.Controllers
 {
     [Authorize]
-	[Authorize(Roles = "Student")]
+	[Authorize(Roles = "Student,0")]
 	public class StudentController : Controller
     {
         IRepoAttendance repoAttendance;
@@ -86,9 +86,9 @@ namespace AttendanceTrackingSystem.Controllers
 
 
 
-
         public IActionResult MakePermission(int userId, int SId)
         {
+            userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
             ViewBag.userId = userId;
             TempData["SuperVisorId"] = SId;
@@ -99,15 +99,24 @@ namespace AttendanceTrackingSystem.Controllers
         public IActionResult MakePermission(Permission permission)
         {
             ModelState.Remove("User");
+
             if (ModelState.IsValid)
             {
                 try
                 {
-
                     int SId = (TempData["SuperVisorId"] as int?) ?? -1;
 
                     if (SId != -1)
                     {
+
+                        bool permissionExists = repoPermission.CheckPermission(permission.UserId, permission.Date);
+
+                        if (permissionExists)
+                        {
+                            ModelState.AddModelError("", "Permission already exists for this user and date.");
+                            return View(permission);
+                        }
+
 
                         var message = new Msg
                         {
@@ -118,13 +127,11 @@ namespace AttendanceTrackingSystem.Controllers
                             IsRead = false
                         };
 
-
                         repoPermission.Add(permission);
                         repoMsg.Add(message);
                     }
                     else
                     {
-
                         ModelState.AddModelError("", "SupervisorId is null. Unable to send permission request.");
                         return View(permission);
                     }
@@ -133,7 +140,6 @@ namespace AttendanceTrackingSystem.Controllers
                 }
                 catch (Exception ex)
                 {
-
                     ModelState.AddModelError("", "An error occurred while processing the permission request.");
                     return View(permission);
                 }
@@ -143,6 +149,7 @@ namespace AttendanceTrackingSystem.Controllers
                 return View(permission);
             }
         }
+
 
         [HttpPost]
         public IActionResult DeletePermission(int permissionId)

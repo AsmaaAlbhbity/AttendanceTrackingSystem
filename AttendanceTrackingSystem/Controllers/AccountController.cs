@@ -82,7 +82,7 @@ namespace AttendanceTrackingSystem.Controllers
                            // ImgUrl = user.ImgUrl ?? "/images/user.png",
                             OldPassword = user.Password
                         };
-
+						var a = user.UserType;
                         if (user.UserType == "Employee")
                             ViewBag.role = repoAccount.GetEmployeeType(user.UserId).ToString();
                         else
@@ -91,6 +91,7 @@ namespace AttendanceTrackingSystem.Controllers
                         switch (user.UserType)
                         {
                             case "Student":
+							case "0":
                                 return RedirectToAction("Home", "Student");
                             case "Instructor":
                             case "Supervisor":

@@ -116,7 +116,7 @@ namespace AttendanceTrackingSystem.Controllers
 				ModelState.Remove("UserType");
 				ModelState.Remove("Track");
 
-				student.UserType = ((int)UserType.Student).ToString();
+				student.UserType = "Student";
 				student.IsApproved = Approve.Accepted;
 
 				if (!ModelState.IsValid)
@@ -230,7 +230,7 @@ namespace AttendanceTrackingSystem.Controllers
 								Phone = phone,
 								Password = password,
 								IsApproved = (Approve)isApproved,
-								UserType = userType == 1 ? "1" : "2",
+								UserType = "Student",
 								ImgUrl = imgUrl,
 								StudentDegree = studentDegree,
 								StudentUniversity = studentUniversity,

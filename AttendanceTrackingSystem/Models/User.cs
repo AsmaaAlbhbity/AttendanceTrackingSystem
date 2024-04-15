@@ -31,6 +31,7 @@ namespace AttendanceTrackingSystem.Models
         [MaxLength(11, ErrorMessage = "Phone number must not exceed 11 characters.")]
         [RegularExpression(@"^(010|011|015)\d{8}$", ErrorMessage = "Invalid phone number format.")]
         public string Phone { get; set; }
+        [DataType(DataType.Password)]
         public string Password { get; set; }
         public Approve IsApproved { get; set; }
         public string UserType { get; set; } 

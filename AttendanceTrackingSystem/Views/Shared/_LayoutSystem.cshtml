@@ -45,7 +45,7 @@
 		<div class=" page-container">
 			<!-- Sidebar -->
 			<aside class="col-lg-3 col-12 text-white border-right py-3" id="sidebarCollapse">
-				<h1 class="text-center py-3 d-lg-block d-none">@ViewData["Title"]</h1>
+				@* <h1 class="text-center py-3 d-lg-block d-none">@ViewData["Title"]</h1> *@
 				<div class="profile">
 					<img src="@TempData.Peek("img")?_=@DateTime.UtcNow.Ticks" />
 					<div>
@@ -56,7 +56,7 @@
 
 				<ul class="nav flex-column gap-3">
 					<li class="nav-item">
-						<a class="nav-link hvr-bounce-to-right @ViewData["ProfileActive"]" asp-controller="Account" asp-action="Profile">
+						<a class="nav-link hvr-bounce-to-right @ViewData["ProfileActive"] "asp-controller="Account" asp-action="Profile">
 							<i class="fas fa-user-edit"></i> View Profile
 						</a>
 					</li>
@@ -68,7 +68,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link hvr-bounce-to-right @ViewData["HomeActive"]" asp-controller="Student" asp-action="">
+							<a class="nav-link hvr-bounce-to-right @ViewData["PermissionActive"]" asp-controller="Student" asp-action="MakePermission">
 								<i class="fas fa-home"></i> Permission
 							</a>
 						</li>
@@ -93,8 +93,8 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" asp-controller="Admin" asp-action="Employee">
-								<i class="fas fa-graduation-cap"></i> Employee
+							<a class="nav-link hvr-bounce-to-right @ViewData["EmployeesActive"]" asp-controller="Admin" asp-action="Employee">
+								<i class="fas fa-graduation-cap"></i> Employees
 							</a>
 						</li>
 					}
@@ -107,7 +107,7 @@
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link hvr-bounce-to-right" asp-controller="Schedule" asp-action="ShowTrackSchedule">
+							<a class="nav-link hvr-bounce-to-right @ViewData["TracksSchedulesActive"]" asp-controller="Schedule" asp-action="ShowTrackSchedule">
 								<i class="fas fa-chalkboard-teacher"></i> Tracks Schedules
 							</a>
 						</li>
@@ -115,13 +115,18 @@
 					@if (TempData.Peek("role").ToString() == "Supervisor")
 					{
 						<li class="nav-item">
-							<a class="nav-link hvr-bounce-to-right" asp-controller="Schedule" asp-action="ViewAllSchedule">
+							<a class="nav-link hvr-bounce-to-right @ViewData["AllScheduleActive"]" asp-controller="Schedule" asp-action="ViewAllSchedule">
 								<i class="fa-solid fa-calendar-days"></i> All Schedule
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link hvr-bounce-to-right" asp-controller="Schedule" asp-action="AddSchedule">
+							<a class="nav-link hvr-bounce-to-right @ViewData["AddNewScheduleActive"] "asp-controller="Schedule" asp-action="AddSchedule">
 								<i class="fa-regular fa-calendar-circle-plus"></i> Add New Schedule
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["StudentPermissionActive"]" asp-controller="Instructor" asp-action="ViewStudentPermissions">
+								<i class="fa-regular fa-calendar-circle-plus"></i> Student Permission
 							</a>
 						</li>
 					}
@@ -133,7 +138,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link hvr-bounce-to-right" asp-controller="Attendance" asp-action="Attendance">
+							<a class="nav-link hvr-bounce-to-right @ViewData["AttendanceActive"]" asp-controller="Attendance" asp-action="Attendance">
 								<i class="fa-solid fa-calendar-days"></i> Attendance
 							</a>
 						</li>
@@ -147,8 +152,18 @@
 						</li>
 
 						<li class="nav-item">
-							<a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" asp-controller="StudentAffair" asp-action="Students">
+							<a class="nav-link hvr-bounce-to-right @ViewData["StudentsActive"]" asp-controller="StudentAffair" asp-action="Index">
 								<i class="fas fa-graduation-cap"></i> Students
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["TraceAddendanceActive"]" asp-controller="StudentAffair" asp-action="Students">
+								<i class="fas fa-graduation-cap"></i> Trace Addendance
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link hvr-bounce-to-right @ViewData["StudentDegreeActive"]" asp-controller="StudentAffair" asp-action="ViewStudentsDegrees">
+								<i class="fas fa-graduation-cap"></i> Student Degree
 							</a>
 						</li>
 
