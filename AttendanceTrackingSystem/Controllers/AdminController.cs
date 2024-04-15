@@ -14,7 +14,6 @@ using System.Drawing.Printing;
 
 namespace AttendanceTrackingSystem.Controllers
 {
-    [Authorize]
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {

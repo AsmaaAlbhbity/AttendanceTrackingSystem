@@ -36,7 +36,7 @@ namespace AttendanceTrackingSystem.Controllers
 			return View();
 		}
 		[HttpPost]
-		public async Task<IActionResult> Login(LoginViewModel model)
+		public IActionResult Login(LoginViewModel model)
 		{
 			
             if (ModelState.IsValid)
@@ -62,24 +62,24 @@ namespace AttendanceTrackingSystem.Controllers
                         }
                         Claim claim3 = new Claim(ClaimTypes.Email, user.Email);
                         Claim claim4 = new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString());
-                        Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl?.ToString() ?? "");
+                       // Claim claim5 = new Claim(ClaimTypes.Uri, user.ImgUrl?.ToString() ?? "");
                         ClaimsIdentity identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
                         identity.AddClaim(claim1);
                         identity.AddClaim(claim2);
                         identity.AddClaim(claim3);
                         identity.AddClaim(claim4);
-                        identity.AddClaim(claim5);
+                       // identity.AddClaim(claim5);
                         ClaimsPrincipal principal = new ClaimsPrincipal(identity);
-                        await HttpContext.SignInAsync(principal);
+                         HttpContext.SignInAsync(principal);
                         TempData["role"] = claim2.Value;
                         //ViewBag.ImgUrl = user.ImgUrl ?? "~images/user.png";
-                        TempData["img"] = user.ImgUrl ?? "/images/user.png";
+                       // TempData["img"] = user.ImgUrl ?? "/images/user.png";
                         EditProfileViewModel model1 = new EditProfileViewModel
                         {
                             Name = user.Name,
                             Email = user.Email,
                             Phone = user.Phone,
-                            ImgUrl = user.ImgUrl ?? "/images/user.png",
+                           // ImgUrl = user.ImgUrl ?? "/images/user.png",
                             OldPassword = user.Password
                         };
 
@@ -99,7 +99,7 @@ namespace AttendanceTrackingSystem.Controllers
                                 switch (repoAccount.GetEmployeeType(user.UserId))
                                 {
                                     case "Admin":
-                                        return RedirectToAction("Home", "Admin");
+                                        return  RedirectToAction("Home", "Admin");
                                         //return Redirect("~/Admin/Home");
 
                                     case "Security":
@@ -150,7 +150,7 @@ namespace AttendanceTrackingSystem.Controllers
 				OldPassword = model.Password
 			};
 			ViewBag.img = model1.ImgUrl;
-
+		
 			switch (role)
 			{
 				case "Student":
