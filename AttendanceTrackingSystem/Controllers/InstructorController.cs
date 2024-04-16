@@ -26,10 +26,13 @@ namespace AttendanceTrackingSystem.Controllers
 
         private readonly IRepoPermission repoPermission;
         private readonly IRepoStudent repoStudent;
-        public InstructorController(IRepoPermission _repoPermission, IRepoStudent _repoStudent)
+        private readonly IRepoMsg repoMsg;
+        public InstructorController(IRepoPermission _repoPermission, IRepoStudent _repoStudent, IRepoMsg _repoMsg)
         {
             repoPermission = _repoPermission;
             repoStudent = _repoStudent;
+            repoMsg = _repoMsg;
+
         }
   
         public IActionResult Index()
@@ -77,6 +80,15 @@ namespace AttendanceTrackingSystem.Controllers
                 TempData["ErrorMessage"] = ex.Message;
                 throw;
             }
+
+            repoMsg.Add(new Msg
+            {
+                UserId = permission.UserId,
+                Title = "Permission Request",
+                Description = "Your permission request has been accepted",
+                Date = DateTime.Now,
+                IsRead = false
+            });
  
             return RedirectToAction("ViewStudentPermissions");
         }
@@ -93,6 +105,15 @@ namespace AttendanceTrackingSystem.Controllers
                 TempData["ErrorMessage"] = ex.Message;
                 throw;
             }
+            repoMsg.Add(new Msg
+            {
+                UserId = permission.UserId,
+                Title = "Permission Request",
+                Description = "Your permission request has been refused",
+                Date = DateTime.Now,
+                IsRead = false
+            });
+
             return RedirectToAction("ViewStudentPermissions");
         }
         public IActionResult Details(int id)
