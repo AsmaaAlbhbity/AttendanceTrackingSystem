@@ -5,6 +5,7 @@ using AttendanceTrackingSystem.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
+using System.Security.Claims;
 
 namespace AttendanceTrackingSystem.Controllers
 {
@@ -20,7 +21,7 @@ namespace AttendanceTrackingSystem.Controllers
     [Authorize(Roles = "Supervisor")]
     public class InstructorController : Controller
     {
-        const int supervisorId = 3;
+        //const int supervisorId = 3;
         int pageSize = 5;
 
         private readonly IRepoPermission repoPermission;
@@ -45,8 +46,9 @@ namespace AttendanceTrackingSystem.Controllers
                 page = 1;
             }
 
+            var userId= int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
          
-            var permissions = repoPermission.GetAllBySupervisorId(supervisorId).OrderByDescending(c=>c.Date);
+            var permissions = repoPermission.GetAllBySupervisorId(userId).OrderByDescending(c=>c.Date);
             int totalPremissions = permissions.Count();
             int totalPages = (int)Math.Ceiling((double)totalPremissions / pageSize);
 
