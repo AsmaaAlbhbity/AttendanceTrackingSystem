@@ -24,7 +24,7 @@
 	</style>
 </head>
 <body>
-	<section class="vh-100" style="background: linear-gradient(120deg, rgba(108,93,208,1) 0%, rgba(185,172,244,1) 100%);">
+	<section class="" style="background: linear-gradient(120deg, rgba(108,93,208,1) 0%, rgba(185,172,244,1) 100%);">
 		<div class="container py-5 h-100">
 			<div class="row d-flex justify-content-center align-items-center h-100">
 				<div class="col col-xl-10">
@@ -48,16 +48,16 @@
 										<div class="form-floating mb-4">
 											<input id="Email1" asp-for="Email" type="email" class="form-control" placeholder="Email address">
 											<label for="Email1">Email address</label>
-											<span asp-validation-for="Email"></span>
+											@* <span asp-validation-for="Email"></span> *@
 										</div>
 
 										<div class="form-floating mb-4 d-flex">
 											<input id="Pass" asp-for="Password" type="password" class="form-control" placeholder="Password">
 											<button type="button" style="background-color:#6c5ddc" class="text-white btn float-end" onclick="togglePasswordVisibility('Pass')"><i class="fa-solid fa-eye"></i></button>
 											<label for="Pass">Password</label>
-											<span asp-validation-for="Password"></span>
+											@* <span asp-validation-for="Password"></span> *@
 										</div>
-										<div id="Val" asp-validation-summary="ModelOnly"></div>
+										<div id="Val" asp-validation-summary="All"></div>
 										@if (TempData["ErrorMessageApprove"] != null)
 										{
 											<div class="alert alert-danger">

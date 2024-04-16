@@ -178,6 +178,7 @@ nav i{
             top: 0px;
             bottom: 0;
             z-index: 20;
+            overflow:hidden;
         }
 
         .page-container .dynamic-section {
@@ -188,10 +189,13 @@ nav i{
         display: block;
         position: fixed;
         bottom: 20px;
-        left: 75px;
+        left: 109px;
     }
 }
-
+li.nav-item {
+  
+    height: 50px;
+}
 @media (min-width: 575px) and (max-width: 991px) {
     .navbar--toggler {
         z-index: 55;

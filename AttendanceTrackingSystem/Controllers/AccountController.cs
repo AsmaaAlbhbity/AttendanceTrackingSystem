@@ -72,8 +72,8 @@ namespace AttendanceTrackingSystem.Controllers
                         ClaimsPrincipal principal = new ClaimsPrincipal(identity);
                          HttpContext.SignInAsync(principal);
                         TempData["role"] = claim2.Value;
-                        //ViewBag.ImgUrl = user.ImgUrl ?? "~images/user.png";
-                       // TempData["img"] = user.ImgUrl ?? "/images/user.png";
+                        ViewBag.ImgUrl = user.ImgUrl ?? "~images/profile/user.png";
+                        TempData["img"] = user.ImgUrl ?? "/images/profile/user.png";
                         EditProfileViewModel model1 = new EditProfileViewModel
                         {
                             Name = user.Name,
@@ -147,7 +147,7 @@ namespace AttendanceTrackingSystem.Controllers
 				Name = model.Name,
 				Email = model.Email,
 				Phone = model.Phone,
-				ImgUrl = model.ImgUrl ?? "/images/user.png",
+				ImgUrl = model.ImgUrl ?? "/images/profile/user.png",
 				OldPassword = model.Password
 			};
 			ViewBag.img = model1.ImgUrl;
@@ -162,8 +162,8 @@ namespace AttendanceTrackingSystem.Controllers
 						Name = model.Name,
 						Email = model.Email,
 						Phone = model.Phone,
-						ImgUrl = model.ImgUrl ?? "/images/user.png",
-						OldPassword = model.Password,
+						ImgUrl = model.ImgUrl ?? "/images/profile/user.png",
+						OldPassword = model.Password,	
 						StudentDegree = student.StudentDegree,
 						StudentUniversity = student.StudentUniversity,
 						StudentFaculity = student.StudentFaculity,
@@ -182,7 +182,7 @@ namespace AttendanceTrackingSystem.Controllers
 						Name = model.Name,
 						Email = model.Email,
 						Phone = model.Phone,
-						ImgUrl = model.ImgUrl ?? "/images/user.png",
+						ImgUrl = model.ImgUrl ?? "/images/profile/user.png",
 						OldPassword = model.Password,
 						InstructorSalary = instructor.InstructorSalary,
 						TrackNames = string.Join(", ", instructor.Tracks.Select(t => t.Name)),
@@ -198,7 +198,7 @@ namespace AttendanceTrackingSystem.Controllers
 						Name = model.Name,
 						Email = model.Email,
 						Phone = model.Phone,
-						ImgUrl = model.ImgUrl ?? "/images/user.png",
+						ImgUrl = model.ImgUrl ?? "/images/profile/user.png",
 						OldPassword = model.Password,
 						EmployeeSalary = employee.EmployeeSalary,
 						EmployeeType = employee.EmployeeType
@@ -218,16 +218,16 @@ namespace AttendanceTrackingSystem.Controllers
 			if (ImgUrl != null)
 			{
 				imgPath = $"{userId}.{ImgUrl.FileName.Split(".").Last()}";
-				using (var fs = new FileStream(("wwwroot/images/" + imgPath), FileMode.Create))
+				using (var fs = new FileStream(("wwwroot/images/profile/" + imgPath), FileMode.Create))
 				{
 					ImgUrl.CopyTo(fs);
 				}
 			}
 			if (imgPath != string.Empty)
 			{
-				repoAccount.UpdateImage("/images/" + imgPath, userId);
+				repoAccount.UpdateImage("/images/profile/" + imgPath, userId);
 				TempData.Peek("img");
-				TempData["img"] = "/images/" + imgPath;
+				TempData["img"] = "/images/profile/" + imgPath;
 			}
 			//var cacheBuster = DateTime.UtcNow.Ticks;
 			//Response.Headers["Cache-Control"] = "no-cache, max-age=0";

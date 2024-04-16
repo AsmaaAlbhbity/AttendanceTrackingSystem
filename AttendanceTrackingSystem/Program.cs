@@ -15,7 +15,7 @@ namespace AttendanceTrackingSystem
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
-			builder.Services.AddDbContext<AttendanceDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("con")));
+			builder.Services.AddDbContext<AttendanceDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Azure")));
 
 			builder.Services.AddScoped<IRepoAttendance, RepoAttendance>();
 			builder.Services.AddScoped<IRepoEmployee, RepoEmployee>();
