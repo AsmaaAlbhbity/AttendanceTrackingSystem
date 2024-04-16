@@ -13,6 +13,6 @@ namespace AttendanceTrackingSystem.IRepository
         public List<Permission> getAllById(int userId);
 		public bool CheckPermission(int studentId, DateTime date);
 
-        public bool CheckSchedule(int studentId, DateTime date);
+        public string CheckSchedule(int studentId, DateTime date);
 	}
 }

@@ -16,22 +16,34 @@ namespace AttendanceTrackingSystem.Repository
             db.Permissions.Add(permission);
             db.SaveChanges();
         }
-		public bool CheckSchedule(int studentId, DateTime date)
+		public string CheckSchedule(int studentId, DateTime date)
 		{
-
 			var student = db.Students.FirstOrDefault(s => s.UserId == studentId);
 			if (student == null)
 			{
-				
-				return false;
+				return "Student not found";
 			}
 
 			var trackId = student.TrackId;
 
-		
-			var schedule = db.Schedules.FirstOrDefault(s => s.Date.Date == date.Date && s.TrackId == trackId);
-			return schedule != null;
+			var scheduleDay = db.Schedules.FirstOrDefault(s => s.Date.Date == date.Date && s.TrackId == trackId);
+			if (scheduleDay == null)
+			{
+				return "No schedule found for the specified date";
+			}
+
+			if (scheduleDay.Type == ScheduleType.Funday || scheduleDay.Type == ScheduleType.Holiday)
+			{
+				return "This Day Is Holiday or Funday";
+			}
+			
+			else
+			{
+				var schedule = db.Schedules.FirstOrDefault(s => s.Date.Date == date.Date && s.TrackId == trackId);
+				return schedule != null ? "Schedule found" : "No schedule found for the specified date";
+			}
 		}
+
 		public bool CheckPermission(int studentId, DateTime date)
         {
             return db.Permissions.Any(p => p.UserId == studentId && p.Date.Date == date.Date);
