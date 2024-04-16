@@ -362,6 +362,10 @@ namespace AttendanceTrackingSystem.Controllers
             }
         
         }
+        public IActionResult AccessError()
+        {
+            return View("NotFound");
+        }
 
-	}
+    }
 }

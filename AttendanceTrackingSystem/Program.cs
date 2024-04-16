@@ -1,7 +1,9 @@
+using AttendanceTrackingSystem.CustomFilter;
 using AttendanceTrackingSystem.IRepository;
 using AttendanceTrackingSystem.Models;
 using AttendanceTrackingSystem.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -31,17 +33,22 @@ namespace AttendanceTrackingSystem
             builder.Services.AddScoped<IRepoMsg, RepoMsg>();
             builder.Services.AddScoped<IRepoAccount, RepoAccount>();
 
-           
-           
 
 
 
-			builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            builder.Services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AuthFilter>();
+            });
+
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 				.AddCookie(options =>
 				{
 					options.LoginPath = "/Account/Login";
-					options.AccessDeniedPath = "/Home/AccessDenied";
-				});
+					//options.AccessDeniedPath = "/Home/AccessDenied";
+                    options.AccessDeniedPath = "/Account/AccessError";
+                });
 
 
             var app = builder.Build();
