@@ -105,8 +105,9 @@ namespace AttendanceTrackingSystem.Controllers
 
 		public IActionResult MakePermission(Permission permission)
 		{
+			permission.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 			ModelState.Remove("User");
-
+			ModelState.Remove("UserId");
 			if (ModelState.IsValid)
 			{
 				try
