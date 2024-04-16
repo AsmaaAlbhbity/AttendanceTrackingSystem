@@ -146,7 +146,9 @@ namespace AttendanceTrackingSystem.Repository
 					Date = date,
 					SchduleId = scheduleId,
 					UserId = student.UserId,
-					Status = AttendaneStatus.Absent
+					Status = AttendaneStatus.Absent,
+					CheckIn= TimeOnly.FromDateTime(DateTime.Parse("0:00")),
+					CheckOut = TimeOnly.FromDateTime(DateTime.Parse("0:00")),
 				};
 				db.StudentAttendances.Add(attendance);
 			}
@@ -164,7 +166,9 @@ namespace AttendanceTrackingSystem.Repository
 				{
 					Date = date,
 					UserId = user.UserId,
-					Status = AttendaneStatus.Absent
+					Status = AttendaneStatus.Absent,
+					CheckIn = TimeOnly.FromDateTime(DateTime.Parse("0:00")),
+					CheckOut = TimeOnly.FromDateTime(DateTime.Parse("0:00")),
 				};
 				db.Attendances.Add(attendance);
 			}

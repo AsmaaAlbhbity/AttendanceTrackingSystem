@@ -83,7 +83,7 @@ namespace AttendanceTrackingSystem.Controllers
                     {
                         string ImgeName = instructor.UserId + instructor.Name + "." + ImgUrl.FileName.Split(".").Last();
 
-                        using (var fs = new FileStream("wwwroot/Images/" + ImgeName, FileMode.Create))
+                        using (var fs = new FileStream("wwwroot/Images/Profile/" + ImgeName, FileMode.Create))
                         {
                             await ImgUrl.CopyToAsync(fs);
                         }
@@ -145,7 +145,7 @@ namespace AttendanceTrackingSystem.Controllers
                     {
                         string ImgeName = existingInstructor.UserId + existingInstructor.Name + "." + ImgUrl.FileName.Split(".").Last();
 
-                        using (var fs = new FileStream("wwwroot/Images/" + ImgeName, FileMode.Create))
+                        using (var fs = new FileStream("wwwroot/Images/Profile/" + ImgeName, FileMode.Create))
                         {
                             await ImgUrl.CopyToAsync(fs);
                         }
@@ -363,17 +363,20 @@ namespace AttendanceTrackingSystem.Controllers
                 return View(viewModel);
             }
 
-            // Process the uploaded file if one exists
-            if (viewModel.Photo != null && viewModel.Photo.Length > 0)
-            {
-                using (var stream = new MemoryStream())
-                {
-                    await viewModel.Photo.CopyToAsync(stream);
-                    viewModel.ImgUrl = $"data:{viewModel.Photo.ContentType};base64,{Convert.ToBase64String(stream.ToArray())}";
-                }
-            }
+				// Process the uploaded file if one exists
+				if (viewModel.Photo != null && viewModel.Photo.Length > 0)
+				{
+					string imageName = viewModel.UserId + viewModel.Name + "." + Path.GetExtension(viewModel.Photo.FileName);
 
-            var employee = new Employee
+					using (var fs = new FileStream(Path.Combine("wwwroot/Images/Profile/", imageName), FileMode.Create))
+					{
+						await viewModel.Photo.CopyToAsync(fs);
+					}
+
+					viewModel.ImgUrl = imageName;
+				}
+
+				var employee = new Employee
             {
                 Name = viewModel.Name,
                 Email = viewModel.Email,
@@ -455,17 +458,20 @@ namespace AttendanceTrackingSystem.Controllers
                 return NotFound();
             }
 
-            // Process the uploaded file if one exists
-            if (viewModel.Photo != null && viewModel.Photo.Length > 0)
-            {
-                using (var stream = new MemoryStream())
-                {
-                    await viewModel.Photo.CopyToAsync(stream);
-                    viewModel.ImgUrl = $"data:{viewModel.Photo.ContentType};base64,{Convert.ToBase64String(stream.ToArray())}";
-                }
-            }
+				// Process the uploaded file if one exists
+				if (viewModel.Photo != null && viewModel.Photo.Length > 0)
+				{
+					string imageName = viewModel.UserId + viewModel.Name + "." + Path.GetExtension(viewModel.Photo.FileName);
 
-            employee.Name = viewModel.Name;
+					using (var fs = new FileStream(Path.Combine("wwwroot/Images/Profile/", imageName), FileMode.Create))
+					{
+						await viewModel.Photo.CopyToAsync(fs);
+					}
+
+					viewModel.ImgUrl = imageName;
+				}
+
+				employee.Name = viewModel.Name;
             employee.Email = viewModel.Email;
             employee.Phone = viewModel.Phone;
             employee.Password = viewModel.Password;
