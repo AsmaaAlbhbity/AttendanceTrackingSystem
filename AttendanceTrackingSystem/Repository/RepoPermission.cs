@@ -16,8 +16,23 @@ namespace AttendanceTrackingSystem.Repository
             db.Permissions.Add(permission);
             db.SaveChanges();
         }
+		public bool CheckSchedule(int studentId, DateTime date)
+		{
 
-        public bool CheckPermission(int studentId, DateTime date)
+			var student = db.Students.FirstOrDefault(s => s.UserId == studentId);
+			if (student == null)
+			{
+				
+				return false;
+			}
+
+			var trackId = student.TrackId;
+
+		
+			var schedule = db.Schedules.FirstOrDefault(s => s.Date.Date == date.Date && s.TrackId == trackId);
+			return schedule != null;
+		}
+		public bool CheckPermission(int studentId, DateTime date)
         {
             return db.Permissions.Any(p => p.UserId == studentId && p.Date.Date == date.Date);
 

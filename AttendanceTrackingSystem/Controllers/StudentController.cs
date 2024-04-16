@@ -116,7 +116,14 @@ namespace AttendanceTrackingSystem.Controllers
                     if (SId != -1)
                     {
 
-                        bool permissionExists = repoPermission.CheckPermission(permission.UserId, permission.Date);
+						bool hasSchedule = repoPermission.CheckSchedule(permission.UserId, permission.Date);
+						if (!hasSchedule)
+						{
+							ModelState.AddModelError("", "Student does not have a schedule for the requested date.");
+							return View(permission);
+						}
+
+						bool permissionExists = repoPermission.CheckPermission(permission.UserId, permission.Date);
 
                         if (permissionExists)
                         {
