@@ -86,13 +86,20 @@ namespace AttendanceTrackingSystem.Controllers
 
 
 
-        public IActionResult MakePermission(int userId, int SId)
+        public IActionResult MakePermission(int Id)
         {
-            userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            if(Id==0 )
+				Id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            ViewBag.userId = userId;
-            TempData["SuperVisorId"] = SId;
-            return View();
+            ViewBag.userId = Id;
+            var super= repoStudent.GetSupervisorByStudentId(Id);
+            if(super != null)
+            {
+
+				TempData["SuperVisorId"] = repoStudent.GetSupervisorByStudentId(Id).UserId;
+
+			}
+			return View();
         }
         [HttpPost]
 
@@ -109,7 +116,14 @@ namespace AttendanceTrackingSystem.Controllers
                     if (SId != -1)
                     {
 
-                        bool permissionExists = repoPermission.CheckPermission(permission.UserId, permission.Date);
+						bool hasSchedule = repoPermission.CheckSchedule(permission.UserId, permission.Date);
+						if (!hasSchedule)
+						{
+							ModelState.AddModelError("", "Student does not have a schedule for the requested date.");
+							return View(permission);
+						}
+
+						bool permissionExists = repoPermission.CheckPermission(permission.UserId, permission.Date);
 
                         if (permissionExists)
                         {
