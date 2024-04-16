@@ -86,13 +86,20 @@ namespace AttendanceTrackingSystem.Controllers
 
 
 
-        public IActionResult MakePermission(int userId, int SId)
+        public IActionResult MakePermission(int Id)
         {
-            userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+            if(Id==0 )
+				Id = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            ViewBag.userId = userId;
-            TempData["SuperVisorId"] = SId;
-            return View();
+            ViewBag.userId = Id;
+            var super= repoStudent.GetSupervisorByStudentId(Id);
+            if(super != null)
+            {
+
+				TempData["SuperVisorId"] = repoStudent.GetSupervisorByStudentId(Id).UserId;
+
+			}
+			return View();
         }
         [HttpPost]
 
