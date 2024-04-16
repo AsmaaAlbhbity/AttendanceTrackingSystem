@@ -113,8 +113,8 @@
 /*===============================================================*/
 .Action .Actionimg {
     transition: transform 0.3s;
-    width: 1vw;
-    height: 1vw;
+    width: 2vw;
+    height: 2vw;
 }
 
 .Action:hover Actionimg {
