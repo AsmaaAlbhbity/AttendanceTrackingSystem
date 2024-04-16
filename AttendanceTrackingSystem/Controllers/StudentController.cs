@@ -103,69 +103,69 @@ namespace AttendanceTrackingSystem.Controllers
         }
         [HttpPost]
 
-        public IActionResult MakePermission(Permission permission)
-        {
-            ModelState.Remove("User");
+		public IActionResult MakePermission(Permission permission)
+		{
+			ModelState.Remove("User");
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    int SId = (TempData["SuperVisorId"] as int?) ?? -1;
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					int SId = (TempData["SuperVisorId"] as int?) ?? -1;
 
-                    if (SId != -1)
-                    {
+					if (SId != -1)
+					{
+						string scheduleCheckResult = repoPermission.CheckSchedule(permission.UserId, permission.Date);
 
-						bool hasSchedule = repoPermission.CheckSchedule(permission.UserId, permission.Date);
-						if (!hasSchedule)
+						if (scheduleCheckResult != "Schedule found")
 						{
-							ModelState.AddModelError("", "Student does not have a schedule for the requested date.");
+							ModelState.AddModelError("", scheduleCheckResult);
 							return View(permission);
 						}
 
 						bool permissionExists = repoPermission.CheckPermission(permission.UserId, permission.Date);
 
-                        if (permissionExists)
-                        {
-                            ModelState.AddModelError("", "Permission already exists for this user and date.");
-                            return View(permission);
-                        }
+						if (permissionExists)
+						{
+							ModelState.AddModelError("", "Permission already exists for this user and date.");
+							return View(permission);
+						}
+
+						var message = new Msg
+						{
+							UserId = SId,
+							Title = "Permission Request",
+							Description = "New permission request from student " + permission.UserId.ToString(),
+							Date = DateTime.Now,
+							IsRead = false
+						};
+
+						repoPermission.Add(permission);
+						repoMsg.Add(message);
+					}
+					else
+					{
+						ModelState.AddModelError("", "SupervisorId is null. Unable to send permission request.");
+						return View(permission);
+					}
+
+					return RedirectToAction("Home");
+				}
+				catch (Exception ex)
+				{
+					ModelState.AddModelError("", "An error occurred while processing the permission request.");
+					return View(permission);
+				}
+			}
+			else
+			{
+				return View(permission);
+			}
+		}
 
 
-                        var message = new Msg
-                        {
-                            UserId = SId,
-                            Title = "Permission Request",
-                            Description = "New permission request from student " + permission.UserId.ToString(),
-                            Date = DateTime.Now,
-                            IsRead = false
-                        };
 
-                        repoPermission.Add(permission);
-                        repoMsg.Add(message);
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "SupervisorId is null. Unable to send permission request.");
-                        return View(permission);
-                    }
-
-                    return RedirectToAction("Home");
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "An error occurred while processing the permission request.");
-                    return View(permission);
-                }
-            }
-            else
-            {
-                return View(permission);
-            }
-        }
-
-
-        [HttpPost]
+		[HttpPost]
         public IActionResult DeletePermission(int permissionId)
         {
             try
