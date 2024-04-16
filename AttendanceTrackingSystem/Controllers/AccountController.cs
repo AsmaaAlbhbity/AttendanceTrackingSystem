@@ -366,6 +366,10 @@ namespace AttendanceTrackingSystem.Controllers
         {
             return View("NotFound");
         }
+        public IActionResult notFoundd()
+        {
+            return View();
+        }
 
     }
 }
