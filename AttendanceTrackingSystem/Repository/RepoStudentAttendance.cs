@@ -98,7 +98,7 @@ namespace AttendanceTrackingSystem.Repository
         }
         public void SendWarningMsg(int id , int degree)
         {
-            if (degree <= 150)
+            if (degree <= 150 && degree >= 125)
             {
                 Msg msg = new Msg()
                 {
@@ -111,7 +111,8 @@ namespace AttendanceTrackingSystem.Repository
 				};
                 db.Msgs.Add(msg);
             }
-            else if (degree <= 100){
+            else if (degree <= 125 && degree >= 85)
+            {
 				Msg msg = new Msg()
 				{
 					IsRead = false,
@@ -123,7 +124,14 @@ namespace AttendanceTrackingSystem.Repository
 				};
 				db.Msgs.Add(msg);
 			}
-            
+            else if (degree <85)
+            {
+                var student = db.Students.FirstOrDefault(a => a.UserId == id);
+                student.IsApproved = Approve.Fired;
+                db.Update(student);
+                db.SaveChanges();
+            }
+
         }
 	
 
