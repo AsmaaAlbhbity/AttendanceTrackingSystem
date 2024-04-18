@@ -22,15 +22,19 @@ namespace AttendanceTrackingSystem.Controllers
         IRepoUser repoUser;
         IRepoEmployee repoEmployee;
         IRepoAttendance repoAttendance;
-		IRepoStudentAttendance s;
-        public AdminController(IRepoInstructor _repoInstructor, IRepoTrack _repoTrack,IRepoUser _repoUser,IRepoEmployee _repoEmployee,IRepoAttendance _repoAttendance , IRepoStudentAttendance _s)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        IRepoStudentAttendance s;
+        public AdminController(IRepoInstructor _repoInstructor, IRepoTrack _repoTrack,
+            IRepoUser _repoUser, IRepoEmployee _repoEmployee, IRepoAttendance _repoAttendance,
+            IRepoStudentAttendance _s, IWebHostEnvironment hostingEnvironment)
         {
             repoInstructor = _repoInstructor;
             repoTrack = _repoTrack;
             repoUser = _repoUser;
-             repoEmployee= _repoEmployee;
+            repoEmployee = _repoEmployee;
             repoAttendance = _repoAttendance;
             s = _s;
+            _hostingEnvironment = hostingEnvironment;
         }
 
 
@@ -41,7 +45,7 @@ namespace AttendanceTrackingSystem.Controllers
         public IActionResult ShowInstructor(int pageNumber = 1, int pageSize = 4)
         {
 
-		var allInstructors = repoInstructor.getAll().AsQueryable(); // Ensure IQueryable
+            var allInstructors = repoInstructor.getAll().AsQueryable(); // Ensure IQueryable
 
             // Count total records
             var totalRecords = allInstructors.Count();
@@ -71,7 +75,7 @@ namespace AttendanceTrackingSystem.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddInstructor(Instructor instructor , IFormFile ImgUrl)
+        public async Task<IActionResult> AddInstructor(Instructor instructor, IFormFile ImgUrl)
         {
             instructor.UserType = "Instructor";
 
@@ -102,7 +106,7 @@ namespace AttendanceTrackingSystem.Controllers
                 if (ex.InnerException is SqlException sqlException && sqlException.Number == 2601)
                 {
                     ModelState.AddModelError("Email", "The email address is already in use.");
-                    return View(instructor); 
+                    return View(instructor);
                 }
                 else
                 {
@@ -110,7 +114,7 @@ namespace AttendanceTrackingSystem.Controllers
                 }
             }
         }
-        public IActionResult EditInstructor(int id )
+        public IActionResult EditInstructor(int id)
         {
             if (id == null)
                 return BadRequest();
@@ -118,7 +122,7 @@ namespace AttendanceTrackingSystem.Controllers
             var model = repoInstructor.getById(id);
             if (model == null)
                 return NotFound();
-           
+
             return View(model);
         }
         [HttpPost]
@@ -175,7 +179,7 @@ namespace AttendanceTrackingSystem.Controllers
 
         public IActionResult ChooseSupervisor(int userId)
         {
-            var track = repoTrack.getAll().FirstOrDefault(a=>a.SupervisorId== userId);
+            var track = repoTrack.getAll().FirstOrDefault(a => a.SupervisorId == userId);
             var instructors = repoInstructor.getAll().Where(instructor => !repoTrack.getAll().Any(track => track.Instructor.UserId == instructor.UserId)).ToList();
 
             ChooseSupervisorViewModel model = new ChooseSupervisorViewModel();
@@ -218,7 +222,7 @@ namespace AttendanceTrackingSystem.Controllers
             var Tracks = repoTrack.getAll().Where(a => a.IsActive = true).ToList();
             var insNoTrack = Tracks.Except(insTrack).ToList();
 
-           ManageTrackViewModel model = new ManageTrackViewModel();
+            ManageTrackViewModel model = new ManageTrackViewModel();
             model.Instructor = instructor;
             model.InstructorTrack = insTrack;
             model.AnotherTrack = insNoTrack;
@@ -235,7 +239,7 @@ namespace AttendanceTrackingSystem.Controllers
             if (instructor != null)
             {
                 foreach (var item in TrackToAdd)
-                { 
+                {
                     repoInstructor.AddTrack(item, id);
                 }
 
@@ -276,7 +280,7 @@ namespace AttendanceTrackingSystem.Controllers
             ViewBag.stdAffCount = repoEmployee.getEmpCount(Models.EmployeeType.StudentAffairs);
             ViewBag.secCount = repoEmployee.getEmpCount(Models.EmployeeType.Security);
             ViewBag.trackCount = repoTrack.getAll().Count();
-            ViewBag.tracks=repoTrack.getAll();
+            ViewBag.tracks = repoTrack.getAll();
 
             var userTypeCounts = repoUser.GetUserTypeCounts();
             var attendanceCountsPerUserType = repoAttendance.GetAttendanceCountsPerUserType();
@@ -284,7 +288,7 @@ namespace AttendanceTrackingSystem.Controllers
             var labels = attendanceCountsPerUserType.Select(x => x.UserType).ToArray();
             var data = attendanceCountsPerUserType.Select(x => x.AttendanceCount).ToArray();
 
-           
+
             var model = new AdminHomeViewModel
             {
                 UserTypeCounts = userTypeCounts,
@@ -295,257 +299,258 @@ namespace AttendanceTrackingSystem.Controllers
             return View(model);
         }
         public IActionResult Employee(string searchString, int pageNumber = 1, int pageSize = 4)
-    {
-        var employees = repoEmployee.getAll();
-
-       if (!string.IsNullOrEmpty(searchString))
-{
-    employees = employees.Where(e => e.Name.Contains(searchString) || e.Email.Contains(searchString)).ToList();
-}
-
-
-
-        var employeeUsers = employees.Where(e => e.UserType == "Employee").AsQueryable();
-        var model = PaginatedList<Employee>.Create(employeeUsers, pageNumber, pageSize);
-
-        return View(model);
-    }
-
-
-
-
-
-
-
-    // GET: Admin/Details/5
-    public ActionResult Details(int id)
-    {
-        var employee = repoEmployee.getById(id);
-        if (employee == null)
         {
-            return NotFound();
+            var employees = repoEmployee.getAll();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                employees = employees.Where(e => e.Name.Contains(searchString) || e.Email.Contains(searchString)).ToList();
+            }
+
+
+
+            var employeeUsers = employees.Where(e => e.UserType == "Employee").AsQueryable();
+            var model = PaginatedList<Employee>.Create(employeeUsers, pageNumber, pageSize);
+
+            return View(model);
         }
 
-        var viewModel = new EmployeeViewModel
+
+
+
+
+
+
+        // GET: Admin/Details/5
+        public ActionResult Details(int id)
         {
-            UserId = employee.UserId,
-            Name = employee.Name,
-            Email = employee.Email,
-            Phone = employee.Phone,
-            Password = employee.Password,
-            ImgUrl = employee.ImgUrl,
-            EmployeeSalary = employee.EmployeeSalary,
-            EmployeeType = employee.EmployeeType,
-            UserType = employee.UserType,
-            IsApproved = employee.IsApproved
-        };
-
-        return View(viewModel);
-    }
-
-    // GET: Admin/Create
-    public ActionResult Create()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Create(EmployeeViewModel viewModel)
-    {
-        if (ModelState.IsValid)
-        {
-            // Check if the email already exists
-            var existingEmployee = repoEmployee.GetByEmail(viewModel.Email);
-            if (existingEmployee != null)
-            {
-                ModelState.AddModelError("Email", "Email address already exists.");
-                return View(viewModel);
-            }
-
-				// Process the uploaded file if one exists
-				if (viewModel.Photo != null && viewModel.Photo.Length > 0)
-				{
-					string imageName = viewModel.UserId + viewModel.Name + "." + Path.GetExtension(viewModel.Photo.FileName);
-
-					using (var fs = new FileStream(Path.Combine("wwwroot/Images/Profile/", imageName), FileMode.Create))
-					{
-						await viewModel.Photo.CopyToAsync(fs);
-					}
-
-					viewModel.ImgUrl = imageName;
-				}
-
-				var employee = new Employee
-            {
-                Name = viewModel.Name,
-                Email = viewModel.Email,
-                Phone = viewModel.Phone,
-                Password = viewModel.Password,
-                ImgUrl = viewModel.ImgUrl,
-                EmployeeSalary = viewModel.EmployeeSalary,
-                EmployeeType = viewModel.EmployeeType,
-                UserType = "Employee",
-                IsApproved = Approve.Accepted
-            };
-
-            try
-            {
-                repoEmployee.Add(employee);
-                return RedirectToAction("Employee");
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError("", $"Unable to save changes due to an error: {ex.Message}");
-            }
-        }
-
-        return View(viewModel);
-    }
-
-
-
-
-
-
-
-
-
-
-
-    // GET: Admin/Edit/5
-    public ActionResult Edit(int id)
-    {
-        var employee = repoEmployee.getById(id);
-        if (employee == null)
-        {
-            return NotFound();
-        }
-
-        var viewModel = new EmployeeViewModel
-        {
-            UserId = employee.UserId,
-            Name = employee.Name,
-            Email = employee.Email,
-            Phone = employee.Phone,
-            Password = employee.Password,
-            ImgUrl = employee.ImgUrl,
-            EmployeeSalary = employee.EmployeeSalary,
-            EmployeeType = employee.EmployeeType,
-            UserType = "Employee",
-            IsApproved = Approve.Accepted
-        };
-
-        return View(viewModel);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<ActionResult> Edit(EmployeeViewModel viewModel)
-    {
-        if (ModelState.IsValid)
-        {
-            var existingEmployeeWithEmail = repoEmployee.GetByEmail(viewModel.Email);
-            if (existingEmployeeWithEmail != null && existingEmployeeWithEmail.UserId != viewModel.UserId)
-            {
-                ModelState.AddModelError("Email", "Email address already exists.");
-                return View(viewModel);
-            }
-
-            var employee = repoEmployee.getById(viewModel.UserId);
+            var employee = repoEmployee.getById(id);
             if (employee == null)
             {
                 return NotFound();
             }
 
-				// Process the uploaded file if one exists
-				if (viewModel.Photo != null && viewModel.Photo.Length > 0)
-				{
-					string imageName = viewModel.UserId + viewModel.Name + "." + Path.GetExtension(viewModel.Photo.FileName);
+            var viewModel = new EmployeeViewModel
+            {
+                UserId = employee.UserId,
+                Name = employee.Name,
+                Email = employee.Email,
+                Phone = employee.Phone,
+                Password = employee.Password,
+                ImgUrl = employee.ImgUrl,
+                EmployeeSalary = employee.EmployeeSalary,
+                EmployeeType = employee.EmployeeType,
+                UserType = employee.UserType,
+                IsApproved = employee.IsApproved
+            };
 
-					using (var fs = new FileStream(Path.Combine("wwwroot/Images/Profile/", imageName), FileMode.Create))
-					{
-						await viewModel.Photo.CopyToAsync(fs);
-					}
+            return View(viewModel);
+        }
 
-					viewModel.ImgUrl = imageName;
-				}
+        // GET: Admin/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-				employee.Name = viewModel.Name;
-            employee.Email = viewModel.Email;
-            employee.Phone = viewModel.Phone;
-            employee.Password = viewModel.Password;
-            employee.ImgUrl = viewModel.ImgUrl;
-            employee.EmployeeSalary = viewModel.EmployeeSalary;
-            employee.EmployeeType = viewModel.EmployeeType;
-            employee.UserType = "Employee";
-            employee.IsApproved = Approve.Accepted;
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create(EmployeeViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check if the email already exists
+                var existingEmployee = repoEmployee.GetByEmail(viewModel.Email);
+                if (existingEmployee != null)
+                {
+                    ModelState.AddModelError("Email", "Email address already exists.");
+                    return View(viewModel);
+                }
+
+                // Process the uploaded file if one exists
+                if (viewModel.Photo != null && viewModel.Photo.Length > 0)
+                {
+                    string imageName = viewModel.UserId + viewModel.Name +  Path.GetExtension(viewModel.Photo.FileName);
+                   
+                    using (var fs = new FileStream(Path.Combine("wwwroot/Images/Profile/", imageName), FileMode.Create))
+                    {
+                        await viewModel.Photo.CopyToAsync(fs);
+                    }
+
+                    viewModel.ImgUrl = imageName;
+                }
+
+                var employee = new Employee
+                {
+                    Name = viewModel.Name,
+                    Email = viewModel.Email,
+                    Phone = viewModel.Phone,
+                    Password = viewModel.Password,
+                    ImgUrl = viewModel.ImgUrl,
+                    EmployeeSalary = viewModel.EmployeeSalary,
+                    EmployeeType = viewModel.EmployeeType,
+                    UserType = "Employee",
+                    IsApproved = Approve.Accepted
+                };
+
+                try
+                {
+                    repoEmployee.Add(employee);
+                    return RedirectToAction("Employee");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Unable to save changes due to an error: {ex.Message}");
+                }
+            }
+
+            return View(viewModel);
+        }
+
+
+
+
+
+
+
+
+
+
+
+        // GET: Admin/Edit/5
+        public ActionResult Edit(int id)
+        {
+            var employee = repoEmployee.getById(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new EmployeeViewModel
+            {
+                UserId = employee.UserId,
+                Name = employee.Name,
+                Email = employee.Email,
+                Phone = employee.Phone,
+                Password = employee.Password,
+                ImgUrl = employee.ImgUrl,
+                EmployeeSalary = employee.EmployeeSalary,
+                EmployeeType = employee.EmployeeType,
+                UserType = "Employee",
+                IsApproved = Approve.Accepted
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(EmployeeViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingEmployeeWithEmail = repoEmployee.GetByEmail(viewModel.Email);
+                if (existingEmployeeWithEmail != null && existingEmployeeWithEmail.UserId != viewModel.UserId)
+                {
+                    ModelState.AddModelError("Email", "Email address already exists.");
+                    return View(viewModel);
+                }
+
+                var employee = repoEmployee.getById(viewModel.UserId);
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+
+                // Process the uploaded file if one exists
+                if (viewModel.Photo != null && viewModel.Photo.Length > 0)
+                {
+                    string imageName = viewModel.UserId + viewModel.Name + Path.GetExtension(viewModel.Photo.FileName);
+
+                    using (var fs = new FileStream(Path.Combine("wwwroot/Images/Profile/", imageName), FileMode.Create))
+                    {
+                        await viewModel.Photo.CopyToAsync(fs);
+                    }
+
+                    viewModel.ImgUrl = imageName;
+                }
+
+                employee.Name = viewModel.Name;
+                employee.Email = viewModel.Email;
+                employee.Phone = viewModel.Phone;
+                employee.Password = viewModel.Password;
+                employee.ImgUrl = viewModel.ImgUrl;
+                employee.EmployeeSalary = viewModel.EmployeeSalary;
+                employee.EmployeeType = viewModel.EmployeeType;
+                employee.UserType = "Employee";
+                employee.IsApproved = Approve.Accepted;
+
+                try
+                {
+                    repoEmployee.Update(employee);
+                    return RedirectToAction("Employee");
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                }
+            }
+
+            return View(viewModel);
+        }
+
+
+
+
+
+        // GET: Admin/Delete/5
+        public ActionResult Delete(int id)
+        {
+            var employee = repoEmployee.getById(id);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new EmployeeViewModel
+            {
+                UserId = employee.UserId,
+                Name = employee.Name,
+                Email = employee.Email,
+                Phone = employee.Phone,
+                Password = employee.Password,
+                ImgUrl = employee.ImgUrl,
+                EmployeeSalary = employee.EmployeeSalary,
+                EmployeeType = employee.EmployeeType,
+                UserType = employee.UserType,
+                IsApproved = employee.IsApproved
+            };
+
+            return View(viewModel);
+        }
+        #endregion
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+
+            var employeeToDelete = repoEmployee.getById(id);
+            if (employeeToDelete == null)
+            {
+                return NotFound();
+            }
 
             try
             {
-                repoEmployee.Update(employee);
-                return RedirectToAction("Employee");
+                repoEmployee.Delete(id);
+                return RedirectToAction(nameof(Employee));
             }
-            catch
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+                ModelState.AddModelError("", $"Unable to delete employee due to an error: {ex.Message}");
+                return RedirectToAction(nameof(Employee));
             }
         }
-
-        return View(viewModel);
-    }
-
-
-
-
-
-    // GET: Admin/Delete/5
-    public ActionResult Delete(int id)
-    {
-        var employee = repoEmployee.getById(id);
-        if (employee == null)
-        {
-            return NotFound();
-        }
-
-        var viewModel = new EmployeeViewModel
-        {
-            UserId = employee.UserId,
-            Name = employee.Name,
-            Email = employee.Email,
-            Phone = employee.Phone,
-            Password = employee.Password,
-            ImgUrl = employee.ImgUrl,
-            EmployeeSalary = employee.EmployeeSalary,
-            EmployeeType = employee.EmployeeType,
-            UserType = employee.UserType,
-            IsApproved = employee.IsApproved
-        };
-
-        return View(viewModel);
-    }
-        #endregion
-        [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult DeleteConfirmed(int id)
-    {
-       
-        var employeeToDelete = repoEmployee.getById(id);
-        if (employeeToDelete == null)
-        {
-            return NotFound();
-        }
-
-        try
-        {
-            repoEmployee.Delete(id); 
-            return RedirectToAction(nameof(Employee));
-        }
-        catch (Exception ex)
-        {
-            ModelState.AddModelError("", $"Unable to delete employee due to an error: {ex.Message}");
-            return RedirectToAction(nameof(Employee));         }
-    }
         #region Track
 
         public IActionResult Tracks(int pageNumber = 1, int pageSize = 4)
@@ -561,7 +566,7 @@ namespace AttendanceTrackingSystem.Controllers
             // Retrieve the instructors for the current page
             var instructorsForPage = paginatedTracks.ToList();
 
-            
+
             var AllTracks = repoTrack.getAll();
             var AllInstructor = repoInstructor.getAll().Where(instructor => !repoTrack.getAll().Any(track => track.Instructor.UserId == instructor.UserId)).ToList();
 
@@ -574,7 +579,7 @@ namespace AttendanceTrackingSystem.Controllers
             };
             return View(model);
         }
-        public IActionResult ChangeSupervisourForTrack(int id , int Trackid)
+        public IActionResult ChangeSupervisourForTrack(int id, int Trackid)
         {
             var track = repoTrack.getById(Trackid);
             track.SupervisorId = id;

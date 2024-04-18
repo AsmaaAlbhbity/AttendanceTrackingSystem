@@ -17,7 +17,7 @@ namespace AttendanceTrackingSystem.Controllers
     [Authorize(Roles = "StudentAffairs")]
     public class StudentAffairController : Controller
     {
-        int pageSize = 5;
+        int pageSize = 10;
         private readonly IRepoStudent repoStudent;
         private readonly IRepoTrack repoTrack;
         private readonly IRepoAttendance repoAttendance;

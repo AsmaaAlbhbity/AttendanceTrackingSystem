@@ -85,7 +85,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="detailsModalLabel">Employee Details</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -149,7 +149,7 @@
                 var employeeType = $(this).data('employee-type');
                 var userType = $(this).data('user-type');
                 var isApproved = $(this).data('is-approved');
-                var imgUrl = $(this).data('img-url');
+                var imgUrl = '/Images/Profile/' +$(this).data('img-url');
 
                 // Set the employee details in the modal
                 $('#modalEmployeeName').text(name);

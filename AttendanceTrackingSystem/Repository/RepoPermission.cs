@@ -90,26 +90,30 @@ namespace AttendanceTrackingSystem.Repository
                 }
 
                 var student = db.Students.FirstOrDefault(u => u.UserId == permission.UserId);
-                var attendance = db.Attendances.FirstOrDefault(a => a.UserId == permission.UserId && a.Date == permission.Date);
+                //var attendance = db.Attendances.FirstOrDefault(a => a.UserId == permission.UserId && a.Date == permission.Date);
 
                 if (student == null)
                 {
                     throw new InvalidOperationException($"Student with UserId '{permission.UserId}' does not exist.");
                 }
-
-                if (permission.State == PermissionState.Approved)
+                var schedule = db.Schedules.FirstOrDefault(s => s.Date.Date == permission.Date.Date && s.TrackId == student.TrackId);
+                if (schedule == null)
                 {
-                    if (attendance != null)
-                    {
-                        attendance.Status = permission.Type == PermissionType.Late ? AttendaneStatus.LateWithPermission : AttendaneStatus.AbsentWithPermission;
-                        db.Attendances.Update(attendance);
-                    }
-                    else
-                    {
-
-                        throw new InvalidOperationException($"Attendance record for UserId '{permission.UserId}' on date '{permission.Date}' does not exist.");
-                    }
+                    throw new InvalidOperationException($"Schedule for UserId '{permission.UserId}' on date '{permission.Date}' does not exist.");
                 }
+                //if (permission.State == PermissionState.Approved)
+                //{
+                //    if (attendance != null)
+                //    {
+                //        attendance.Status = permission.Type == PermissionType.Late ? AttendaneStatus.LateWithPermission : AttendaneStatus.AbsentWithPermission;
+                //        db.Attendances.Update(attendance);
+                //    }
+                //    else
+                //    {
+
+                //        throw new InvalidOperationException($"Attendance record for UserId '{permission.UserId}' on date '{permission.Date}' does not exist.");
+                //    }
+                //}
 
                 db.Permissions.Update(permission);
 
