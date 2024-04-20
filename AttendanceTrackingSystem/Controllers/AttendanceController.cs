@@ -46,6 +46,11 @@ namespace AttendanceTrackingSystem.Controllers
             //    Date = DateTime.Now
             //};
             //repoSchedule.Add(obj2);
+            //var s = repoSchedule.getById(43);
+            //s.Type = ScheduleType.Holiday;
+            //repoSchedule.Update(s);
+
+
             ViewModel.AttendanceViewModel modal = new ViewModel.AttendanceViewModel();
             modal.Students = repoStudent.getAll();
             modal.Tracks = repoTrack.getAll();
@@ -53,27 +58,6 @@ namespace AttendanceTrackingSystem.Controllers
         }
         public IActionResult AttendanceStudent()
         {
-            //var obj = new Schedule()
-            //{
-            //    StartPeriod = TimeOnly.FromDateTime(DateTime.Now),
-            //    EndPeriod = TimeOnly.FromDateTime(DateTime.Now).AddHours(7),
-            //    TrackId = 1,
-            //    Date = DateTime.Now
-            //};
-            //repoSchedule.Add(obj);
-            //var obj2 = new Schedule()
-            //{
-            //    StartPeriod = TimeOnly.FromDateTime(DateTime.Now),
-            //    EndPeriod = TimeOnly.FromDateTime(DateTime.Now).AddHours(7),
-            //    TrackId = 2,
-            //    Date = DateTime.Now
-            //};
-            //repoSchedule.Add(obj2);
-
-            //var s = repoSchedule.getById(43);
-            //s.Type = ScheduleType.Holiday;
-            //repoSchedule.Update(s);
-
             ViewModel.AttendanceViewModel modal = new ViewModel.AttendanceViewModel();
             modal.Students = repoStudent.getAll().Where(a=>a.IsApproved==Approve.Accepted).ToList();
             modal.Tracks = repoTrack.getAll();
